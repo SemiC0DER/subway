@@ -1,5 +1,8 @@
 package com.example.whatsub
 //최초 커밋 테스트용 주석
+//test
+//adfadf
+//test 용석
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
