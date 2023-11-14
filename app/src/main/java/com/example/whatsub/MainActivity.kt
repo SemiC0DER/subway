@@ -14,9 +14,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.whatsub.ui.theme.WhatSubTheme
+import com.google.firebase.Firebase
+import com.google.firebase.database.database
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        val database = Firebase.database
+        val myRef = database.getReference("message")
+        myRef.setValue("Success")
         super.onCreate(savedInstanceState)
         setContent {
             WhatSubTheme {

@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "999538855457",
+    "firebase_url": "https://whatsub-15e86-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "whatsub-15e86",
+    "storage_bucket": "whatsub-15e86.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:999538855457:android:5125997c94244fdb7ddd60",
+        "android_client_info": {
+          "package_name": "com.example.whatsub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPZfW97R2yuOUeQfLG-NieDUO4FtGItNc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
