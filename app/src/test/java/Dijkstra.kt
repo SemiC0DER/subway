@@ -1,6 +1,6 @@
 data class Edge(val destination: Int, val time: Int, val distance: Int, val cost: Int)
 
-fun addEdge(graph: Array<MutableList<Edge>>, start: Int, end: Int, time: Int, distance: Int, cost: Int) {
+fun addEdge(graph: Array<MutableList<Edge>>, start: Int, end: Int, time: Int, distance: Int, cost: Int){
     graph[start].add(Edge(end, time, distance, cost))
     graph[end].add(Edge(start, time, distance, cost))
 }
@@ -60,7 +60,7 @@ fun dijkstra(graph: Array<MutableList<Edge>>, start: Int, end: Int, criteria: St
 
 fun main() {
     val edgesData = """
-        101 102 200 500 200
+    101 102 200 500 200
     102 103 300 400 300
     103 104 1000 600 500
     104 105 500 200 340
@@ -202,7 +202,7 @@ fun main() {
     """.trimIndent()
 
     val stationNames = """
-       101
+    101
     102
     103
     104
@@ -316,10 +316,11 @@ fun main() {
 
     // 중복 제거하고 매핑
     val stationNameToID = stationNames.split("\n")
-        .mapNotNull { it.trim().split(" ").takeIf { it.size == 2 } }
-        .distinctBy { it[0] }
-        .mapIndexed { index, (id, name) -> name to index }
+        .mapNotNull { it.trim().takeIf { it.isNotEmpty() } }
+        .distinct()
+        .mapIndexed { index, name -> name to index }
         .toMap()
+
 
     val n = stationNameToID.size
     val graph = Array(n) { mutableListOf<Edge>() }
@@ -331,11 +332,12 @@ fun main() {
     }
 
     // 출발역과 도착역 입력 이 부분 연결
-    val startStationName = "출발역이름" // 출발역 이름
-    val endStationName = "도착역이름" // 도착역 이름
+    val startStationName = "102" // 출발역 이름 입력
+    val endStationName = "901" // 도착역 이름 입력
 
     val startStation = stationNameToID[startStationName] ?: -1
     val endStation = stationNameToID[endStationName] ?: -1
+
 
     val criteria = "time" // "time", "distance", "cost" 중 하나 선택
 
