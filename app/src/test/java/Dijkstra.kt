@@ -353,7 +353,15 @@ fun main() {
                 else -> "기준 없음"
             }
             println("$startStationName 에서 $endStationName 까지의 최단 $criteriaLabel: $shortestValue")
-            println("경로: ${path.joinToString(" -> ")}")
+
+            // 경로에 환승 역 표시
+            for (i in path.indices) {
+                if (i > 0 && path[i] / 100 != path[i - 1] / 100) {
+                    println("환승: ${stationNames.split("\n")[path[i]]}")
+                }
+                println("역: ${stationNames.split("\n")[path[i]]}")
+            }
+
         } else {
             println("경로가 존재하지 않습니다.")
         }
