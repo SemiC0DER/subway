@@ -1,5 +1,6 @@
 package com.example.whatsub;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,6 +12,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -24,6 +30,8 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class JoinActivity extends AppCompatActivity {
 
+    private DatabaseReference mDatabase;
+
     // 로그 찍을 때 사용하는 TAG 변수
     final private String TAG = getClass().getSimpleName();
 
@@ -36,6 +44,9 @@ public class JoinActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
 
+//Firebase 데이터베이스 인스턴스 초기화
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
 // 컴포넌트 초기화
         userid_et = findViewById(R.id.userid_et);
         passwd_et = findViewById(R.id.passwd_et);
@@ -46,94 +57,115 @@ public class JoinActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 // 회원가입 함수 호출
-                JoinTask joinTask = new JoinTask();
-                joinTask.execute(userid_et.getText().toString(), passwd_et.getText().toString());
+//                JoinTask joinTask = new JoinTask();
+//                joinTask.execute(userid_et.getText().toString(), passwd_et.getText().toString());
+                joinUser(userid_et.getText().toString(), passwd_et.getText().toString());
             }
         });
     }
 
-    class JoinTask extends AsyncTask<String, Void, String> {
+//    class JoinTask extends AsyncTask<String, Void, String> {
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//
+//            Log.d(TAG, "onPreExecute");
+//        }
+//
+//
+//        @Override
+//        protected void onPostExecute(String result) {
+//            super.onPostExecute(result);
+//
+//
+//            Log.d(TAG, "onPostExecute, " + result);
+//
+//// 결과값이 success 로 나오면
+//            if(result.equals("success")){
+//
+////토스트 메시지를 뿌리고, 이전 액티비티(LoginActivity) 로 돌아감
+//                Toast.makeText(getApplicationContext(), "성공적으로 회원가입 되었습니다.", Toast.LENGTH_SHORT).show();
+//                finish();
+//            }else
+//            {
+//                Toast.makeText(JoinActivity.this, result, Toast.LENGTH_SHORT).show();
+//            }
+//        }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            Log.d(TAG, "onPreExecute");
-        }
-
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-
-            Log.d(TAG, "onPostExecute, " + result);
-
-// 결과값이 success 로 나오면
-            if(result.equals("success")){
-
-//토스트 메시지를 뿌리고, 이전 액티비티(LoginActivity) 로 돌아감
-                Toast.makeText(getApplicationContext(), "성공적으로 회원가입 되었습니다.", Toast.LENGTH_SHORT).show();
-                finish();
-            }else
-            {
-                Toast.makeText(JoinActivity.this, result, Toast.LENGTH_SHORT).show();
-            }
-        }
-
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            String userid = params[0];
-            String passwd = params[1];
-
-            String server_url = "http://15.164.252.136/join.php";
-
-
-            URL url;
-            String response = "";
-            try {
-                url = new URL(server_url);
-
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(15000);
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-                Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("userid", userid)
-                        .appendQueryParameter("passwd", passwd);
-                String query = builder.build().getEncodedQuery();
-
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(query);
-                writer.flush();
-                writer.close();
-                os.close();
-
-                conn.connect();
-                int responseCode=conn.getResponseCode();
-
-                if (responseCode == HttpsURLConnection.HTTP_OK) {
-                    String line;
-                    BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    while ((line=br.readLine()) != null) {
-                        response+=line;
+    private void joinUser(String userId, String password) {
+        // Firebase 데이터베이스에 회원 정보 추가
+        mDatabase.child("users").child(userId).setValue(password)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // 회원가입 성공 처리
+                        Toast.makeText(getApplicationContext(), "성공적으로 회원가입 되었습니다.", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
-                }
-                else {
-                    response="";
-
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return response;
-        }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // 회원가입 실패 처리
+                        Toast.makeText(getApplicationContext(), "회원가입에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
+
+//        @Override
+//        protected String doInBackground(String... params) {
+//
+//            String userid = params[0];
+//            String passwd = params[1];
+//
+//            String server_url = "http://15.164.252.136/join.php";
+//
+//
+//            URL url;
+//            String response = "";
+//            try {
+//                url = new URL(server_url);
+//
+//                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//                conn.setReadTimeout(15000);
+//                conn.setConnectTimeout(15000);
+//                conn.setRequestMethod("POST");
+//                conn.setDoInput(true);
+//                conn.setDoOutput(true);
+//                Uri.Builder builder = new Uri.Builder()
+//                        .appendQueryParameter("userid", userid)
+//                        .appendQueryParameter("passwd", passwd);
+//                String query = builder.build().getEncodedQuery();
+//
+//                OutputStream os = conn.getOutputStream();
+//                BufferedWriter writer = new BufferedWriter(
+//                        new OutputStreamWriter(os, "UTF-8"));
+//                writer.write(query);
+//                writer.flush();
+//                writer.close();
+//                os.close();
+//
+//                conn.connect();
+//                int responseCode=conn.getResponseCode();
+//
+//                if (responseCode == HttpsURLConnection.HTTP_OK) {
+//                    String line;
+//                    BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//                    while ((line=br.readLine()) != null) {
+//                        response+=line;
+//                    }
+//                }
+//                else {
+//                    response="";
+//
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//            return response;
+//        }
+//    }
+//}
