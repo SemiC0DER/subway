@@ -1,3 +1,5 @@
+package com.example.whatsub
+
 data class Edge(val destination: Int, val time: Int, val distance: Int, val cost: Int)
 
 fun addEdge(graph: Array<MutableList<Edge>>, start: Int, end: Int, time: Int, distance: Int, cost: Int){
@@ -315,28 +317,33 @@ fun main() {
     """
 
     // 중복 제거하고 매핑
-    val stationNameToID = stationNames.split("\n")
+    val stationMap = stationNames.split("\n")
         .mapNotNull { it.trim().takeIf { it.isNotEmpty() } }
         .distinct()
         .mapIndexed { index, name -> name to index }
         .toMap()
 
 
-    val n = stationNameToID.size
+    val n = stationMap.size
     val graph = Array(n) { mutableListOf<Edge>() }
 
     // 간선 정보 추가
     edgesData.split("\n").forEach { line ->
         val (start, end, time, distance, cost) = line.split(" ").map { it.toInt() }
-        addEdge(graph, start, end, time, distance, cost)
+        stationMap[start.toString()]?.let {
+            stationMap[end.toString()]?.let { it1 ->
+                addEdge(graph,
+                    it, it1, time, distance, cost)
+            }
+        }
     }
 
     // 출발역과 도착역 입력 이 부분 연결
     val startStationName = "102" // 출발역 이름 입력
     val endStationName = "901" // 도착역 이름 입력
 
-    val startStation = stationNameToID[startStationName] ?: -1
-    val endStation = stationNameToID[endStationName] ?: -1
+    val startStation = stationMap[startStationName] ?: -1
+    val endStation = stationMap[endStationName] ?: -1
 
 
     val criteria = "time" // "time", "distance", "cost" 중 하나 선택
