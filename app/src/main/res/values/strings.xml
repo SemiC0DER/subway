@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">WhatSub</string>
+    <string name="what_sub">What Sub</string>
+    <string name="version_1_0_0">Version. 1.0.0</string>
 </resources>
