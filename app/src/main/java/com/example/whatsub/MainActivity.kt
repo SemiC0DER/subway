@@ -23,6 +23,7 @@ class MainActivity : ComponentActivity() {
         val myRef = database.getReference("message")
         myRef.setValue("Success")
         super.onCreate(savedInstanceState)
+
         setContent {
             WhatSubTheme {
                 // A surface container using the 'background' color from the theme

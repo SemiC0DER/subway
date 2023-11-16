@@ -59,15 +59,6 @@ public class LoginActivity extends AppCompatActivity {
         login_button = findViewById(R.id.login_button);
         join_button = findViewById(R.id.join_button);
 
-//// 로그인 버튼 이벤트 추가
-//        login_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//// 로그인 함수
-//                LoginTask loginTask = new LoginTask();
-//                loginTask.execute(userid_et.getText().toString(), passwd_et.getText().toString());
-//            }
-//        });
 
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override

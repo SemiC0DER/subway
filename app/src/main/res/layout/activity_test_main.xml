@@ -6,29 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".TestMain">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="첫번째 화면입니다."
-        android:textSize="50dp"
-        tools:ignore="MissingConstraints" />
-
-
-    <LinearLayout
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints" />
-
     <Button
         android:id="@+id/btn1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="화면전환"
+        android:onClick="onClickButton"
+        android:text="@string/test"
+        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="56dp"
-        tools:layout_editor_absoluteY="194dp"
-        tools:ignore="MissingConstraints" />
+        tools:layout_editor_absoluteY="193dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

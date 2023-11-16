@@ -78,4 +78,6 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.13.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.13.0")
     implementation("de.hdodenhof:circleimageview:3.1.0")
+    implementation("androidx.appcompat:appcompat:1.3.0")
+
 }
