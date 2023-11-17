@@ -27,13 +27,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
 public class LoginActivity extends AppCompatActivity {
 
-// Firebase Authentication 및 Realtime Database 사용을 위한 초기화
+    // Firebase Authentication 및 Realtime Database 사용을 위한 초기화
     FirebaseAuth mAuth;
     DatabaseReference mDatabase;
 
@@ -59,7 +60,6 @@ public class LoginActivity extends AppCompatActivity {
         passwd_et = findViewById(R.id.passwd_et);
         login_button = findViewById(R.id.login_button);
         join_button = findViewById(R.id.join_button);
-
 
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +96,16 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            currentUser.reload();
+        }
     }
 
     class LoginTask extends AsyncTask<String, Void, String> {
