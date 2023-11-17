@@ -42,35 +42,41 @@ public class JoinActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.Theme_WhatSub);
         setContentView(R.layout.activity_join);
 
-//Firebase 데이터베이스 인스턴스 초기화
+        //Firebase 데이터베이스 인스턴스 초기화
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-// 컴포넌트 초기화
+        // 컴포넌트 초기화
         userid_et = findViewById(R.id.userid_et);
         passwd_et = findViewById(R.id.passwd_et);
         join_button = findViewById(R.id.join_button);
 
-// 버튼 이벤트 추가
+        // 버튼 이벤트 추가
         join_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-// 회원가입 함수 호출
+                // 회원가입 함수 호출
                 joinUser(userid_et.getText().toString(), passwd_et.getText().toString());
             }
         });
     }
 
     private void joinUser(String userId, String password) {
+        // Firebase Realtime Database에 사용 가능한 형태로 이메일 주소 변환
+        String firebaseUserId = encodeEmail(userId);
+
         // Firebase 데이터베이스에 회원 정보 추가
-        mDatabase.child("users").child(userId).setValue(password)
+        mDatabase.child("users").child(firebaseUserId).setValue(password)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         // 회원가입 성공 처리
                         Toast.makeText(getApplicationContext(), "성공적으로 회원가입 되었습니다.", Toast.LENGTH_SHORT).show();
-                        finish();
+                        // 회원가입 성공 후 로그인 페이지로 이동
+                        Intent intent = new Intent(JoinActivity.this, LoginActivity.class);
+                        startActivity(intent);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -81,5 +87,13 @@ public class JoinActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    private String encodeEmail(String userEmail) {
+        // 이메일 주소에서 '@' 이전 부분을 가져와 사용
+        String emailPrefix = userEmail.substring(0, userEmail.indexOf("@"));
+        // 이메일 주소에서 특수 문자 제거 및 인코딩
+        return emailPrefix.replace(".", "_dot_"); // 또는 다른 방법으로 인코딩
+    }
 }
+
 

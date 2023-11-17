@@ -79,5 +79,7 @@ dependencies {
     annotationProcessor("com.github.bumptech.glide:compiler:4.13.0")
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("androidx.appcompat:appcompat:1.3.0")
+    // Import the BoM for the Firebase platform
+    implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
 
 }

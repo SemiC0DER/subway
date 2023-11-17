@@ -16,30 +16,35 @@
         tools:targetApi="31">
 
 
-        <activity
-            android:name=".TestMain"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".TestMain"-->
+<!--            android:exported="false" />-->
          <activity
          android:name=".DetailActivity"
+             android:theme="@style/Theme.AppCompat"
          android:exported="false" />
          <activity
          android:name=".RegisterActivity"
+             android:theme="@style/Theme.AppCompat"
          android:exported="false" />
          <activity
          android:name=".ListActivity"
+             android:theme="@style/Theme.AppCompat"
          android:exported="false" />
          <activity
          android:name=".JoinActivity"
+             android:theme="@style/Theme.AppCompat"
          android:exported="false" />
-<!--         <activity-->
-<!--         android:name=".LoginActivity"-->
-<!--         android:exported="false" />-->
+         <activity
+         android:name=".LoginActivity"
+             android:theme="@style/Theme.AppCompat"
+         android:exported="false" />
 <!--        <activity-->
 <!--            android:name=".MainActivity"-->
 <!--            android:exported="false" />-->
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".TestMain"
             android:theme="@style/Theme.AppCompat"
             android:exported="true">
             <intent-filter>

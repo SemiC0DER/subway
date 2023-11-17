@@ -47,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.Theme_WhatSub);
         setContentView(R.layout.activity_login);
 
 //Firebase 인스턴스 초기화
