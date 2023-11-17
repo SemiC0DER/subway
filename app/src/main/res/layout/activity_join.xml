@@ -20,11 +20,11 @@
 
     <EditText
         android:id="@+id/passwd_et"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="280dp"
+        android:layout_height="47dp"
         android:ems="10"
+        android:hint="비밀번호를 입력하세요(6자 이상)."
         android:inputType="textPassword"
-        android:hint="비밀번호를 입력하세요."
         app:layout_constraintBottom_toTopOf="@+id/join_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -33,12 +33,12 @@
 
     <EditText
         android:id="@+id/userid_et"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="280dp"
+        android:layout_height="47dp"
         android:ems="10"
+        android:hint="아이디를 입력하세요(이메일 형식)."
         android:inputType="textPersonName"
         android:text=""
-        android:hint="아이디를 입력하세요."
         app:layout_constraintBottom_toTopOf="@+id/passwd_et"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
