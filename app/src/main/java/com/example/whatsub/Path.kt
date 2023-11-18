@@ -7,6 +7,8 @@ data class DijkstraResult(val distance: Int, val path: List<Int>)
 fun addEdge(graph: Array<MutableList<Edge>>, start: Int, end: Int, time: Int, distance: Int, cost: Int) {
     graph[start].add(Edge(end, time, distance, cost))
     graph[end].add(Edge(start, time, distance, cost))
+    //테스트 코드
+    println("Added edge: $start -> $end (Time: $time, Distance: $distance, Cost: $cost)")
 }
 
 fun dijkstra(graph: Array<MutableList<Edge>>, start: Int, end: Int, criteria: String): DijkstraResult {
@@ -34,8 +36,10 @@ fun dijkstra(graph: Array<MutableList<Edge>>, start: Int, end: Int, criteria: St
 
         if (u == -1) break
 
-        // 이 부분에서 수정
-        prev[u] = -1
+        // 시작 노드의 이전 노드를 시작 노드로 설정
+        if (i == 0) {
+            prev[start] = start
+        }
 
         for (edge in graph[u]) {
             val v = edge.destination
@@ -50,6 +54,10 @@ fun dijkstra(graph: Array<MutableList<Edge>>, start: Int, end: Int, criteria: St
                 prev[v] = u
             }
         }
+        //테스트 코드
+        println("Iteration $i:")
+        println("Distances: ${dist.joinToString()}")
+        println("Previous nodes: ${prev.joinToString()}")
     }
 
     val path = mutableListOf<Int>()
@@ -60,8 +68,31 @@ fun dijkstra(graph: Array<MutableList<Edge>>, start: Int, end: Int, criteria: St
     }
     path.reverse()
 
+    if (path.isEmpty()) {
+        println("경로가 존재하지 않습니다.")
+    } else {
+        println("최단 경로: ${path.joinToString()}")
+    }
+    //테스트 코드
+    var totalCost = 0
+
+    for (i in 0 until path.size - 1) {
+        val u = path[i]
+        val v = path[i + 1]
+
+        val edge = graph[u].find { it.destination == v } ?: throw IllegalStateException("Edge not found in graph")
+
+        totalCost += when (criteria) {
+            "time" -> edge.time
+            "distance" -> edge.distance
+            "cost" -> edge.cost
+            else -> throw IllegalArgumentException("Invalid criteria")
+        }
+    }
+
     return DijkstraResult(dist[end], path)
 }
+
 
 
 fun main() {
@@ -352,37 +383,32 @@ fun main() {
     val criteria = "time" // "time", "distance", "cost" 중 하나 선택
 
     //이 부분 연결
-    fun main() {
-        // 이전 코드 생략
+    if (startStation != -1 && endStation != -1) {
+        val result = dijkstra(graph, startStation, endStation, criteria)
+        val shortestValue = result.distance
+        val path = result.path
 
-        if (startStation != -1 && endStation != -1) {
-            val result = dijkstra(graph, startStation, endStation, criteria)
-            val shortestValue = result.distance
-            val path = result.path
-
-            if (shortestValue != Int.MAX_VALUE) {
-                val criteriaLabel = when (criteria) {
-                    "time" -> "시간"
-                    "distance" -> "거리"
-                    "cost" -> "비용"
-                    else -> "기준 없음"
-                }
-                println("$startStationName 에서 $endStationName 까지의 최단 $criteriaLabel: $shortestValue")
-
-                // 경로에 환승 역 표시
-                for (i in path.indices) {
-                    if (i > 0 && path[i] / 100 != path[i - 1] / 100) {
-                        println("환승: ${stationNames.split("\n")[path[i]]}")
-                    }
-                    println("역: ${stationNames.split("\n")[path[i]]}")
-                }
-
-            } else {
-                println("경로가 존재하지 않습니다.")
+        if (shortestValue != Int.MAX_VALUE) {
+            val criteriaLabel = when (criteria) {
+                "time" -> "시간"
+                "distance" -> "거리"
+                "cost" -> "비용"
+                else -> "기준 없음"
             }
-        } else {
-            println("입력한 역 이름이 유효하지 않습니다.")
-        }
-    }
+            println("$startStationName 에서 $endStationName 까지의 최단 $criteriaLabel: $shortestValue")
 
+            // 경로에 환승 역 표시
+            for (i in path.indices) {
+                if (i > 0 && path[i] / 100 != path[i - 1] / 100) {
+                    println("환승: ${stationNames.split("\n")[path[i]]}")
+                }
+                println("역: ${stationNames.split("\n")[path[i]]}")
+            }
+
+        } else {
+            println("경로가 존재하지 않습니다.")
+        }
+    } else {
+        println("입력한 역 이름이 유효하지 않습니다.")
+    }
 }
