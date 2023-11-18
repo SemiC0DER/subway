@@ -56,14 +56,15 @@
         tools:layout_editor_absoluteX="220dp"
         tools:layout_editor_absoluteY="650dp" />
 
-    <TextView
-        android:id="@+id/shortest_time"
-        android:layout_width="374dp"
-        android:layout_height="104dp"
-        android:text="최단시간"
-        android:background="@drawable/boder_line"
-        tools:layout_editor_absoluteX="20dp"
-        tools:layout_editor_absoluteY="167dp" />
+<!--    <TextView-->
+<!--        android:id="@+id/shortest_time"-->
+<!--        android:layout_width="374dp"-->
+<!--        android:layout_height="104dp"-->
+<!--        android:text="최단시간"-->
+<!--        android:background="@drawable/boder_line"-->
+<!--        tools:layout_editor_absoluteX="20dp"-->
+<!--        tools:layout_editor_absoluteY="167dp"-->
+<!--        />-->
 
     <TextView
         android:id="@+id/shortest_distance"
@@ -82,5 +83,46 @@
         android:background="@drawable/boder_line"
         tools:layout_editor_absoluteX="20dp"
         tools:layout_editor_absoluteY="435dp" />
+
+    <LinearLayout
+        android:id="@+id/shortest_time"
+        android:layout_width="374dp"
+        android:layout_height="104dp"
+        android:background="@drawable/boder_line"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteX="20dp"
+        tools:layout_editor_absoluteY="167dp">
+
+        <TextView
+            android:id="@+id/start_station_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="출발역" />
+
+        <TextView
+            android:id="@+id/transfer_station_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="환승역" />
+
+        <TextView
+            android:id="@+id/destination_station_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="도착역" />
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
