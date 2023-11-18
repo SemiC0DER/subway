@@ -10,12 +10,14 @@ public class TestMain extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.Theme_WhatSub);
+        
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_main);
     }
 
     public void onClickButton(View view) {
-        // 버튼 클릭 시 다음 화면으로 이동하는 Intent 생성
+        // 버튼 클릭 시 다음 화면으로이동하는 Intent 생성
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
