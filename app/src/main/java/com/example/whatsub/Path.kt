@@ -7,7 +7,6 @@ data class DijkstraResult(val distance: Int, val path: List<Int>)
 fun addEdge(graph: Array<MutableList<Edge>>, start: Int, end: Int, time: Int, distance: Int, cost: Int) {
     graph[start].add(Edge(end, time, distance, cost))
     graph[end].add(Edge(start, time, distance, cost))
-    //테스트 코드
     //println("Added edge: $start -> $end (Time: $time, Distance: $distance, Cost: $cost)")
 }
 
@@ -337,7 +336,6 @@ fun main() {
         .mapIndexed { index, name -> name to index }
         .toMap()
 
-
     val n = stationMap.size
     val graph = Array(n) { mutableListOf<Edge>() }
 
@@ -385,7 +383,8 @@ fun main() {
 
             // 경로에 환승 역 표시
             for (i in path.indices) {
-                println("역: ${stationNames.split("\n")[path[i]]}")
+                val stationIndex = path[i] + 1
+                println("역: ${stationNames.split("\n")[stationIndex]}")
             }
 
         } else {
