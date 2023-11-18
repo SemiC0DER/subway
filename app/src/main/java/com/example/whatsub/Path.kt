@@ -8,19 +8,22 @@ fun addEdge(graph: Array<MutableList<Edge>>, start: Int, end: Int, time: Int, di
     graph[start].add(Edge(end, time, distance, cost))
     graph[end].add(Edge(start, time, distance, cost))
     //테스트 코드
-    println("Added edge: $start -> $end (Time: $time, Distance: $distance, Cost: $cost)")
+    //println("Added edge: $start -> $end (Time: $time, Distance: $distance, Cost: $cost)")
 }
 
 fun dijkstra(graph: Array<MutableList<Edge>>, start: Int, end: Int, criteria: String): DijkstraResult {
     val n = graph.size
     val dist = IntArray(n) { Int.MAX_VALUE }
     val prev = IntArray(n) { -1 }
+    val visited = BooleanArray(n)
+
     val comparator: Comparator<Int> = when (criteria) {
         "time" -> compareBy { dist[it] }
         "distance" -> compareBy { dist[it] }
         "cost" -> compareBy { dist[it] }
         else -> compareBy { dist[it] }
     }
+
     dist[start] = 0
 
     for (i in 0 until n) {
@@ -28,19 +31,19 @@ fun dijkstra(graph: Array<MutableList<Edge>>, start: Int, end: Int, criteria: St
         var u = -1
 
         for (v in 0 until n) {
-            if (dist[v] < minDist && prev[v] == -1) {
+            if (!visited[v] && dist[v] < minDist) {
                 u = v
                 minDist = dist[v]
             }
         }
 
+// u가 -1이면 모든 정점을 방문한 것이므로 종료
         if (u == -1) break
 
-        // 시작 노드의 이전 노드를 시작 노드로 설정
-        if (i == 0) {
-            prev[start] = start
-        }
+// 방문 표시
+        visited[u] = true
 
+// u에 인접한 정점들에 대한 갱신 로직은 그대로 유지
         for (edge in graph[u]) {
             val v = edge.destination
             val weight = when (criteria) {
@@ -49,15 +52,11 @@ fun dijkstra(graph: Array<MutableList<Edge>>, start: Int, end: Int, criteria: St
                 "cost" -> edge.cost
                 else -> edge.time
             }
-            if (dist[u] + weight < dist[v]) {
+            if (!visited[v] && dist[u] + weight < dist[v]) {
                 dist[v] = dist[u] + weight
                 prev[v] = u
             }
         }
-        //테스트 코드
-        println("Iteration $i:")
-        println("Distances: ${dist.joinToString()}")
-        println("Previous nodes: ${prev.joinToString()}")
     }
 
     val path = mutableListOf<Int>()
@@ -68,30 +67,11 @@ fun dijkstra(graph: Array<MutableList<Edge>>, start: Int, end: Int, criteria: St
     }
     path.reverse()
 
-    if (path.isEmpty()) {
-        println("경로가 존재하지 않습니다.")
-    } else {
-        println("최단 경로: ${path.joinToString()}")
-    }
-    //테스트 코드
-    var totalCost = 0
-
-    for (i in 0 until path.size - 1) {
-        val u = path[i]
-        val v = path[i + 1]
-
-        val edge = graph[u].find { it.destination == v } ?: throw IllegalStateException("Edge not found in graph")
-
-        totalCost += when (criteria) {
-            "time" -> edge.time
-            "distance" -> edge.distance
-            "cost" -> edge.cost
-            else -> throw IllegalArgumentException("Invalid criteria")
-        }
-    }
-
     return DijkstraResult(dist[end], path)
 }
+
+
+
 
 
 
@@ -397,11 +377,14 @@ fun main() {
             }
             println("$startStationName 에서 $endStationName 까지의 최단 $criteriaLabel: $shortestValue")
 
+            //테스트 코드
+            /*for (i in path.indices) {
+                println(path[i])
+            }
+            */
+
             // 경로에 환승 역 표시
             for (i in path.indices) {
-                if (i > 0 && path[i] / 100 != path[i - 1] / 100) {
-                    println("환승: ${stationNames.split("\n")[path[i]]}")
-                }
                 println("역: ${stationNames.split("\n")[path[i]]}")
             }
 
