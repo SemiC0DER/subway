@@ -1,5 +1,6 @@
 package com.example.whatsub;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -13,6 +14,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -101,109 +108,49 @@ public class ListActivity extends AppCompatActivity {
 
 
     // 게시물 리스트를 읽어오는 함수
-    class GetBoard extends AsyncTask<String, Void, String> {
+    // GetBoard AsyncTask 클래스 수정
+    class GetBoard extends AsyncTask<Void, Void, Void> {
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+        protected Void doInBackground(Void... voids) {
+            // Firebase 초기화
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference boardRef = database.getReference("boards");
 
-            Log.d(TAG, "onPreExecute");
-        }
+            boardRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    titleList.clear();
+                    seqList.clear();
 
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String title = snapshot.child("title").getValue(String.class);
+                        String seq = snapshot.child("seq").getValue(String.class);
 
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            Log.d(TAG, "onPostExecute, " + result);
-
-// 배열들 초기화
-            titleList.clear();
-            seqList.clear();
-
-            try {
-
-// 결과물이 JSONArray 형태로 넘어오기 때문에 파싱
-                JSONArray jsonArray = new JSONArray(result);
-
-                for(int i=0;i<jsonArray.length();i++){
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                    String title = jsonObject.optString("title");
-                    String seq = jsonObject.optString("seq");
-
-// title, seq 값을 변수로 받아서 배열에 추가
-                    titleList.add(title);
-                    seqList.add(seq);
-
-                }
-
-// ListView 에서 사용할 arrayAdapter를 생성하고, ListView 와 연결
-                ArrayAdapter arrayAdapter = new ArrayAdapter<String>(ListActivity.this, android.R.layout.simple_list_item_1, titleList);
-                listView.setAdapter(arrayAdapter);
-
-// arrayAdapter의 데이터가 변경되었을때 새로고침
-                arrayAdapter.notifyDataSetChanged();
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-        }
-
-
-        @Override
-        protected String doInBackground(String... params) {
-//
-// String userid = params[0];
-// String passwd = params[1];
-
-            String server_url = "http://15.164.252.136/load_board.php";
-
-
-            URL url;
-            String response = "";
-            try {
-                url = new URL(server_url);
-
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(15000);
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-                Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("userid", "");
-// .appendQueryParameter("passwd", passwd);
-                String query = builder.build().getEncodedQuery();
-
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(query);
-                writer.flush();
-                writer.close();
-                os.close();
-
-                conn.connect();
-                int responseCode=conn.getResponseCode();
-
-                if (responseCode == HttpsURLConnection.HTTP_OK) {
-                    String line;
-                    BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    while ((line=br.readLine()) != null) {
-                        response+=line;
+                        // 가져온 데이터를 리스트에 추가
+                        titleList.add(title);
+                        seqList.add(seq);
                     }
-                }
-                else {
-                    response="";
 
+                    // UI 업데이트 - 어댑터 및 리스트뷰
+                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(ListActivity.this, android.R.layout.simple_list_item_1, titleList);
+                    listView.setAdapter(arrayAdapter);
+                    arrayAdapter.notifyDataSetChanged();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
 
-            return response;
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // 필요 시 오류 처리
+                }
+            });
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            // onPostExecute에서 다른 UI 업데이트 작업을 진행할 수도 있음
         }
     }
+
 }

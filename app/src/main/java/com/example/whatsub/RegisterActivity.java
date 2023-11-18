@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -51,98 +54,44 @@ public class RegisterActivity extends AppCompatActivity {
         reg_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-// 게시물 등록 함수
+                // 게시물 등록 함수
                 RegBoard regBoard = new RegBoard();
                 regBoard.execute(userid, title_et.getText().toString(), content_et.getText().toString());
+
+                // 리스트 액티비티로 이동하는 Intent 생성
+                Intent intent = new Intent(RegisterActivity.this, ListActivity.class);
+                intent.putExtra("userid", userid); // 필요한 경우 userid를 리스트 액티비티로 전달
+                startActivity(intent);
             }
         });
 
     }
 
-    class RegBoard extends AsyncTask<String, Void, String> {
+    class RegBoard extends AsyncTask<String, Void, Void> {
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            Log.d(TAG, "onPreExecute");
-        }
-
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            Log.d(TAG, "onPostExecute, " + result);
-
-            if(result.equals("success")){
-// 결과값이 success 이면
-// 토스트 메시지를 뿌리고
-// 이전 액티비티(ListActivity)로 이동,
-// 이때 ListActivity 의 onResume() 함수 가 호출되며, 데이터를 새로 고침
-                Toast.makeText(RegisterActivity.this, "등록되었습니다.", Toast.LENGTH_SHORT).show();
-                finish();
-            }else
-            {
-                Toast.makeText(RegisterActivity.this, result, Toast.LENGTH_SHORT).show();
-            }
-
-        }
-
-
-        @Override
-        protected String doInBackground(String... params) {
-
+        protected Void doInBackground(String... params) {
             String userid = params[0];
             String title = params[1];
             String content = params[2];
 
-            String server_url = "http://15.164.252.136/reg_board.php";
+            // Firebase 데이터베이스 초기화
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference boardsRef = database.getReference("boards");
 
+            // 새로운 게시글에 대한 데이터 객체 생성
+            Board newBoard = new Board(userid, title, content);
 
-            URL url;
-            String response = "";
-            try {
-                url = new URL(server_url);
+            // "boards" 노드 아래에 새로운 게시글 추가
+            boardsRef.push().setValue(newBoard);
 
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(15000);
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-                Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("userid", userid)
-                        .appendQueryParameter("title", title)
-                        .appendQueryParameter("content", content);
-                String query = builder.build().getEncodedQuery();
-
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(query);
-                writer.flush();
-                writer.close();
-                os.close();
-
-                conn.connect();
-                int responseCode=conn.getResponseCode();
-
-                if (responseCode == HttpsURLConnection.HTTP_OK) {
-                    String line;
-                    BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    while ((line=br.readLine()) != null) {
-                        response+=line;
-                    }
-                }
-                else {
-                    response="";
-
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return response;
+            return null;
         }
+
+        // 나머지 코드는 필요에 따라 수정하여 사용
     }
 }
+
+
+
+
