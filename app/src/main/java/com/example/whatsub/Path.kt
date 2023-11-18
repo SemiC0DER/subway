@@ -34,7 +34,8 @@ fun dijkstra(graph: Array<MutableList<Edge>>, start: Int, end: Int, criteria: St
 
         if (u == -1) break
 
-        prev[u] = u
+        // 이 부분에서 수정
+        prev[u] = -1
 
         for (edge in graph[u]) {
             val v = edge.destination
@@ -342,7 +343,7 @@ fun main() {
 
     // 출발역과 도착역 입력 이 부분 연결
     val startStationName = "102" // 출발역 이름 입력
-    val endStationName = "901" // 도착역 이름 입력
+    val endStationName = "109" // 도착역 이름 입력
 
     val startStation = stationMap[startStationName] ?: -1
     val endStation = stationMap[endStationName] ?: -1
