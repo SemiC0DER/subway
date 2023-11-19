@@ -24,6 +24,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="제목을 입력하세요."
+            android:textColor="#000000"
+            android:textColorHint="#000000"
             />
     </LinearLayout>
 
@@ -41,6 +43,8 @@
         android:layout_weight="1"
         android:background="#eeeeee"
         android:hint="내용을 입력하세요."
+        android:textColor="#000000"
+        android:textColorHint="#000000"
         />
 
     <Button
