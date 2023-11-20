@@ -61,6 +61,8 @@ public class ListActivity extends AppCompatActivity {
                 Intent intent = new Intent(ListActivity.this, DetailActivity.class);
                 intent.putExtra("board_seq", seqList.get(i));
                 intent.putExtra("userid", userid);
+                Log.v(TAG, "seqList contents: " + seqList.toString());
+
                 startActivity(intent);
             }
         });
@@ -92,6 +94,7 @@ public class ListActivity extends AppCompatActivity {
     }
 
     // Firebase에서 게시물 리스트 가져오기
+    // Firebase에서 게시물 리스트 가져오기
     private void getBoardData() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference boardRef = database.getReference("boards");
@@ -104,14 +107,13 @@ public class ListActivity extends AppCompatActivity {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String title = snapshot.child("title").getValue(String.class);
-                    String seq = snapshot.child("seq").getValue(String.class);
+                    String seq = snapshot.getKey(); // Getting Firebase unique key as sequence
 
                     if (title != null) {
                         titleList.add(title);
-                        seqList.add(seq != null ? seq : ""); // Ensure seq is not null before adding
+                        seqList.add(seq != null ? seq : ""); // Adding sequence to seqList
                     }
                 }
-
 
                 // 데이터가 변경되었음을 어댑터에 알림
                 arrayAdapter.notifyDataSetChanged();
@@ -124,4 +126,5 @@ public class ListActivity extends AppCompatActivity {
             }
         });
     }
+
 }
