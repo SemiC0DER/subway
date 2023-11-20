@@ -77,7 +77,7 @@ public class DetailActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     String title = dataSnapshot.child("title").getValue(String.class);
                     String content = dataSnapshot.child("content").getValue(String.class);
-                    String crt_dt = dataSnapshot.child("crt_dt").getValue(String.class);
+                    String crt_dt = dataSnapshot.child("currentDate").getValue(String.class);
 
                     title_tv.setText(title);
                     content_tv.setText(content);

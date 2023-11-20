@@ -103,7 +103,9 @@
             android:layout_height="wrap_content"
             android:background="#eeeeee"
             android:layout_weight="1"
-            android:hint="댓글 내용을 입력하세요"/>
+            android:hint="댓글 내용을 입력하세요"
+            android:textColorHint="#000000"
+            android:textColor="#000000"/>
         <Button
             android:id="@+id/reg_button"
             android:layout_width="wrap_content"
