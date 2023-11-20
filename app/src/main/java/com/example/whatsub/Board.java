@@ -1,5 +1,12 @@
 package com.example.whatsub;
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -19,6 +26,7 @@ class Board {
         this.userid = userid;
         this.title = title;
         this.content = content;
+        //this.date = getCurrentDeviceDate(); // 기기의 현재 시간을 가져와 date 필드에 할당
         this.date = getCurrentDate();
     }
 
@@ -46,6 +54,12 @@ class Board {
     public void setContent(String content) {
         this.content = content;
     }
+
+    /*public String getCurrentDeviceDate() {
+        // 기기의 현재 시간을 가져와서 반환
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        return sdf.format(new Date()); // 기기의 현재 시간을 반환
+    }*/
 
     public String getCurrentDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());

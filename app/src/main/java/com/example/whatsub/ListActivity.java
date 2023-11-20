@@ -93,7 +93,7 @@ public class ListActivity extends AppCompatActivity {
         getBoardData();
     }
 
-    // Firebase에서 게시물 리스트 가져오기
+
     // Firebase에서 게시물 리스트 가져오기
     private void getBoardData() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
