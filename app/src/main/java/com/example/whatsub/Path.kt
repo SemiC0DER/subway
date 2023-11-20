@@ -361,6 +361,15 @@ fun main() {
 
 
     val criteria = "time" // "time", "distance", "cost" 중 하나 선택
+    /*
+    if (startStation != -1 && endStation != -1) {
+        val timeResult = dijkstra(graph, startStation, endStation, "time")
+        val distResult = dijkstra(graph, startStation, endStation, "distance")
+        val costResult = dijkstra(graph, startStation, endStation, "cost")
+
+        //print 함수 필요 <- 여기에 연결
+    }
+     */
 
     //이 부분 연결
     if (startStation != -1 && endStation != -1) {
