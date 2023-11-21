@@ -139,7 +139,7 @@ public class DetailActivity extends AppCompatActivity {
                         }
                     });
         } else {
-            Log.e(TAG, "키 생성에 실패하여 댓글을 저장할 수 없습니다.");
+            Log.e(TAG, "키 생성에 실패하여 댓글을 저장할 수 없다.");
         }
     }
 
