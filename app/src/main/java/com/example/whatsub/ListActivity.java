@@ -110,8 +110,9 @@ public class ListActivity extends AppCompatActivity {
                     String seq = snapshot.getKey(); // Getting Firebase unique key as sequence
 
                     if (title != null) {
-                        titleList.add(title);
-                        seqList.add(seq != null ? seq : ""); // Adding sequence to seqList
+                        // 리스트의 맨 앞에 새로운 게시물 추가
+                        titleList.add(0, title);
+                        seqList.add(0, seq != null ? seq : "");
                     }
                 }
 
