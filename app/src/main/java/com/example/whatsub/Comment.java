@@ -1,10 +1,13 @@
 package com.example.whatsub;
 
+import java.lang.reflect.Field;
+
 public class Comment {
     private String userid;
     private String content;
     private String date;
 
+    private String key;
     private String timestamp; // 시간 정보 추가
 
     public Comment() {
@@ -54,4 +57,23 @@ public class Comment {
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    /*public String getKey() {
+        try {
+            Field keyField = getClass().getDeclaredField("key");
+            keyField.setAccessible(true);
+            return (String) keyField.get(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }*/
 }
