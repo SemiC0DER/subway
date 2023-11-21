@@ -22,6 +22,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class DetailActivity extends AppCompatActivity {
 
     DatabaseReference boardsRef;
@@ -104,7 +108,12 @@ public class DetailActivity extends AppCompatActivity {
 
         String commentKey = commentsRef.push().getKey(); // 댓글에 대한 고유한 키 생성
         if (commentKey != null) {
+
+            String currentTime = getCurrentTimestamp();
+
             Comment newComment = new Comment(userid, content);
+
+            newComment.setTimestamp(currentTime); // 댓글 작성 시간 추가
             commentsRef.child(commentKey).setValue(newComment) // 댓글 데이터 저장
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -141,7 +150,10 @@ public class DetailActivity extends AppCompatActivity {
                         View customView = getLayoutInflater().inflate(R.layout.custom_comment, null);
                         ((TextView) customView.findViewById(R.id.cmt_userid_tv)).setText(comment.getUserid());
                         ((TextView) customView.findViewById(R.id.cmt_content_tv)).setText(comment.getContent());
-                        // 여기서는 Firebase에 날짜를 저장하는 것이 아니기 때문에 날짜를 직접 표시하거나 Comment 클래스에 날짜를 추가할 수 있습니다.
+                        String timestamp = comment.getTimestamp();
+                        if (timestamp != null && !timestamp.isEmpty()) {
+                            ((TextView) customView.findViewById(R.id.cmt_date_tv)).setText(timestamp);
+                        }
 
                         comment_layout.addView(customView); // 댓글 추가
                     }
@@ -153,5 +165,12 @@ public class DetailActivity extends AppCompatActivity {
                 Log.e("DetailActivity", "Error fetching comments", databaseError.toException());
             }
         });
+    }
+    // getCurrentTimestamp() 메서드를 사용하여 현재 시간을 문자열로 반환하는 함수
+    private String getCurrentTimestamp() {
+        // 현재 시간을 가져오는 코드 예시 (원하는 시간 형식에 맞게 변환하세요)
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date currentDate = new Date();
+        return dateFormat.format(currentDate);
     }
 }

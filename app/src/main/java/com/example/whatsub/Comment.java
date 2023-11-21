@@ -5,6 +5,8 @@ public class Comment {
     private String content;
     private String date;
 
+    private String timestamp; // 시간 정보 추가
+
     public Comment() {
         // 기본 생성자가 필요함 (Firebase의 데이터 읽기/쓰기를 위해)
     }
@@ -43,5 +45,13 @@ public class Comment {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 }
