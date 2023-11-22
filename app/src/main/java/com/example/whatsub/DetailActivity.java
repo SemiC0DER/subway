@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,7 +35,6 @@ public class DetailActivity extends AppCompatActivity {
     TextView title_tv, content_tv, date_tv;
     LinearLayout comment_layout;
     EditText comment_et;
-    Button reg_button,reply_button;
 
     String board_seq = "";
     String userid = "";
@@ -49,13 +49,11 @@ public class DetailActivity extends AppCompatActivity {
         title_tv = findViewById(R.id.title_tv);
         content_tv = findViewById(R.id.content_tv);
         date_tv = findViewById(R.id.date_tv);
-
         comment_layout = findViewById(R.id.comment_layout);
         comment_et = findViewById(R.id.comment_et);
-        reg_button = findViewById(R.id.reg_button);
 
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_reply, null);
-        EditText replyEditText = dialogView.findViewById(R.id.reply_edit_text);
+        replyEditText = dialogView.findViewById(R.id.reply_edit_text); // 대댓글 입력
 
         board_seq = getIntent().getStringExtra("board_seq");
         userid = getIntent().getStringExtra("userid");
@@ -66,10 +64,6 @@ public class DetailActivity extends AppCompatActivity {
 
         // 댓글 불러오기
         loadComments(board_seq);
-
-        // 각 댓글에 대한 대댓글 버튼 리스너 설정
-        setReplyButtonListeners(board_seq);
-
 
         boardsRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -94,6 +88,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+        Button reg_button = findViewById(R.id.reg_button);
         reg_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,28 +100,20 @@ public class DetailActivity extends AppCompatActivity {
                 }
             }
         });
-
-        // 댓글 불러오기
-        loadComments(board_seq);
     }
 
-    // 댓글을 Firebase에 저장하는 함수
     private void saveComment(String userid, String content, String board_seq) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference commentsRef = database.getReference("boards")
                 .child(board_seq)
                 .child("comments"); // comments 노드를 만들어 댓글 저장
 
-        Log.v(TAG, "세이브코맨트 실행");
-
         String commentKey = commentsRef.push().getKey(); // 댓글에 대한 고유한 키 생성
         if (commentKey != null) {
-
             String currentTime = getCurrentTimestamp();
-
             Comment newComment = new Comment(userid, content);
-
             newComment.setTimestamp(currentTime); // 댓글 작성 시간 추가
+
             commentsRef.child(commentKey).setValue(newComment) // 댓글 데이터 저장
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -143,33 +130,34 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
-
-
-    // 댓글을 Firebase에서 불러오는 함수
+    // 댓글을 Firebase에서 불러오는 함수 (댓글과 대댓글을 모두 로드하도록 수정)
     private void loadComments(String board_seq) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference commentsRef = database.getReference("boards")
                 .child(board_seq)
-                .child("comments"); // comments 노드에 저장된 댓글 불러오기
+                .child("comments"); // comments 노드에 저장된 댓글과 대댓글 불러오기
 
         commentsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 comment_layout.removeAllViews(); // 기존 댓글 제거
 
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Comment comment = snapshot.getValue(Comment.class);
+                for (DataSnapshot commentSnapshot : dataSnapshot.getChildren()) {
+                    Comment comment = commentSnapshot.getValue(Comment.class);
                     if (comment != null) {
-                        comment.setKey(snapshot.getKey());
-                        View customView = getLayoutInflater().inflate(R.layout.custom_comment, null);
-                        ((TextView) customView.findViewById(R.id.cmt_userid_tv)).setText(comment.getUserid());
-                        ((TextView) customView.findViewById(R.id.cmt_content_tv)).setText(comment.getContent());
+                        comment.setKey(commentSnapshot.getKey());
+                        View commentView = getLayoutInflater().inflate(R.layout.custom_comment, null);
+                        ((TextView) commentView.findViewById(R.id.cmt_userid_tv)).setText(comment.getUserid());
+                        ((TextView) commentView.findViewById(R.id.cmt_content_tv)).setText(comment.getContent());
                         String timestamp = comment.getTimestamp();
                         if (timestamp != null && !timestamp.isEmpty()) {
-                            ((TextView) customView.findViewById(R.id.cmt_date_tv)).setText(timestamp);
+                            ((TextView) commentView.findViewById(R.id.cmt_date_tv)).setText(timestamp);
                         }
 
-                        comment_layout.addView(customView); // 댓글 추가
+                        comment_layout.addView(commentView); // 댓글 추가
+
+                        // 대댓글 로드하는 메서드 호출
+                        loadReplies(board_seq, comment.getKey(), (LinearLayout) commentView);
                     }
                 }
             }
@@ -180,62 +168,129 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
     }
-    // getCurrentTimestamp() 메서드를 사용하여 현재 시간을 문자열로 반환하는 함수
+
+    private void setupReplyButton(View customView, String commentKey) {
+        Button replyButton = customView.findViewById(R.id.reply_button); // 대댓글 버튼 참조
+        replyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v(TAG, "대댓글 버튼이 눌렸습니다.");
+                showReplyDialog(commentKey); // 대댓글 다이얼로그 표시
+            }
+        });
+    }
+
+
     private String getCurrentTimestamp() {
-        // 현재 시간을 가져오는 코드
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         Date currentDate = new Date();
         return dateFormat.format(currentDate);
     }
 
-    // 각 댓글에 대한 대댓글 버튼 리스너 설정 메서드
-    private void setReplyButtonListeners(String board_seq) {
+    // 대댓글 입력 다이얼로그 표시
+    // 대댓글 입력 다이얼로그 표시
+    private void showReplyDialog(String commentKey) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_reply, null);
+        dialogBuilder.setView(dialogView);
+
+        EditText replyEditText = dialogView.findViewById(R.id.reply_edit_text);
+        Button confirmButton = dialogView.findViewById(R.id.confirm_button);
+
+        AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
+
+        confirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String replyContent = replyEditText.getText().toString().trim();
+                if (!replyContent.isEmpty()) {
+                    saveReply(commentKey, replyContent, dialog); // 대댓글을 Firebase에 저장
+                } else {
+                    replyEditText.setError("대댓글 내용을 입력하세요.");
+                }
+            }
+        });
+    }
+
+
+    // 대댓글을 Firebase에 저장하는 함수
+    // 대댓글을 Firebase에 저장하는 함수
+    private void saveReply(String commentKey, String replyContent, AlertDialog dialog) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference commentsRef = database.getReference("boards")
                 .child(board_seq)
-                .child("comments");
+                .child("comments")
+                .child(commentKey)
+                .child("replies"); // 대댓글 저장 위치
 
-        commentsRef.addValueEventListener(new ValueEventListener() {
+        String replyKey = commentsRef.push().getKey(); // 대댓글에 대한 고유한 키 생성
+        if (replyKey != null) {
+            String currentTime = getCurrentTimestamp();
+            Reply newReply = new Reply(userid, replyContent);
+            newReply.setTimestamp(currentTime); // 대댓글 작성 시간 추가
+
+            commentsRef.child(replyKey).setValue(newReply) // 대댓글 데이터 저장
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.v(TAG, "대댓글 저장 성공.");
+                                // 대댓글을 Firebase에 저장한 후 화면을 갱신하여 대댓글을 표시하는 메서드 호출
+                                loadReplies(board_seq, commentKey, comment_layout); // loadReplies 메서드를 호출하여 대댓글 표시
+                                dialog.dismiss(); // 다이얼로그 닫기
+                            } else {
+                                Log.e(TAG, "대댓글 저장 실패.", task.getException());
+                            }
+                        }
+                    });
+        } else {
+            Log.e(TAG, "키 생성에 실패하여 대댓글을 저장할 수 없다.");
+        }
+    }
+
+
+    // 대댓글을 Firebase에서 불러오는 함수
+    private void loadReplies(String board_seq, String commentKey, LinearLayout commentLayout) {
+        DatabaseReference repliesRef = FirebaseDatabase.getInstance().getReference("boards")
+                .child(board_seq)
+                .child("comments")
+                .child(commentKey)
+                .child("replies"); // 대댓글 노드에 저장된 대댓글 불러오기
+
+        repliesRef.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("MissingInflatedId")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                comment_layout.removeAllViews(); // 기존 댓글 제거
+                LinearLayout replyLayout = new LinearLayout(DetailActivity.this);
+                replyLayout.setOrientation(LinearLayout.VERTICAL);
 
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Comment comment = snapshot.getValue(Comment.class);
-                    if (comment != null) {
-                        View customView = getLayoutInflater().inflate(R.layout.custom_comment, null);
-                        ((TextView) customView.findViewById(R.id.cmt_userid_tv)).setText(comment.getUserid());
-                        ((TextView) customView.findViewById(R.id.cmt_content_tv)).setText(comment.getContent());
-                        String timestamp = comment.getTimestamp();
+                commentLayout.addView(replyLayout); // 새로운 LinearLayout을 댓글 레이아웃에 추가
+
+                for (DataSnapshot replySnapshot : dataSnapshot.getChildren()) {
+                    Reply reply = replySnapshot.getValue(Reply.class);
+                    if (reply != null) {
+                        // 대댓글 레이아웃을 인플레이트하여 작성자의 아이디를 설정하는 부분
+                        View replyView = getLayoutInflater().inflate(R.layout.custom_comment, null);
+                        ((TextView) replyView.findViewById(R.id.reply_userid_tv)).setText(reply.getUserid()); // 대댓글 작성자의 아이디 설정
+                        ((TextView) replyView.findViewById(R.id.reply_content_tv)).setText(reply.getContent());
+                        String timestamp = reply.getTimestamp();
                         if (timestamp != null && !timestamp.isEmpty()) {
-                            ((TextView) customView.findViewById(R.id.cmt_date_tv)).setText(timestamp);
+                            ((TextView) replyView.findViewById(R.id.reply_date_tv)).setText(timestamp);
                         }
 
-                        Button replyButton = customView.findViewById(R.id.reply_button); // 대댓글 버튼 참조
-                        replyButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Log.v(TAG, "대댓글 버튼이 눌렸습니다.");
-                                String replyContent = replyEditText.getText().toString().trim();
-                                if (!replyContent.isEmpty()) {
-                                    //saveReply(userid, replyContent, board_seq, comment.getKey()); // 대댓글을 Firebase에 저장
-                                    // Clear the EditText after saving the reply
-                                    replyEditText.setText("");
-                                } else {
-                                    // 대댓글 내용이 비어 있을 때 사용자에게 알림을 표시하거나 처리할 내용을 추가할 수 있습니다.
-                                }
-                            }
-                        });
-
-                        comment_layout.addView(customView); // 댓글과 대댓글 버튼 추가
+                        replyLayout.addView(replyView); // 대댓글 추가
                     }
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("DetailActivity", "Error fetching comments", databaseError.toException());
+                Log.e("DetailActivity", "Error fetching replies", databaseError.toException());
             }
         });
     }
+
+
 }
