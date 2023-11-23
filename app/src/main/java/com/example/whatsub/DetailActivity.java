@@ -1,390 +1,310 @@
 package com.example.whatsub;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.net.Uri;
-import android.os.AsyncTask;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class DetailActivity extends AppCompatActivity {
 
-    // 로그에 사용할 TAG
-    final private String TAG = getClass().getSimpleName();
+    DatabaseReference boardsRef;
 
-    // 사용할 컴포넌트 선언
     TextView title_tv, content_tv, date_tv;
     LinearLayout comment_layout;
     EditText comment_et;
-    Button reg_button;
 
-    // 선택한 게시물의 번호
     String board_seq = "";
-
-    // 유저아이디 변수
     String userid = "";
+
+    private EditText replyEditText; // 대댓글을 입력받을 EditText 변수
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-// ListActivity 에서 넘긴 변수들을 받아줌
-        board_seq = getIntent().getStringExtra("board_seq");
-        userid = getIntent().getStringExtra("userid");
-
-// 컴포넌트 초기화
         title_tv = findViewById(R.id.title_tv);
         content_tv = findViewById(R.id.content_tv);
         date_tv = findViewById(R.id.date_tv);
-
         comment_layout = findViewById(R.id.comment_layout);
         comment_et = findViewById(R.id.comment_et);
-        reg_button = findViewById(R.id.reg_button);
 
-// 등록하기 버튼을 눌렀을 때 댓글 등록 함수 호출
-        reg_button.setOnClickListener(new View.OnClickListener() {
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_reply, null);
+        replyEditText = dialogView.findViewById(R.id.reply_edit_text); // 대댓글 입력
+
+        board_seq = getIntent().getStringExtra("board_seq");
+        userid = getIntent().getStringExtra("userid");
+
+        // Firebase 데이터베이스 초기화
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        boardsRef = database.getReference("boards").child(board_seq);
+
+        // 댓글 불러오기
+        loadComments(board_seq);
+
+        boardsRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View view) {
-                RegCmt regCmt = new RegCmt();
-                regCmt.execute(userid, comment_et.getText().toString(), board_seq);
-            }
-        });
-
-// 해당 게시물의 데이터 불러오기
-        InitData();
-
-    }
-
-    private void InitData(){
-
-// 해당 게시물의 데이터를 읽어오는 함수, 파라미터로 보드 번호를 넘김
-        LoadBoard loadBoard = new LoadBoard();
-        loadBoard.execute(board_seq);
-
-    }
-
-    class LoadBoard extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            Log.d(TAG, "onPreExecute");
-        }
-
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            Log.d(TAG, "onPostExecute, " + result);
-            try {
-// 결과값이 JSONArray 형태로 넘어오기 때문에
-// JSONArray, JSONObject 를 사용해서 파싱
-                JSONArray jsonArray = null;
-                jsonArray = new JSONArray(result);
-
-                for(int i=0;i<jsonArray.length();i++){
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-// Database 의 데이터들을 변수로 저장한 후 해당 TextView 에 데이터 입력
-                    String title = jsonObject.optString("title");
-                    String content = jsonObject.optString("content");
-                    String crt_dt = jsonObject.optString("crt_dt");
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String title = dataSnapshot.child("title").getValue(String.class);
+                    String content = dataSnapshot.child("content").getValue(String.class);
+                    String crt_dt = dataSnapshot.child("currentDate").getValue(String.class);
 
                     title_tv.setText(title);
                     content_tv.setText(content);
                     date_tv.setText(crt_dt);
-
+                    Log.v(TAG, "Title: " + title_tv.getText().toString());
+                    Log.v(TAG, "Content: " + content_tv.getText().toString());
+                    Log.v(TAG, "Date: " + date_tv.getText().toString());
                 }
-
-// 해당 게시물에 대한 댓글 불러오는 함수 호출, 파라미터로 게시물 번호 넘김
-                LoadCmt loadCmt = new LoadCmt();
-                loadCmt.execute(board_seq);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("DetailActivity", "Error fetching board details", databaseError.toException());
+            }
+        });
+
+        Button reg_button = findViewById(R.id.reg_button);
+        reg_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String commentContent = comment_et.getText().toString().trim();
+                if (!commentContent.isEmpty()) {
+                    Log.v(TAG, "Attempting to save comment: " + board_seq);
+                    saveComment(userid, commentContent, board_seq); // 댓글 저장
+                    comment_et.setText(""); // 입력창 초기화
+                }
+            }
+        });
+    }
+
+    private void saveComment(String userid, String content, String board_seq) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference commentsRef = database.getReference("boards")
+                .child(board_seq)
+                .child("comments"); // comments 노드를 만들어 댓글 저장
+
+        String commentKey = commentsRef.push().getKey(); // 댓글에 대한 고유한 키 생성
+        if (commentKey != null) {
+            String currentTime = getCurrentTimestamp();
+            Comment newComment = new Comment(userid, content);
+            newComment.setTimestamp(currentTime); // 댓글 작성 시간 추가
+
+            commentsRef.child(commentKey).setValue(newComment) // 댓글 데이터 저장
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.v(TAG, "댓글 저장 성공.");
+                            } else {
+                                Log.e(TAG, "댓글 저장 실패.", task.getException());
+                            }
+                        }
+                    });
+        } else {
+            Log.e(TAG, "키 생성에 실패하여 댓글을 저장할 수 없다.");
         }
+    }
 
+    private void loadComments(String board_seq) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference commentsRef = database.getReference("boards")
+                .child(board_seq)
+                .child("comments"); // comments 노드에 저장된 댓글과 대댓글 불러오기
 
-        @Override
-        protected String doInBackground(String... params) {
+        commentsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                comment_layout.removeAllViews(); // 기존 댓글 제거
 
-            String board_seq = params[0];
+                for (DataSnapshot commentSnapshot : dataSnapshot.getChildren()) {
+                    Comment comment = commentSnapshot.getValue(Comment.class);
+                    if (comment != null) {
+                        comment.setKey(commentSnapshot.getKey());
+                        View commentView = getLayoutInflater().inflate(R.layout.custom_comment, null);
+                        TextView userIdTextView = commentView.findViewById(R.id.cmt_userid_tv);
+                        TextView contentTextView = commentView.findViewById(R.id.cmt_content_tv);
+                        TextView dateTextView = commentView.findViewById(R.id.cmt_date_tv);
 
-// 호출할 php 파일 경로
-            String server_url = "http://15.164.252.136/load_board_detail.php";
+                        if (userIdTextView != null) {
+                            userIdTextView.setText(comment.getUserid());
+                        }
+                        if (contentTextView != null) {
+                            contentTextView.setText(comment.getContent());
+                        }
+                        String timestamp = comment.getTimestamp();
+                        if (dateTextView != null && timestamp != null && !timestamp.isEmpty()) {
+                            dateTextView.setText(timestamp);
+                        }
 
+                        // 여기서부터는 대댓글 관련 처리가 이어지는 부분입니다.
 
-            URL url;
-            String response = "";
-            try {
-                url = new URL(server_url);
+                        // 대댓글 작성 버튼 설정
+                        setupReplyButton(commentView, comment.getKey());
 
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(15000);
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-                Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("board_seq", board_seq);
-                String query = builder.build().getEncodedQuery();
+                        comment_layout.addView(commentView); // 댓글 추가
 
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(query);
-                writer.flush();
-                writer.close();
-                os.close();
-
-                conn.connect();
-                int responseCode=conn.getResponseCode();
-
-                if (responseCode == HttpsURLConnection.HTTP_OK) {
-                    String line;
-                    BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    while ((line=br.readLine()) != null) {
-                        response+=line;
+                        // 대댓글 로드하는 메서드 호출
+                        loadReplies(board_seq, comment.getKey(), (LinearLayout) commentView);
                     }
                 }
-                else {
-                    response="";
-
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
 
-            return response;
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("DetailActivity", "Error fetching comments", databaseError.toException());
+            }
+        });
+    }
+
+
+    private void setupReplyButton(View customView, String commentKey) {
+        Button replyButton = customView.findViewById(R.id.reply_button); // 대댓글 버튼 참조
+        replyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v(TAG, "대댓글 버튼이 눌렸습니다.");
+                showReplyDialog(commentKey); // 대댓글 다이얼로그 표시
+            }
+        });
+    }
+
+
+    private String getCurrentTimestamp() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date currentDate = new Date();
+        return dateFormat.format(currentDate);
+    }
+
+
+    // 대댓글 입력 다이얼로그 표시
+    private void showReplyDialog(String commentKey) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_reply, null);
+        dialogBuilder.setView(dialogView);
+
+        EditText replyEditText = dialogView.findViewById(R.id.reply_edit_text);
+        Button confirmButton = dialogView.findViewById(R.id.confirm_button);
+
+        AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
+
+        confirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String replyContent = replyEditText.getText().toString().trim();
+                if (!replyContent.isEmpty()) {
+                    saveReply(commentKey, replyContent, dialog); // 대댓글을 Firebase에 저장
+                } else {
+                    replyEditText.setError("대댓글 내용을 입력하세요.");
+                }
+            }
+        });
+    }
+
+
+
+
+    // 대댓글을 Firebase에 저장하는 함수
+    private void saveReply(String commentKey, String replyContent, AlertDialog dialog) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference commentsRef = database.getReference("boards")
+                .child(board_seq)
+                .child("comments")
+                .child(commentKey)
+                .child("replies"); // 대댓글 저장 위치
+
+        String replyKey = commentsRef.push().getKey(); // 대댓글에 대한 고유한 키 생성
+        if (replyKey != null) {
+            String currentTime = getCurrentTimestamp();
+            Reply newReply = new Reply(userid, replyContent);
+            newReply.setTimestamp(currentTime); // 대댓글 작성 시간 추가
+
+            commentsRef.child(replyKey).setValue(newReply) // 대댓글 데이터 저장
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.v(TAG, "대댓글 저장 성공.");
+                                // 대댓글을 Firebase에 저장한 후 화면을 갱신하여 대댓글을 표시하는 메서드 호출
+                                loadReplies(board_seq, commentKey, comment_layout); // loadReplies 메서드를 호출하여 대댓글 표시
+                                dialog.dismiss(); // 다이얼로그 닫기
+                            } else {
+                                Log.e(TAG, "대댓글 저장 실패.", task.getException());
+                            }
+                        }
+                    });
+        } else {
+            Log.e(TAG, "키 생성에 실패하여 대댓글을 저장할 수 없다.");
         }
     }
 
 
-    // 게시물의 댓글을 읽어오는 함수
-    class LoadCmt extends AsyncTask<String, Void, String> {
+    // 대댓글을 Firebase에서 불러오는 함수
+    private void loadReplies(String board_seq, String commentKey, LinearLayout commentLayout) {
+        DatabaseReference repliesRef = FirebaseDatabase.getInstance().getReference("boards")
+                .child(board_seq)
+                .child("comments")
+                .child(commentKey)
+                .child("replies"); // 대댓글 노드에 저장된 대댓글 불러오기
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+        repliesRef.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("MissingInflatedId")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                LinearLayout replyLayout = new LinearLayout(DetailActivity.this);
+                replyLayout.setOrientation(LinearLayout.VERTICAL);
 
-            Log.d(TAG, "onPreExecute");
-        }
+                commentLayout.addView(replyLayout); // 새로운 LinearLayout을 댓글 레이아웃에 추가
 
+                for (DataSnapshot replySnapshot : dataSnapshot.getChildren()) {
+                    Reply reply = replySnapshot.getValue(Reply.class);
+                    if (reply != null) {
+                        // 대댓글 레이아웃을 인플레이트하여 작성자의 아이디를 설정하는 부분
+                        View replyView = getLayoutInflater().inflate(R.layout.reply, null);
+                        ((TextView) replyView.findViewById(R.id.reply_userid_tv)).setText(reply.getUserid()); // 대댓글 작성자의 아이디 설정
+                        ((TextView) replyView.findViewById(R.id.reply_content_tv)).setText(reply.getContent());
+                        String timestamp = reply.getTimestamp();
+                        if (timestamp != null && !timestamp.isEmpty()) {
+                            ((TextView) replyView.findViewById(R.id.reply_date_tv)).setText(timestamp);
+                        }
 
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            Log.d(TAG, "onPostExecute, " + result);
-
-// 댓글을 뿌릴 LinearLayout 자식뷰 모두 제거
-            comment_layout.removeAllViews();
-
-            try {
-
-// JSONArray, JSONObject 로 받은 데이터 파싱
-                JSONArray jsonArray = null;
-                jsonArray = new JSONArray(result);
-
-// custom_comment 를 불러오기 위한 객체
-                LayoutInflater layoutInflater = LayoutInflater.from(DetailActivity.this);
-
-                for(int i=0;i<jsonArray.length();i++){
-
-// custom_comment 의 디자인을 불러와서 사용
-                    View customView = layoutInflater.inflate(R.layout.custom_comment, null);
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                    String userid= jsonObject.optString("userid");
-                    String content = jsonObject.optString("content");
-                    String crt_dt = jsonObject.optString("crt_dt");
-
-                    ((TextView)customView.findViewById(R.id.cmt_userid_tv)).setText(userid);
-                    ((TextView)customView.findViewById(R.id.cmt_content_tv)).setText(content);
-                    ((TextView)customView.findViewById(R.id.cmt_date_tv)).setText(crt_dt);
-
-// 댓글 레이아웃에 custom_comment 의 디자인에 데이터를 담아서 추가
-                    comment_layout.addView(customView);
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            String board_seq = params[0];
-            String server_url = "http://15.164.252.136/load_cmt.php";
-
-
-            URL url;
-            String response = "";
-            try {
-                url = new URL(server_url);
-
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(15000);
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-                Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("board_seq", board_seq);
-                String query = builder.build().getEncodedQuery();
-
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(query);
-                writer.flush();
-                writer.close();
-                os.close();
-
-                conn.connect();
-                int responseCode=conn.getResponseCode();
-
-                if (responseCode == HttpsURLConnection.HTTP_OK) {
-                    String line;
-                    BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    while ((line=br.readLine()) != null) {
-                        response+=line;
+                        replyLayout.addView(replyView); // 대댓글 추가
                     }
                 }
-                else {
-                    response="";
-
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
 
-            return response;
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("DetailActivity", "Error fetching replies", databaseError.toException());
+            }
+        });
     }
 
-    // 댓글을 등록하는 함수
-    class RegCmt extends AsyncTask<String, Void, String> {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            Log.d(TAG, "onPreExecute");
-        }
-
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            Log.d(TAG, "onPostExecute, " + result);
-
-// 결과값이 성공으로 나오면
-            if(result.equals("success")){
-
-//댓글 입력창의 글자는 공백으로 만듦
-                comment_et.setText("");
-
-// 소프트 키보드 숨김처리
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(comment_et.getWindowToken(), 0);
-
-// 토스트메시지 출력
-                Toast.makeText(DetailActivity.this, "댓글이 등록되었습니다.", Toast.LENGTH_SHORT).show();
-
-// 댓글 불러오는 함수 호출
-                LoadCmt loadCmt = new LoadCmt();
-                loadCmt.execute(board_seq);
-            }else
-            {
-                Toast.makeText(DetailActivity.this, result, Toast.LENGTH_SHORT).show();
-            }
-        }
-
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            String userid = params[0];
-            String content = params[1];
-            String board_seq = params[2];
-
-            String server_url = "http://15.164.252.136/reg_comment.php";
-
-
-            URL url;
-            String response = "";
-            try {
-                url = new URL(server_url);
-
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(15000);
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-                Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("userid", userid)
-                        .appendQueryParameter("content", content)
-                        .appendQueryParameter("board_seq", board_seq);
-                String query = builder.build().getEncodedQuery();
-
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(query);
-                writer.flush();
-                writer.close();
-                os.close();
-
-                conn.connect();
-                int responseCode=conn.getResponseCode();
-
-                if (responseCode == HttpsURLConnection.HTTP_OK) {
-                    String line;
-                    BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    while ((line=br.readLine()) != null) {
-                        response+=line;
-                    }
-                }
-                else {
-                    response="";
-
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return response;
-        }
-    }
 }

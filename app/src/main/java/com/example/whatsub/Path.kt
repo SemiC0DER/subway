@@ -4,78 +4,7 @@ data class Edge(val destination: Int, val time: Int, val distance: Int, val cost
 
 data class DijkstraResult(val distance: Int, val path: List<Int>)
 
-fun addEdge(graph: Array<MutableList<Edge>>, start: Int, end: Int, time: Int, distance: Int, cost: Int) {
-    graph[start].add(Edge(end, time, distance, cost))
-    graph[end].add(Edge(start, time, distance, cost))
-    //println("Added edge: $start -> $end (Time: $time, Distance: $distance, Cost: $cost)")
-}
-
-fun dijkstra(graph: Array<MutableList<Edge>>, start: Int, end: Int, criteria: String): DijkstraResult {
-    val n = graph.size
-    val dist = IntArray(n) { Int.MAX_VALUE }
-    val prev = IntArray(n) { -1 }
-    val visited = BooleanArray(n)
-
-    val comparator: Comparator<Int> = when (criteria) {
-        "time" -> compareBy { dist[it] }
-        "distance" -> compareBy { dist[it] }
-        "cost" -> compareBy { dist[it] }
-        else -> compareBy { dist[it] }
-    }
-
-    dist[start] = 0
-
-    for (i in 0 until n) {
-        var minDist = Int.MAX_VALUE
-        var u = -1
-
-        for (v in 0 until n) {
-            if (!visited[v] && dist[v] < minDist) {
-                u = v
-                minDist = dist[v]
-            }
-        }
-
-// u가 -1이면 모든 정점을 방문한 것이므로 종료
-        if (u == -1) break
-
-// 방문 표시
-        visited[u] = true
-
-// u에 인접한 정점들에 대한 갱신 로직은 그대로 유지
-        for (edge in graph[u]) {
-            val v = edge.destination
-            val weight = when (criteria) {
-                "time" -> edge.time
-                "distance" -> edge.distance
-                "cost" -> edge.cost
-                else -> edge.time
-            }
-            if (!visited[v] && dist[u] + weight < dist[v]) {
-                dist[v] = dist[u] + weight
-                prev[v] = u
-            }
-        }
-    }
-
-    val path = mutableListOf<Int>()
-    var current = end
-    while (current != -1) {
-        path.add(current)
-        current = prev[current]
-    }
-    path.reverse()
-
-    return DijkstraResult(dist[end], path)
-}
-
-
-
-
-
-
-fun main() {
-    val stationNames = """
+val stationNames = """
         101
         102
         103
@@ -187,7 +116,7 @@ fun main() {
         903
         904
     """
-    val edgesData = """
+val edgesData = """
         101 102 200 500 200
         102 103 300 400 300
         103 104 1000 600 500
@@ -329,17 +258,17 @@ fun main() {
         621 211 300 400 440
     """.trimIndent()
 
-    // 중복 제거하고 매핑
-    val stationMap = stationNames.split("\n")
-        .mapNotNull { it.trim().takeIf { it.isNotEmpty() } }
-        .distinct()
-        .mapIndexed { index, name -> name to index }
-        .toMap()
+// 중복 제거하고 매핑
+val stationMap = stationNames.split("\n")
+    .mapNotNull { it.trim().takeIf { it.isNotEmpty() } }
+    .distinct()
+    .mapIndexed { index, name -> name to index }
+    .toMap()
 
-    val n = stationMap.size
-    val graph = Array(n) { mutableListOf<Edge>() }
+val n = stationMap.size
+val graph = Array(n) { mutableListOf<Edge>() }
 
-    // 간선 정보 추가
+fun setGraph(){
     edgesData.split("\n").forEach { line ->
         val (start, end, time, distance, cost) = line.split(" ").map { it.toInt() }
         stationMap[start.toString()]?.let {
@@ -349,7 +278,80 @@ fun main() {
             }
         }
     }
+}
+fun addEdge(graph: Array<MutableList<Edge>>, start: Int, end: Int, time: Int, distance: Int, cost: Int) {
+    graph[start].add(Edge(end, time, distance, cost))
+    graph[end].add(Edge(start, time, distance, cost))
+    //println("Added edge: $start -> $end (Time: $time, Distance: $distance, Cost: $cost)")
+}
 
+fun dijkstra(graph: Array<MutableList<Edge>>, start: Int, end: Int, criteria: String): DijkstraResult {
+    val n = graph.size
+    val dist = IntArray(n) { Int.MAX_VALUE }
+    val prev = IntArray(n) { -1 }
+    val visited = BooleanArray(n)
+
+    val comparator: Comparator<Int> = when (criteria) {
+        "time" -> compareBy { dist[it] }
+        "distance" -> compareBy { dist[it] }
+        "cost" -> compareBy { dist[it] }
+        else -> compareBy { dist[it] }
+    }
+
+    dist[start] = 0
+
+    for (i in 0 until n) {
+        var minDist = Int.MAX_VALUE
+        var u = -1
+
+        for (v in 0 until n) {
+            if (!visited[v] && dist[v] < minDist) {
+                u = v
+                minDist = dist[v]
+            }
+        }
+
+// u가 -1이면 모든 정점을 방문한 것이므로 종료
+        if (u == -1) break
+
+// 방문 표시
+        visited[u] = true
+
+// u에 인접한 정점들에 대한 갱신 로직은 그대로 유지
+        for (edge in graph[u]) {
+            val v = edge.destination
+            val weight = when (criteria) {
+                "time" -> edge.time
+                "distance" -> edge.distance
+                "cost" -> edge.cost
+                else -> edge.time
+            }
+            if (!visited[v] && dist[u] + weight < dist[v]) {
+                dist[v] = dist[u] + weight
+                prev[v] = u
+            }
+        }
+    }
+
+    val path = mutableListOf<Int>()
+    var current = end
+    while (current != -1) {
+        path.add(current)
+        current = prev[current]
+    }
+    path.reverse()
+
+    return DijkstraResult(dist[end], path)
+}
+
+
+
+
+
+
+fun main() {
+
+    setGraph()
     // 출발역과 도착역 입력 이 부분 연결
     val startStationName = "102" // 출발역 이름 입력
     val endStationName = "109" // 도착역 이름 입력
@@ -359,6 +361,15 @@ fun main() {
 
 
     val criteria = "time" // "time", "distance", "cost" 중 하나 선택
+    /*
+    if (startStation != -1 && endStation != -1) {
+        val timeResult = dijkstra(graph, startStation, endStation, "time")
+        val distResult = dijkstra(graph, startStation, endStation, "distance")
+        val costResult = dijkstra(graph, startStation, endStation, "cost")
+
+        //print 함수 필요 <- 여기에 연결
+    }
+     */
 
     //이 부분 연결
     if (startStation != -1 && endStation != -1) {

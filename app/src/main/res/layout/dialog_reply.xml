@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialogLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:visibility="visible"
+    android:background="@android:color/white"
+    android:elevation="8dp"
+    android:layout_margin="20dp"
+    android:layout_gravity="center">
+
+    <EditText
+        android:id="@+id/reply_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="대댓글을 입력하세요"
+        android:inputType="textMultiLine"
+        android:minLines="3"
+        android:gravity="start|top"
+        android:textColor="#000000"
+        android:textColorHint="#000000"
+        android:padding="8dp" />
+
+    <Button
+        android:id="@+id/confirm_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:text="확인" />
+</LinearLayout>

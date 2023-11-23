@@ -18,7 +18,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textStyle="bold"
-            android:text="userid" />
+            android:text="userid"
+            android:textColor="#000000"/>
 
         <TextView
             android:id="@+id/cmt_date_tv"
@@ -26,7 +27,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="date" />
+            android:text="date"
+            android:textColor="#000000"/>
+
+
 
     </LinearLayout>
 
@@ -36,10 +40,15 @@
         android:textColor="#333333"
         android:layout_height="wrap_content"
         android:text="content" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_margin="16dp"
-        android:background="#000000"
-        />
+
+    <Button
+        android:id="@+id/reply_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="대댓글 쓰기"
+        android:layout_gravity="end"/>
+
+
+
+
 </LinearLayout>

@@ -35,6 +35,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="제목입니다."
+                    android:textColor="#000000"
                     />
             </LinearLayout>
             <LinearLayout
@@ -55,7 +56,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="제목입니다."
+                    android:text="작성일입니다."
+                    android:textColor="#000000"
                     />
             </LinearLayout>
             <TextView
@@ -71,6 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="내용입니다."
+                android:textColor="#000000"
                 />
 
             <TextView
@@ -86,6 +89,18 @@
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:orientation="vertical"/>
+
+            <LinearLayout
+                android:id="@+id/reply_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="8dp"
+                android:visibility="visible"
+                android:layout_marginTop="8dp"/>
+
         </LinearLayout>
     </ScrollView>
     <LinearLayout
@@ -100,7 +115,9 @@
             android:layout_height="wrap_content"
             android:background="#eeeeee"
             android:layout_weight="1"
-            android:hint="댓글 내용을 입력하세요"/>
+            android:hint="댓글 내용을 입력하세요"
+            android:textColorHint="#000000"
+            android:textColor="#000000"/>
         <Button
             android:id="@+id/reg_button"
             android:layout_width="wrap_content"
