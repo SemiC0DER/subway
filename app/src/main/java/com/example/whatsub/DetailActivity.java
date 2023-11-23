@@ -120,6 +120,8 @@ public class DetailActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
                                 Log.v(TAG, "댓글 저장 성공.");
+                                // 댓글을 저장한 후, 화면을 갱신하여 댓글을 표시하는 메서드 호출
+                                loadComments(board_seq); // loadComments 메서드를 호출하여 댓글 표시
                             } else {
                                 Log.e(TAG, "댓글 저장 실패.", task.getException());
                             }
@@ -129,6 +131,7 @@ public class DetailActivity extends AppCompatActivity {
             Log.e(TAG, "키 생성에 실패하여 댓글을 저장할 수 없다.");
         }
     }
+
 
     private void loadComments(String board_seq) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -294,6 +297,9 @@ public class DetailActivity extends AppCompatActivity {
                             ((TextView) replyView.findViewById(R.id.reply_date_tv)).setText(timestamp);
                         }
 
+                        // 대댓글 레이아웃의 백그라운드 설정
+                        replyView.setBackgroundResource(R.drawable.background_drawable); // background_drawable은 원하는 모양의 백그라운드 리소스 파일입니다.
+
                         replyLayout.addView(replyView); // 대댓글 추가
                     }
                 }
@@ -305,6 +311,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
     }
+
 
 
 }
