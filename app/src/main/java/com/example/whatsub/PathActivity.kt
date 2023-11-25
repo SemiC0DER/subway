@@ -354,7 +354,7 @@ class PathActivity : AppCompatActivity(){
         return DijkstraResult(timeDist[end], distanceDist[end], costDist[end], path)
     }//우선순위 큐를 사용한 다익스트라 길찾기 함수
 
-    fun printStationNames(path: List<Int>): String {
+    fun printStationNames(path: List<Int>): String { //텍스트 형식으로 역들의 목록과 환승지점을 반환하는 함수
         var printstation = ""
         printstation += "역 목록:"
         for (i in path.indices) {
@@ -375,7 +375,7 @@ class PathActivity : AppCompatActivity(){
         return printstation
     }
 
-    fun printResult(result: DijkstraResult): String {
+    fun printResult(result: DijkstraResult): String { //텍스트 형식으로 총시간, 총거리, 총비용을 반환하는 함수
         var printresult = ""
         val time = result.time
         val dist = result.distance
