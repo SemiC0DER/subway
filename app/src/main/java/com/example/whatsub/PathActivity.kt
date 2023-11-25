@@ -398,8 +398,9 @@ class PathActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_page)
+        setContentView(R.layout.activity_finded_load)
 
+        setGraph()
         val startstation: Button = findViewById(R.id.start_station)
         val deststation: Button = findViewById(R.id.destination_station)
         val findroad: Button = findViewById(R.id.find_road)
