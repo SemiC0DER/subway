@@ -1,5 +1,8 @@
 package com.example.whatsub
 
+import android.os.Bundle
+import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 
@@ -272,7 +275,7 @@ class PathActivity : AppCompatActivity(){
 
     val graph = Array(stationMap.size) { mutableListOf<Edge>() }//역 갯수로 그래프 초기화
 
-    fun setGraph(){//그래프에 모든 간선 정보를 담는 함수
+    fun setGraph(){
         edgesData.split("\n").forEach { line ->
             val (start, end, time, distance, cost) = line.split(" ").map { it.toInt() }
             stationMap[start.toString()]?.let {
@@ -281,14 +284,15 @@ class PathActivity : AppCompatActivity(){
                 }
             }
         }
-    }
-    fun addEdge(graph: Array<MutableList<Edge>>, start: Int, end: Int, time: Int, distance: Int, cost: Int) {//간선 정보 입력 함수
+    }//그래프에 모든 간선 정보를 담는 함수
+
+    fun addEdge(graph: Array<MutableList<Edge>>, start: Int, end: Int, time: Int, distance: Int, cost: Int) {
         graph[start].add(Edge(end, time, distance, cost))
         graph[end].add(Edge(start, time, distance, cost))//일방향 그래프로 바꿀시 삭제
         //println("Added edge: $start -> $end (Time: $time, Distance: $distance, Cost: $cost)") //정보가 올바르게 입력되었는지 테스트하는 코드
-    }
+    }//간선 정보 입력 함수
 
-    fun dijkstra(graph: Array<MutableList<Edge>>, start: Int, end: Int, criteria: String): DijkstraResult {//우선순위 힙을 사용한 다익스트라 길찾기 함수
+    fun dijkstra(graph: Array<MutableList<Edge>>, start: Int, end: Int, criteria: String): DijkstraResult {//우선순위 큐를 사용한 다익스트라 길찾기 함수
         val n = graph.size
         val timeDist = IntArray(n) { Int.MAX_VALUE }
         val distanceDist = IntArray(n) { Int.MAX_VALUE }
@@ -348,12 +352,11 @@ class PathActivity : AppCompatActivity(){
         path.reverse()
 
         return DijkstraResult(timeDist[end], distanceDist[end], costDist[end], path)
-    }
+    }//우선순위 큐를 사용한 다익스트라 길찾기 함수
 
-
-
-    fun printStationNames(path: List<Int>) {
-        println("역 목록:")
+    fun printStationNames(path: List<Int>): String {
+        var printstation = ""
+        printstation += "역 목록:"
         for (i in path.indices) {
             val stationIndex = path[i]
             val stationName = stationNames.split("\n")[stationIndex + 1].substring(8, 11)//stationNames에 공백이 있으므로 +1, 인덱스 8부터 10까지 문자열이 저장되므로 공백 제거
@@ -364,62 +367,76 @@ class PathActivity : AppCompatActivity(){
                 if (stationName[0] != prevStationName[0] && prevStationName[0] != nextStationName[0]) {
                     if (!(stationName[0] != nextStationName[0]))
                         if(stationName != "417")//조건을 만족하더라도 이 역에서는 환승이 아님
-                            println("환승")
+                            printstation += "\n환승"
                 }
             }
-            println("역: ${stationName}")
+            printstation += "\n역: ${stationName}"
         }
+        return printstation
     }
 
-    fun printResult(result: DijkstraResult) {
+    fun printResult(result: DijkstraResult): String {
+        var printresult = ""
         val time = result.time
         val dist = result.distance
         val cost = result.cost
 
 
         if (time / 3600 > 0)
-            print("${time / 3600}시간 ${(time % 3600) / 60}분")
+            printresult += "${time / 3600}시간 ${(time % 3600) / 60}분"
         else
-            print("${(time / 60)}분")
+            printresult += "${(time / 60)}분"
 
         if (dist / 1000 > 0)
-            print(" ${dist / 1000}km ${(dist % 1000)}m")
+            printresult += " ${dist / 1000}km ${(dist % 1000)}m"
         else
-            print(" ${dist}m")
+            printresult += " ${dist}m"
 
-        println(" ${cost}원")
+        printresult += " ${cost}원"
+        return printresult
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_finded_load)
+        setContentView(R.layout.activity_main_page)
 
+        val startstation: Button = findViewById(R.id.start_station)
+        val deststation: Button = findViewById(R.id.destination_station)
+        val findroad: Button = findViewById(R.id.find_road)
+        var startText = ""
+        var destText = ""
+        startstation.setOnClickListener{
+            startText = startstation.text.toString()
+        }
 
-    fun main() {
+        deststation.setOnClickListener{
+            destText = deststation.text.toString()
+        }
 
-        setGraph()
-        // 출발역과 도착역 사용자 입력
-        val startStationName = "102" // 출발역 이름 입력
-        val endStationName = "109" // 도착역 이름 입력
+        findroad.setOnClickListener {
+            val startStation = stationMap[startText] ?: -1
+            val endStation = stationMap[destText] ?: -1
 
-        val startStation = stationMap[startStationName] ?: -1
-        val endStation = stationMap[endStationName] ?: -1
+            if (startStation != -1 && endStation != -1) {
+                val timeResult = dijkstra(graph, startStation, endStation, "time")
+                val distResult = dijkstra(graph, startStation, endStation, "distance")
+                val costResult = dijkstra(graph, startStation, endStation, "cost")
 
-        if (startStation != -1 && endStation != -1) {
-            val timeResult = dijkstra(graph, startStation, endStation, "time")
-            val distResult = dijkstra(graph, startStation, endStation, "distance")
-            val costResult = dijkstra(graph, startStation, endStation, "cost")
+                println("----- 최단 시간 기준 -----")
+                printResult(timeResult)
+                printStationNames(timeResult.path)
 
-            println("----- 최단 시간 기준 -----")
-            printResult(timeResult)
-            printStationNames(timeResult.path)
+                println("----- 최단 거리 기준 -----")
+                printResult(distResult)
+                printStationNames(distResult.path)
 
-            println("----- 최단 거리 기준 -----")
-            printResult(distResult)
-            printStationNames(distResult.path)
-
-            println("----- 최소 비용 기준 -----")
-            printResult(costResult)
-            printStationNames(costResult.path)
-        } else {
-            println("입력한 역 이름이 유효하지 않습니다.")
+                println("----- 최소 비용 기준 -----")
+                printResult(costResult)
+                printStationNames(costResult.path)
+            } else {
+                Toast.makeText(this,"입력한 역 이름이 유효하지 않습니다.",Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
