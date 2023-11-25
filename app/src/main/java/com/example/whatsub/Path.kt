@@ -376,9 +376,9 @@ fun printResult(result: DijkstraResult) {
 
 
     if (time / 3600 > 0)
-        print(" ${time / 3600}시간 ${(time % 3600) / 60}분")
+        print("${time / 3600}시간 ${(time % 3600) / 60}분")
     else
-        print(" ${(time / 60)}분")
+        print("${(time / 60)}분")
 
     if (dist / 1000 > 0)
         print(" ${dist / 1000}km ${(dist % 1000)}m")
