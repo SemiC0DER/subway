@@ -2,7 +2,8 @@ package com.example.whatsub
 
 data class Edge(val destination: Int, val time: Int, val distance: Int, val cost: Int)
 
-data class DijkstraResult(val distance: Int, val path: List<Int>)
+data class DijkstraResult(val time: Int, val distance: Int, val cost: Int, val path: List<Int>)
+
 
 val stationNames = """
         101
@@ -287,47 +288,50 @@ fun addEdge(graph: Array<MutableList<Edge>>, start: Int, end: Int, time: Int, di
 
 fun dijkstra(graph: Array<MutableList<Edge>>, start: Int, end: Int, criteria: String): DijkstraResult {
     val n = graph.size
-    val dist = IntArray(n) { Int.MAX_VALUE }
+    val timeDist = IntArray(n) { Int.MAX_VALUE }
+    val distanceDist = IntArray(n) { Int.MAX_VALUE }
+    val costDist = IntArray(n) { Int.MAX_VALUE }
     val prev = IntArray(n) { -1 }
     val visited = BooleanArray(n)
 
     val comparator: Comparator<Int> = when (criteria) {
-        "time" -> compareBy { dist[it] }
-        "distance" -> compareBy { dist[it] }
-        "cost" -> compareBy { dist[it] }
-        else -> compareBy { dist[it] }
+        "time" -> compareBy { timeDist[it] }
+        "distance" -> compareBy { distanceDist[it] }
+        "cost" -> compareBy { costDist[it] }
+        else -> compareBy { timeDist[it] }
     }
-
-    dist[start] = 0
+    timeDist[start] = 0
+    distanceDist[start] = 0
+    costDist[start] = 0
 
     for (i in 0 until n) {
         var minDist = Int.MAX_VALUE
         var u = -1
 
         for (v in 0 until n) {
-            if (!visited[v] && dist[v] < minDist) {
+            if (!visited[v] && (u == -1 || comparator.compare(v, u) < 0)) {
                 u = v
-                minDist = dist[v]
+                minDist = comparator.compare(v, u)
             }
         }
 
-// u가 -1이면 모든 정점을 방문한 것이므로 종료
+        // u가 -1이면 모든 정점을 방문한 것이므로 종료
         if (u == -1) break
 
-// 방문 표시
+        // 방문 표시
         visited[u] = true
 
-// u에 인접한 정점들에 대한 갱신 로직은 그대로 유지
+        // u에 인접한 정점들에 대한 갱신은 그대로 유지
         for (edge in graph[u]) {
             val v = edge.destination
-            val weight = when (criteria) {
-                "time" -> edge.time
-                "distance" -> edge.distance
-                "cost" -> edge.cost
-                else -> edge.time
-            }
-            if (!visited[v] && dist[u] + weight < dist[v]) {
-                dist[v] = dist[u] + weight
+            val newTimeDist = timeDist[u] + edge.time
+            val newDistanceDist = distanceDist[u] + edge.distance
+            val newCostDist = costDist[u] + edge.cost
+
+            if (!visited[v] && newTimeDist < timeDist[v]) {
+                timeDist[v] = newTimeDist
+                distanceDist[v] = newDistanceDist
+                costDist[v] = newCostDist
                 prev[v] = u
             }
         }
@@ -341,11 +345,13 @@ fun dijkstra(graph: Array<MutableList<Edge>>, start: Int, end: Int, criteria: St
     }
     path.reverse()
 
-    return DijkstraResult(dist[end], path)
+    return DijkstraResult(timeDist[end], distanceDist[end], costDist[end], path)
 }
 
+
+
 fun printStationNames(path: List<Int>) {
-    println("최단 경로의 역 목록:")
+    println("역 목록:")
     for (i in path.indices) {
         val stationIndex = path[i]
         val stationName = stationNames.split("\n")[stationIndex + 1].substring(8, 11)//stationNames에 공백이 있으므로 +1, 인덱스 8부터 10까지 문자열이 저장되므로 공백 제거
@@ -354,8 +360,8 @@ fun printStationNames(path: List<Int>) {
             val prevStationName = stationNames.split("\n")[path[i - 1] + 1].substring(8, 11)
             val nextStationName = stationNames.split("\n")[path[i + 1] + 1].substring(8, 11)
             if (stationName[0] != prevStationName[0] && prevStationName[0] != nextStationName[0]) {
-                if (!(stationName[0] != nextStationName[0]))//조건을 만족하더라도 이 역에서는 환승이 아님
-                    if(stationName != "417")
+                if (!(stationName[0] != nextStationName[0]))
+                    if(stationName != "417")//조건을 만족하더라도 이 역에서는 환승이 아님
                         println("환승")
             }
         }
@@ -363,59 +369,53 @@ fun printStationNames(path: List<Int>) {
     }
 }
 
+fun printResult(result: DijkstraResult) {
+    val time = result.time
+    val dist = result.distance
+    val cost = result.cost
 
+
+    if (time / 3600 > 0)
+        print(" ${time / 3600}시간 ${(time % 3600) / 60}분")
+    else
+        print(" ${(time / 60)}분")
+
+    if (dist / 1000 > 0)
+        print(" ${dist / 1000}km ${(dist % 1000)}m")
+    else
+        print(" ${dist}m")
+
+    println(" ${cost}원")
+}
 
 
 
 fun main() {
 
     setGraph()
-    // 출발역과 도착역 입력 이 부분 연결
+    // 출발역과 도착역 사용자 입력
     val startStationName = "102" // 출발역 이름 입력
     val endStationName = "109" // 도착역 이름 입력
 
     val startStation = stationMap[startStationName] ?: -1
     val endStation = stationMap[endStationName] ?: -1
 
-
-    val criteria = "time" // "time", "distance", "cost" 중 하나 선택
-    /*
     if (startStation != -1 && endStation != -1) {
         val timeResult = dijkstra(graph, startStation, endStation, "time")
         val distResult = dijkstra(graph, startStation, endStation, "distance")
         val costResult = dijkstra(graph, startStation, endStation, "cost")
 
-        //print 함수 필요 <- 여기에 연결
-    }
-     */
+        println("----- 최단 시간 기준 -----")
+        printResult(timeResult)
+        printStationNames(timeResult.path)
 
-    //이 부분 연결
-    if (startStation != -1 && endStation != -1) {
-        val result = dijkstra(graph, startStation, endStation, criteria)
-        val shortestValue = result.distance
-        val path = result.path
+        println("----- 최단 거리 기준 -----")
+        printResult(distResult)
+        printStationNames(distResult.path)
 
-        if (shortestValue != Int.MAX_VALUE) {
-            val criteriaLabel = when (criteria) {
-                "time" -> "시간"
-                "distance" -> "거리"
-                "cost" -> "비용"
-                else -> "기준 없음"
-            }
-            println("$startStationName 에서 $endStationName 까지의 최단 $criteriaLabel: $shortestValue")
-
-            //테스트 코드
-            /*for (i in path.indices) {
-                println(path[i])
-            }
-            */
-
-            // 경로에 역 표시
-            printStationNames(path)
-
-        } else {
-            println("경로가 존재하지 않습니다.")
-        }
+        println("----- 최소 비용 기준 -----")
+        printResult(costResult)
+        printStationNames(costResult.path)
     } else {
         println("입력한 역 이름이 유효하지 않습니다.")
     }
