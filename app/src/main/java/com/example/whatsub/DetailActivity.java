@@ -255,7 +255,7 @@ public class DetailActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 Log.v(TAG, "대댓글 저장 성공.");
                                 // 대댓글을 Firebase에 저장한 후 화면을 갱신하여 대댓글을 표시하는 메서드 호출
-//                                loadReplies(board_seq, commentKey, comment_layout); // loadReplies 메서드를 호출하여 대댓글 표시
+                                //loadReplies(board_seq, commentKey, comment_layout); // loadReplies 메서드를 호출하여 대댓글 표시
                                 dialog.dismiss(); // 다이얼로그 닫기
                             } else {
                                 Log.e(TAG, "대댓글 저장 실패.", task.getException());
