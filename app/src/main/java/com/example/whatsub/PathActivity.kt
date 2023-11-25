@@ -361,7 +361,7 @@ class PathActivity : AppCompatActivity(){
             val stationIndex = path[i]
             val stationName = stationNames.split("\n")[stationIndex + 1].substring(8, 11)//stationNames에 공백이 있으므로 +1, 인덱스 8부터 10까지 문자열이 저장되므로 공백 제거
 
-            if (i > 0 && i < path.size - 1) {
+            if (i > 0 && i < path.size - 1) {//환승 조건 구현
                 val prevStationName = stationNames.split("\n")[path[i - 1] + 1].substring(8, 11)
                 val nextStationName = stationNames.split("\n")[path[i + 1] + 1].substring(8, 11)
                 if (stationName[0] != prevStationName[0] && prevStationName[0] != nextStationName[0]) {
@@ -398,7 +398,6 @@ class PathActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_finded_load)
         setContentView(R.layout.activity_main_page)
 
         val startstation: Button = findViewById(R.id.start_station)
@@ -423,6 +422,7 @@ class PathActivity : AppCompatActivity(){
                 val distResult = dijkstra(graph, startStation, endStation, "distance")
                 val costResult = dijkstra(graph, startStation, endStation, "cost")
 
+                //이 부분 수정 필요
                 println("----- 최단 시간 기준 -----")
                 printResult(timeResult)
                 printStationNames(timeResult.path)
