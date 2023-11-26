@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -98,6 +99,32 @@ public class DetailActivity extends AppCompatActivity {
                     saveComment(userid, commentContent, board_seq); // 댓글 저장
                     comment_et.setText(""); // 입력창 초기화
                 }
+            }
+        });
+
+        Button delete_button = findViewById(R.id.delete_button);
+        delete_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 삭제하고자 하는 데이터의 경로를 지정
+                String pathToDelete = "/boards/" + board_seq;
+
+                // DatabaseReference를 가져옴
+                boardsRef = database.getReference(pathToDelete);
+
+                // removeValue 메서드를 호출하여 데이터 삭제
+                boardsRef.removeValue()
+                        .addOnSuccessListener(aVoid -> {
+                            // 삭제 성공
+                            System.out.println("Data deleted successfully!");
+                        })
+                        .addOnFailureListener(e -> {
+                            // 삭제 실패
+                            System.err.println("Error deleting data: " + e.getMessage());
+                        });
+
+                Intent intent = new Intent(DetailActivity.this, ListActivity.class);
+                startActivity(intent);
             }
         });
     }
