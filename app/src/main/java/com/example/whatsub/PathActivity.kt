@@ -2,6 +2,7 @@ package com.example.whatsub
 
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
@@ -300,7 +301,7 @@ class PathActivity : AppCompatActivity(){
         val prev = IntArray(n) { -1 }
         val visited = BooleanArray(n)
 
-        val comparator: Comparator<Int> = when (criteria) {
+        val comparator: Comparator<Int> = when (criteria) {//criteria에 따라 기준을 정함
             "time" -> compareBy { timeDist[it] }
             "distance" -> compareBy { distanceDist[it] }
             "cost" -> compareBy { costDist[it] }
@@ -404,8 +405,15 @@ class PathActivity : AppCompatActivity(){
         val startstation: Button = findViewById(R.id.start_station)
         val deststation: Button = findViewById(R.id.destination_station)
         val findroad: Button = findViewById(R.id.find_road)
+        val timeinfo: TextView = findViewById(R.id.time_start_station_info)
+        val timeinfo2: TextView = findViewById(R.id.time_transfer_station_info)
+        val distinfo: TextView = findViewById(R.id.distance_start_station_info)
+        val distinfo2: TextView = findViewById(R.id.distance_transfer_station_info)
+        val costinfo: TextView = findViewById(R.id.cost_start_station_info)
+        val costinfo2: TextView = findViewById(R.id.cost_transfer_station_info)
         var startText = ""
         var destText = ""
+
         startstation.setOnClickListener{
             startText = startstation.text.toString()
         }
@@ -423,18 +431,16 @@ class PathActivity : AppCompatActivity(){
                 val distResult = dijkstra(graph, startStation, endStation, "distance")
                 val costResult = dijkstra(graph, startStation, endStation, "cost")
 
-                //이 부분 수정 필요
-                println("----- 최단 시간 기준 -----")
-                printResult(timeResult)
-                printStationNames(timeResult.path)
+                //이 부분 수정 필요 -- 텍스트랑 연결
+                timeinfo.setText(printResult(timeResult))
+                timeinfo2.setText(printStationNames(timeResult.path))
 
-                println("----- 최단 거리 기준 -----")
-                printResult(distResult)
-                printStationNames(distResult.path)
+                distinfo.setText(printResult(distResult))
+                distinfo2.setText(printStationNames(distResult.path))
 
-                println("----- 최소 비용 기준 -----")
-                printResult(costResult)
-                printStationNames(costResult.path)
+                costinfo.setText(printResult(costResult))
+                costinfo2.setText(printStationNames(costResult.path))
+
             } else {
                 Toast.makeText(this,"입력한 역 이름이 유효하지 않습니다.",Toast.LENGTH_SHORT).show()
             }
