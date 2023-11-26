@@ -126,7 +126,7 @@ class PathActivity : AppCompatActivity(){
         904
     """ //역 이름 초기화
 
-    val edgesData = """
+     val edgesData = """
         101 102 200 500 200
         102 103 300 400 300
         103 104 1000 600 500
@@ -431,19 +431,21 @@ class PathActivity : AppCompatActivity(){
                 val distResult = dijkstra(graph, startStation, endStation, "distance")
                 val costResult = dijkstra(graph, startStation, endStation, "cost")
 
-                //이 부분 수정 필요 -- 텍스트랑 연결
-                timeinfo.setText(printResult(timeResult))
-                timeinfo2.setText(printStationNames(timeResult.path))
+                if (timeResult.time != Int.MAX_VALUE && distResult.distance != Int.MAX_VALUE && costResult.cost != Int.MAX_VALUE) {
+                    //이 부분 수정 필요 -- 텍스트랑 연결
+                    timeinfo.setText(printResult(timeResult))
+                    timeinfo2.setText(printStationNames(timeResult.path))
 
-                distinfo.setText(printResult(distResult))
-                distinfo2.setText(printStationNames(distResult.path))
+                    distinfo.setText(printResult(distResult))
+                    distinfo2.setText(printStationNames(distResult.path))
 
-                costinfo.setText(printResult(costResult))
-                costinfo2.setText(printStationNames(costResult.path))
-
-            } else {
+                    costinfo.setText(printResult(costResult))
+                    costinfo2.setText(printStationNames(costResult.path))
+                }
+                else
+                    Toast.makeText(this,"경로가 존재하지 않습니다.",Toast.LENGTH_SHORT).show()
+            } else
                 Toast.makeText(this,"입력한 역 이름이 유효하지 않습니다.",Toast.LENGTH_SHORT).show()
-            }
         }
     }
 }
