@@ -394,8 +394,8 @@ fun main() {
 
     setGraph()
     // 출발역과 도착역 사용자 입력
-    val startStationName = "102" // 출발역 이름 입력
-    val endStationName = "109" // 도착역 이름 입력
+    val startStationName = "101"// 출발역 이름 입력
+    val endStationName = "109"// 도착역 이름 입력
 
     val startStation = stationMap[startStationName] ?: -1
     val endStation = stationMap[endStationName] ?: -1
