@@ -1,3 +1,5 @@
+package com.example.whatsub
+
 data class Edge(val destination: Int, val time: Int, val distance: Int, val cost: Int) //간선 데이터 클래스
 
 data class DijkstraResult(val time: Int, val distance: Int, val cost: Int, val path: List<Int>) //결과값 데이터 클래스

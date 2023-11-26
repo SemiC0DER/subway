@@ -10,12 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Context
-import dijkstra
-import graph
-import printResult
-import printStationNames
-import setGraph
-import stationMap
+
 
 
 class PathActivity : AppCompatActivity(){
@@ -24,7 +19,6 @@ class PathActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_finded_load)
 
-        setGraph()
         val startstation: EditText = findViewById(R.id.start_station)
         val deststation: EditText = findViewById(R.id.destination_station)
         val findroad: Button = findViewById(R.id.find_road)
