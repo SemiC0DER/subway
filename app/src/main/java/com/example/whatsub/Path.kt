@@ -1,8 +1,6 @@
-package com.example.whatsub
+data class Edge(val destination: Int, val time: Int, val distance: Int, val cost: Int) //간선 데이터 클래스
 
-data class Edge(val destination: Int, val time: Int, val distance: Int, val cost: Int)
-
-data class DijkstraResult(val time: Int, val distance: Int, val cost: Int, val path: List<Int>)
+data class DijkstraResult(val time: Int, val distance: Int, val cost: Int, val path: List<Int>) //결과값 데이터 클래스
 
 
 val stationNames = """
@@ -116,7 +114,8 @@ val stationNames = """
         902
         903
         904
-    """
+    """ //역 이름 초기화
+
 val edgesData = """
         101 102 200 500 200
         102 103 300 400 300
@@ -257,36 +256,34 @@ val edgesData = """
         702 904 500 250 700
         904 621 250 650 650
         621 211 300 400 440
-    """.trimIndent()
+    """.trimIndent() //간선 정보 초기화
 
-// 중복 제거하고 매핑
-val stationMap = stationNames.split("\n")
+val stationMap = stationNames.split("\n")//역 이름을 인덱스로 매핑
     .mapNotNull { it.trim().takeIf { it.isNotEmpty() } }
     .distinct()
     .mapIndexed { index, name -> name to index }
     .toMap()
 
-val n = stationMap.size
-val graph = Array(n) { mutableListOf<Edge>() }
+val graph = Array(stationMap.size) { mutableListOf<Edge>() }//역 갯수로 그래프 초기화
 
 fun setGraph(){
     edgesData.split("\n").forEach { line ->
         val (start, end, time, distance, cost) = line.split(" ").map { it.toInt() }
         stationMap[start.toString()]?.let {
             stationMap[end.toString()]?.let { it1 ->
-                addEdge(graph,
-                    it, it1, time, distance, cost)
+                addEdge(graph, it, it1, time, distance, cost)
             }
         }
     }
-}
+}//그래프에 모든 간선 정보를 담는 함수
+
 fun addEdge(graph: Array<MutableList<Edge>>, start: Int, end: Int, time: Int, distance: Int, cost: Int) {
     graph[start].add(Edge(end, time, distance, cost))
-    graph[end].add(Edge(start, time, distance, cost))
-    //println("Added edge: $start -> $end (Time: $time, Distance: $distance, Cost: $cost)")
-}
+    graph[end].add(Edge(start, time, distance, cost))//일방향 그래프로 바꿀시 삭제
+    //println("Added edge: $start -> $end (Time: $time, Distance: $distance, Cost: $cost)") //정보가 올바르게 입력되었는지 테스트하는 코드
+}//간선 정보 입력 함수
 
-fun dijkstra(graph: Array<MutableList<Edge>>, start: Int, end: Int, criteria: String): DijkstraResult {
+fun dijkstra(graph: Array<MutableList<Edge>>, start: Int, end: Int, criteria: String): DijkstraResult {//우선순위 큐를 사용한 다익스트라 길찾기 함수
     val n = graph.size
     val timeDist = IntArray(n) { Int.MAX_VALUE }
     val distanceDist = IntArray(n) { Int.MAX_VALUE }
@@ -294,7 +291,7 @@ fun dijkstra(graph: Array<MutableList<Edge>>, start: Int, end: Int, criteria: St
     val prev = IntArray(n) { -1 }
     val visited = BooleanArray(n)
 
-    val comparator: Comparator<Int> = when (criteria) {
+    val comparator: Comparator<Int> = when (criteria) {//criteria에 따라 기준을 정함
         "time" -> compareBy { timeDist[it] }
         "distance" -> compareBy { distanceDist[it] }
         "cost" -> compareBy { costDist[it] }
@@ -346,77 +343,46 @@ fun dijkstra(graph: Array<MutableList<Edge>>, start: Int, end: Int, criteria: St
     path.reverse()
 
     return DijkstraResult(timeDist[end], distanceDist[end], costDist[end], path)
-}
+}//우선순위 큐를 사용한 다익스트라 길찾기 함수
 
-
-
-fun printStationNames(path: List<Int>) {
-    println("역 목록:")
+fun printStationNames(path: List<Int>): String { //텍스트 형식으로 역들의 목록과 환승지점을 반환하는 함수
+    var printstation = ""
+    printstation += "역 목록:"
     for (i in path.indices) {
         val stationIndex = path[i]
         val stationName = stationNames.split("\n")[stationIndex + 1].substring(8, 11)//stationNames에 공백이 있으므로 +1, 인덱스 8부터 10까지 문자열이 저장되므로 공백 제거
 
-        if (i > 0 && i < path.size - 1) {
+        if (i > 0 && i < path.size - 1) {//환승 조건 구현
             val prevStationName = stationNames.split("\n")[path[i - 1] + 1].substring(8, 11)
             val nextStationName = stationNames.split("\n")[path[i + 1] + 1].substring(8, 11)
             if (stationName[0] != prevStationName[0] && prevStationName[0] != nextStationName[0]) {
                 if (!(stationName[0] != nextStationName[0]))
                     if(stationName != "417")//조건을 만족하더라도 이 역에서는 환승이 아님
-                        println("환승")
+                        printstation += "\n환승"
             }
         }
-        println("역: ${stationName}")
+        printstation += "\n역: ${stationName}"
     }
+    return printstation
 }
 
-fun printResult(result: DijkstraResult) {
+fun printResult(result: DijkstraResult): String { //텍스트 형식으로 총시간, 총거리, 총비용을 반환하는 함수
+    var printresult = ""
     val time = result.time
     val dist = result.distance
     val cost = result.cost
 
 
     if (time / 3600 > 0)
-        print("${time / 3600}시간 ${(time % 3600) / 60}분")
+        printresult += "${time / 3600}시간 ${(time % 3600) / 60}분"
     else
-        print("${(time / 60)}분")
+        printresult += "${(time / 60)}분"
 
     if (dist / 1000 > 0)
-        print(" ${dist / 1000}km ${(dist % 1000)}m")
+        printresult += " ${dist / 1000}km ${(dist % 1000)}m"
     else
-        print(" ${dist}m")
+        printresult += " ${dist}m"
 
-    println(" ${cost}원")
-}
-
-
-
-fun main() {
-
-    setGraph()
-    // 출발역과 도착역 사용자 입력
-    val startStationName = "101"// 출발역 이름 입력
-    val endStationName = "109"// 도착역 이름 입력
-
-    val startStation = stationMap[startStationName] ?: -1
-    val endStation = stationMap[endStationName] ?: -1
-
-    if (startStation != -1 && endStation != -1) {
-        val timeResult = dijkstra(graph, startStation, endStation, "time")
-        val distResult = dijkstra(graph, startStation, endStation, "distance")
-        val costResult = dijkstra(graph, startStation, endStation, "cost")
-
-        println("----- 최단 시간 기준 -----")
-        printResult(timeResult)
-        printStationNames(timeResult.path)
-
-        println("----- 최단 거리 기준 -----")
-        printResult(distResult)
-        printStationNames(distResult.path)
-
-        println("----- 최소 비용 기준 -----")
-        printResult(costResult)
-        printStationNames(costResult.path)
-    } else {
-        println("입력한 역 이름이 유효하지 않습니다.")
-    }
+    printresult += " ${cost}원"
+    return printresult
 }
