@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -119,15 +120,23 @@ public class DetailActivity extends AppCompatActivity {
                 // 현재 로그인한 사용자 가져오기
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-                Log.v(TAG, String.valueOf(currentUser));
+                /*FirebaseAuth auth = FirebaseAuth.getInstance();
+                FirebaseUser currentUser = auth.getCurrentUser();
+
+                String userEmail = currentUser.getEmail();*/
+
+                Log.v(TAG, "로그인한 사람: " + String.valueOf(currentUser));
+
                 // 게시물의 작성자 UID 가져오기
-                boardsRef.child("authorUID").addListenerForSingleValueEvent(new ValueEventListener() {
+                boardsRef.child("userid").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Log.v(TAG, "작성자 테스트");
                         if (dataSnapshot.exists()) {
                             String authorUID = dataSnapshot.getValue(String.class);
+                            Log.v(TAG, "작성자: " + String.valueOf(authorUID));
 
-                            if (currentUser != null && authorUID.equals(currentUser.getUid())) {
+                            if (currentUser != null && authorUID.equals(currentUser.getEmail())) {
                                 // 현재 사용자가 게시물 작성자와 동일한 경우, 삭제 권한 부여
 
                                 // removeValue 메서드를 호출하여 데이터 삭제
