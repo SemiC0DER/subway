@@ -41,7 +41,7 @@
              android:theme="@style/Theme.AppCompat"
          android:exported="false" />
         <activity
-            android:name=".PathActivity"
+            android:name=".SelectActivity"
             android:theme="@style/Theme.AppCompat"
             android:exported="true"/>
         <activity
