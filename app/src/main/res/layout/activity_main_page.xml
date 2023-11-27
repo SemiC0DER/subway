@@ -14,7 +14,7 @@
 
         <ImageView
             android:id="@+id/Subway_Image"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/resource__"
             android:layout_gravity="center"/>
@@ -40,7 +40,7 @@
         android:id="@+id/start_station"
         android:layout_width="320dp"
         android:layout_height="48dp"
-        android:hint="출발역을 입력하세요"
+        android:hint="   출발역을 입력하세요"
         android:background="@drawable/boder_line"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -51,7 +51,7 @@
         android:id="@+id/destination_station"
         android:layout_width="320dp"
         android:layout_height="48dp"
-        android:hint="도착역을 입력하세요"
+        android:hint="   도착역을 입력하세요"
         android:background="@drawable/boder_line"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

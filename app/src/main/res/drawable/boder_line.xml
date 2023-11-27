@@ -9,7 +9,7 @@
 <!--</selector>-->
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-<solid android:color="#CEECF5" /> <!-- 배경 색상 -->
+<solid android:color="#D3D3D3" /> <!-- 배경 색상 -->
 <corners android:radius="10dp" /> <!-- 모서리 반경 -->
-<stroke android:color="#000000" android:width="1dp"/> <!-- 경계선 색상 및 두께 -->
+<stroke android:color="#D3D3D3" android:width="1dp"/> <!-- 경계선 색상 및 두께 -->
 </shape>
