@@ -1,4 +1,3 @@
-/*
 package com.example.whatsub
 
 import android.os.Bundle
@@ -20,7 +19,7 @@ class SelectActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.select_)
 
-        val startstation: EditText = findViewById(R.id.start_station)
+       /* val startstation: EditText = findViewById(R.id.start_station)
         val deststation: EditText = findViewById(R.id.destination_station)
         val findroad: Button = findViewById(R.id.find_road)
         val timeinfo: TextView = findViewById(R.id.time_start_station_info)
@@ -70,6 +69,6 @@ class SelectActivity : AppCompatActivity(){
                     Toast.makeText(this,"경로가 존재하지 않습니다.",Toast.LENGTH_SHORT).show()
             } else
                 Toast.makeText(this,"입력한 역 이름이 유효하지 않습니다.",Toast.LENGTH_SHORT).show()
-        }
+        }*/
     }
-}*/
+}
