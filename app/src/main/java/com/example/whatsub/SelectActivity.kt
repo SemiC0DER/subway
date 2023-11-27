@@ -13,7 +13,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.inputmethod.TextAppearanceInfo
 
-
+//결과를 대략적으로 표시하는 창이다.
 class SelectActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
