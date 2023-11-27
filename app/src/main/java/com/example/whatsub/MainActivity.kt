@@ -3,6 +3,7 @@ package com.example.whatsub
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -15,6 +16,11 @@ import androidx.compose.ui.platform.textInputServiceFactory
 import com.google.android.material.internal.ViewUtils.hideKeyboard
 
 class MainActivity : AppCompatActivity() {
+    private fun hideKeyboard() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_WhatSub)
         super.onCreate(savedInstanceState)
@@ -31,30 +37,28 @@ class MainActivity : AppCompatActivity() {
         startstation.inputType = EditorInfo.TYPE_CLASS_TEXT
         deststation.inputType = EditorInfo.TYPE_CLASS_TEXT
 
-        startstation.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
+        startstation.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE || (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
                 startText = startstation.text.toString()
-                // 키보드 숨기기
-                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+                // 확인용 로그
+                Log.d("MainActivity", "Start Text: $startText")
                 true
             } else {
                 false
             }
         }
 
-        deststation.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
+        deststation.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE || (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
                 destText = deststation.text.toString()
-                // 키보드 숨기기
-                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+                // 확인용 로그
+                Log.d("MainActivity", "Dest Text: $destText")
+                hideKeyboard()
                 true
             } else {
                 false
             }
         }
-
 
 
         findroad.setOnClickListener {
@@ -63,8 +67,8 @@ class MainActivity : AppCompatActivity() {
 
             if (startStation != -1 && endStation != -1) {
                 val intent = Intent(this, SelectActivity::class.java)
-                intent.putExtra("startStation", startStation)
-                intent.putExtra("endStation", endStation)
+                intent.putExtra("startText", startText)
+                intent.putExtra("destText", destText)
                 startActivity(intent)
             } else
                 Toast.makeText(this,"입력한 역 이름이 유효하지 않습니다.", Toast.LENGTH_SHORT).show()
