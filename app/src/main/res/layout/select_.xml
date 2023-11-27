@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/border_line_deepblue"
+        android:contentDescription="상단 이미지뷰"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/start_station"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:hint="출발역을 입력하세요"
+        android:background="@drawable/boder_line"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="25dp" />
+
+    <Button
+        android:id="@+id/destination_station"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:hint="도착역을 입력하세요"
+        android:background="@drawable/boder_line"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="80dp" />
+
+    <Button
+        android:id="@+id/find_road"
+        android:layout_width="48dp"
+        android:layout_height="102dp"
+        android:background="@drawable/boder_line"
+        android:text="길찾기"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="350dp"
+        android:layout_marginTop="25dp" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="105dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/border_line_deepblue" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="170dp"
+        android:layout_height="60dp"
+        android:text="길찾기"
+        android:background="@drawable/boder_line"
+        android:textStyle="bold"
+        android:textSize="28sp"
+        android:fontFamily="@font/nanumregular"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="650dp" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="170dp"
+        android:layout_height="60dp"
+        android:text="커뮤니티"
+        android:background="@drawable/boder_line"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/nanumregular"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="220dp"
+        android:layout_marginTop="650dp"/>
+
+    <Button
+        android:id="@+id/cost"
+        android:layout_width="379dp"
+        android:layout_height="116dp"
+        android:layout_centerInParent="true"
+        android:onClick="onMoveButtonClick"
+        android:background="@drawable/no_color_border"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="162dp"
+        android:layout_marginStart="16dp"
+        android:contentDescription="최소비용을 찾는 버튼입니다."/>
+
+
+
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="최소비용"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="175dp"
+        android:layout_marginStart="35dp"/>
+
+    <TextView
+        android:id="@+id/cost_distance_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이동거리: "
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="200dp"
+        android:layout_marginStart="35dp"/>
+
+
+    <TextView
+        android:id="@+id/cost_cost_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이동비용: "
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="200dp"
+        android:layout_marginStart="150dp"/>
+
+    <TextView
+        android:id="@+id/cost_time_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이동시간: "
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="200dp"
+        android:layout_marginStart="265dp"/>
+
+
+    
+
+    <TextView
+        android:id="@+id/cost_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:contentDescription="이동거리를 입력하는 곳입니다."
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="230dp"
+        android:layout_marginStart="40dp"/>
+
+    <TextView
+        android:id="@+id/cost_cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="230dp"
+        android:layout_marginStart="160dp"/>
+
+    <TextView
+        android:id="@+id/cost_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:contentDescription="이동시간을 입력하는 곳입니다."
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="230dp"
+        android:layout_marginStart="280dp"/>
+
+    <Button
+        android:id="@+id/distance"
+        android:layout_width="379dp"
+        android:layout_height="116dp"
+        android:layout_centerInParent="true"
+        android:onClick="onMoveButtonClick"
+        android:background="@drawable/no_color_border"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="320dp"
+        android:layout_marginStart="16dp"
+        android:contentDescription="최단거리를 찾는 버튼입니다."/>
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="최단거리"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="332dp"
+        android:layout_marginStart="35dp"/>
+
+    <TextView
+        android:id="@+id/distance_distance_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이동거리: "
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="358dp"
+        android:layout_marginStart="35dp"/>
+
+
+    <TextView
+        android:id="@+id/distance_cost_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이동비용: "
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="358dp"
+        android:layout_marginStart="150dp"/>
+
+    <TextView
+        android:id="@+id/distance_time_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이동시간: "
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="358dp"
+        android:layout_marginStart="265dp"/>
+
+    <TextView
+        android:id="@+id/distance_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:contentDescription="이동거리를 입력하는 곳입니다."
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="388dp"
+        android:layout_marginStart="40dp"/>
+
+    <TextView
+        android:id="@+id/distance_cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="388dp"
+        android:layout_marginStart="160dp"/>
+
+    <TextView
+        android:id="@+id/distance_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:contentDescription="이동시간을 입력하는 곳입니다."
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="388dp"
+        android:layout_marginStart="280dp"/>
+
+
+    <Button
+        android:id="@+id/time"
+        android:layout_width="379dp"
+        android:layout_height="116dp"
+        android:layout_centerInParent="true"
+        android:onClick="onMoveButtonClick"
+
+        android:background="@drawable/no_color_border"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="478dp"
+        android:layout_marginStart="16dp"
+        android:contentDescription="최단시간를 찾는 버튼입니다."/>
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="최단시간"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="490dp"
+        android:layout_marginStart="35dp"/>
+
+    <TextView
+        android:id="@+id/time_distance_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이동거리: "
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="516dp"
+        android:layout_marginStart="35dp"/>
+
+
+    <TextView
+        android:id="@+id/time_cost_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이동비용: "
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="516dp"
+        android:layout_marginStart="150dp"/>
+
+    <TextView
+        android:id="@+id/time_time_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이동시간: "
+        android:contentDescription="이동시간을 입력하는 곳입니다."
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="516dp"
+        android:layout_marginStart="265dp"/>
+
+    <TextView
+        android:id="@+id/time_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:contentDescription="이동거리를 입력하는 곳입니다."
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="546dp"
+        android:layout_marginStart="40dp"/>
+
+    <TextView
+        android:id="@+id/time_cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="546dp"
+        android:layout_marginStart="160dp"/>
+
+    <TextView
+        android:id="@+id/time_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="546dp"
+        android:layout_marginStart="280dp"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
