@@ -6,15 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="700dp"
-        android:layout_height="150dp"
-        android:background="@drawable/border_line_deepblue"
-        android:contentDescription="상단 이미지뷰"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+<!--    <ImageView-->
+<!--        android:id="@+id/imageView1"-->
+<!--        android:layout_width="700dp"-->
+<!--        android:layout_height="150dp"-->
+<!--        android:background="@drawable/border_line_deepblue"-->
+<!--        android:contentDescription="상단 이미지뷰"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent" />-->
 
     <EditText
         android:id="@+id/start_station"
@@ -49,12 +49,12 @@
         android:layout_marginStart="350dp"
         android:layout_marginTop="25dp" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="700dp"
-        android:layout_height="105dp"
-        android:background="@drawable/border_line_deepblue"
-        app:layout_constraintBottom_toBottomOf="parent" />
+<!--    <ImageView-->
+<!--        android:id="@+id/imageView2"-->
+<!--        android:layout_width="700dp"-->
+<!--        android:layout_height="105dp"-->
+<!--        android:background="@drawable/border_line_deepblue"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent" />-->
 
     <Button
         android:id="@+id/button4"
@@ -84,20 +84,20 @@
         android:layout_marginStart="220dp"
         android:layout_marginTop="650dp"/>
 
-<!--    <ImageView-->
-<!--        android:id="@+id/imageView4"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="478dp"-->
-<!--        app:srcCompat="@drawable/no_color_border"-->
-<!--        tools:layout_editor_absoluteX="47dp"-->
-<!--        tools:layout_editor_absoluteY="148dp" />-->
+    <!--    <ImageView-->
+    <!--        android:id="@+id/imageView4"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="478dp"-->
+    <!--        app:srcCompat="@drawable/no_color_border"-->
+    <!--        tools:layout_editor_absoluteX="47dp"-->
+    <!--        tools:layout_editor_absoluteY="148dp" />-->
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="최단시간"
+        android:text="최소 비용"
         android:textSize="40px"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
@@ -132,7 +132,7 @@
         android:layout_marginStart="16dp" />
 
     <TextView
-        android:id="@+id/distance_trans_staion"
+        android:id="@+id/cost_trans_staion"
         android:layout_width="74dp"
         android:layout_height="241dp"
         android:text=""
@@ -145,7 +145,7 @@
         android:layout_marginStart="16dp" />
 
     <TextView
-        android:id="@+id/distance_all_station"
+        android:id="@+id/cost_all_station"
         android:layout_width="276dp"
         android:layout_height="241dp"
         android:gravity=""
@@ -159,22 +159,22 @@
     <!--환승역 2개-->
 
 
-<!--    <TextView-->
-<!--        android:id="@+id/textView20"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="TextView"-->
-<!--        tools:layout_editor_absoluteX="12dp"-->
-<!--        tools:layout_editor_absoluteY="240dp" />-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/textView20"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="TextView"-->
+    <!--        tools:layout_editor_absoluteX="12dp"-->
+    <!--        tools:layout_editor_absoluteY="240dp" />-->
 
-<!--    <TextView-->
-<!--        android:id="@+id/textView40"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="TextView"-->
-<!--        tools:layout_editor_absoluteX="332dp"-->
-<!--        tools:layout_editor_absoluteY="240dp" />-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/textView40"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="TextView"-->
+    <!--        tools:layout_editor_absoluteX="332dp"-->
+    <!--        tools:layout_editor_absoluteY="240dp" />-->
 
-<!--     하단에 위치할 텍스트뷰들을 가로로 그룹화 -->
+    <!--     하단에 위치할 텍스트뷰들을 가로로 그룹화 -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
