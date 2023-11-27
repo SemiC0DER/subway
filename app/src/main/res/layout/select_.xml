@@ -6,21 +6,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@drawable/border_line_deepblue"
-        android:contentDescription="상단 이미지뷰"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+<!--    <ImageView-->
+<!--        android:id="@+id/imageView1"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="150dp"-->
+<!--        android:background="@drawable/border_line_deepblue"-->
+<!--        android:contentDescription="상단 이미지뷰"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent" />-->
 
     <EditText
         android:id="@+id/start_station"
         android:layout_width="320dp"
         android:layout_height="48dp"
         android:hint="   출발역을 입력하세요"
+        android:textColorHint="#000000"
+
         android:background="@drawable/boder_line"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -32,6 +34,7 @@
         android:layout_width="320dp"
         android:layout_height="48dp"
         android:hint="   도착역을 입력하세요"
+        android:textColorHint="#000000"
         android:background="@drawable/boder_line"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -49,12 +52,12 @@
         android:layout_marginStart="350dp"
         android:layout_marginTop="25dp" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="match_parent"
-        android:layout_height="105dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@drawable/border_line_deepblue" />
+<!--    <ImageView-->
+<!--        android:id="@+id/imageView2"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="105dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        android:background="@drawable/border_line_deepblue" />-->
 
     <Button
         android:id="@+id/button4"
