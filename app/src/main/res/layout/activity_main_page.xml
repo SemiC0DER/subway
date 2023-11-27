@@ -91,7 +91,7 @@
         android:layout_marginTop="650dp" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/communityBtn"
         android:layout_width="170dp"
         android:layout_height="60dp"
         android:text="커뮤니티"

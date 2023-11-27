@@ -16,9 +16,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -102,6 +106,8 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+
+        // 삭제 기능
         Button delete_button = findViewById(R.id.delete_button);
         delete_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,21 +118,61 @@ public class DetailActivity extends AppCompatActivity {
                 // DatabaseReference를 가져옴
                 boardsRef = database.getReference(pathToDelete);
 
-                // removeValue 메서드를 호출하여 데이터 삭제
-                boardsRef.removeValue()
-                        .addOnSuccessListener(aVoid -> {
-                            // 삭제 성공
-                            System.out.println("Data deleted successfully!");
-                        })
-                        .addOnFailureListener(e -> {
-                            // 삭제 실패
-                            System.err.println("Error deleting data: " + e.getMessage());
-                        });
+                // 현재 로그인한 사용자 가져오기
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-                Intent intent = new Intent(DetailActivity.this, ListActivity.class);
-                startActivity(intent);
+                /*FirebaseAuth auth = FirebaseAuth.getInstance();
+                FirebaseUser currentUser = auth.getCurrentUser();
+
+                String userEmail = currentUser.getEmail();*/
+
+                Log.v(TAG, "로그인한 사람: " + String.valueOf(currentUser));
+
+                // 게시물의 작성자 UID 가져오기
+                boardsRef.child("userid").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Log.v(TAG, "작성자 테스트");
+                        if (dataSnapshot.exists()) {
+                            String authorUID = dataSnapshot.getValue(String.class);
+                            Log.v(TAG, "작성자: " + String.valueOf(authorUID));
+
+                            if (currentUser != null && authorUID.equals(currentUser.getEmail())) {
+                                // 현재 사용자가 게시물 작성자와 동일한 경우, 삭제 권한 부여
+
+                                // removeValue 메서드를 호출하여 데이터 삭제
+                                boardsRef.removeValue()
+                                        .addOnSuccessListener(aVoid -> {
+                                            // 삭제 성공
+                                            Log.d(TAG, "삭제 성공");
+                                            Toast.makeText(DetailActivity.this,"삭제 성공",Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(DetailActivity.this, ListActivity.class);
+                                            startActivity(intent);
+                                            finish(); // 현재 액티비티 종료
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            // 삭제 실패
+                                            Log.e(TAG, "삭제 실패 " + e.getMessage());
+                                            Toast.makeText(DetailActivity.this,"삭제 실패",Toast.LENGTH_SHORT).show();
+                                        });
+                            } else {
+                                // 현재 사용자가 게시물 작성자가 아닌 경우
+                                // 권한 없음 메시지 표시 또는 다른 작업 수행
+                                //Log.e(TAG, "게시글을 삭제할 수 없습니다");
+
+                                Toast.makeText(DetailActivity.this,"다른 사람이 쓴 글은 삭제할 수 없습니다",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.e(TAG, "Error getting author UID: " + databaseError.getMessage());
+                    }
+                });
             }
         });
+
     }
 
     private void saveComment(String userid, String content, String board_seq) {
@@ -191,7 +237,7 @@ public class DetailActivity extends AppCompatActivity {
                             dateTextView.setText(timestamp);
                         }
 
-                        // 여기서부터는 대댓글 관련 처리가 이어지는 부분입니다.
+                        // 대댓글 관련 처리가 이어지는 부분
 
                         // 대댓글 작성 버튼 설정
                         setupReplyButton(commentView, comment.getKey());

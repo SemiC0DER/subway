@@ -4,27 +4,19 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.whatsub.ui.theme.WhatSubTheme
-import com.google.firebase.Firebase
-import com.google.firebase.database.database
+import androidx.compose.ui.platform.textInputServiceFactory
+import com.google.android.material.internal.ViewUtils.hideKeyboard
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_WhatSub)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
 
@@ -34,27 +26,36 @@ class MainActivity : AppCompatActivity() {
         var startText = ""
         var destText = ""
 
+        var communityBtn: Button = findViewById(R.id.communityBtn)
+
         startstation.inputType = EditorInfo.TYPE_CLASS_TEXT
         deststation.inputType = EditorInfo.TYPE_CLASS_TEXT
 
-        startstation.setOnEditorActionListener { _, actionId, event ->//출발역 입력
-            if (actionId == EditorInfo.IME_ACTION_DONE || (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
+        startstation.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 startText = startstation.text.toString()
-                return@setOnEditorActionListener false
+                // 키보드 숨기기
+                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+                true
+            } else {
+                false
             }
-            return@setOnEditorActionListener false
         }
 
-        deststation.setOnEditorActionListener { _, actionId, event ->//도착역 입력
-            if (actionId == EditorInfo.IME_ACTION_DONE || (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
+        deststation.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 destText = deststation.text.toString()
-
-                val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                inputMethodManager.hideSoftInputFromWindow(deststation.windowToken, 0) // 키보드 닫기
-                return@setOnEditorActionListener true
+                // 키보드 숨기기
+                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+                true
+            } else {
+                false
             }
-            return@setOnEditorActionListener false
         }
+
+
 
         findroad.setOnClickListener {
             val startStation = stationMap[startText] ?: -1
@@ -68,5 +69,15 @@ class MainActivity : AppCompatActivity() {
             } else
                 Toast.makeText(this,"입력한 역 이름이 유효하지 않습니다.", Toast.LENGTH_SHORT).show()
         }
+
+
+
+
+
+        // 버튼 이벤트 추가
+        communityBtn.setOnClickListener(View.OnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        })
     }
 }
