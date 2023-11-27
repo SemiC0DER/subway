@@ -11,12 +11,19 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.inputmethod.TextAppearanceInfo
+import com.google.android.material.internal.ViewUtils.hideKeyboard
 
 //결과를 대략적으로 표시하는 창이다.
 class SelectActivity : AppCompatActivity(){
 
+    private fun hideKeyboard() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.select_)
 
@@ -36,10 +43,15 @@ class SelectActivity : AppCompatActivity(){
         val time_distance: TextView = findViewById(R.id.time_distance)
         val time_cost: TextView = findViewById(R.id.time_cost)
         val time_time: TextView = findViewById(R.id.time_time)
-        var startText = intent.getStringExtra("startstation")
-        var destText = intent.getStringExtra("endstation")
+
+        var startText = intent.getStringExtra("startText")
+        var destText = intent.getStringExtra("destText")
+        Log.d("SelectActivity", "startText: $startText")
+        Log.d("SelectActivity", "destText: $destText")
         val gotomain: Button = findViewById(R.id.button4)
+
         //받은 값을 토대로 초기화
+        setGraph()
         var startStation = stationMap[startText] ?: -1
         var endStation = stationMap[destText] ?: -1
         val timeResult = dijkstra(graph, startStation, endStation, "time")
@@ -65,21 +77,24 @@ class SelectActivity : AppCompatActivity(){
         startstation.setOnEditorActionListener { _, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE || (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
                 startText = startstation.text.toString()
-                return@setOnEditorActionListener false
+                // 확인용 로그
+                Log.d("SelectActivity", "Start Text: $startText")
+                true
+            } else {
+                false
             }
-            return@setOnEditorActionListener false
         }
 
-        //도착역 입력
         deststation.setOnEditorActionListener { _, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE || (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
                 destText = deststation.text.toString()
-
-                val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                inputMethodManager.hideSoftInputFromWindow(deststation.windowToken, 0) // 키보드 닫기
-                return@setOnEditorActionListener true
+                // 확인용 로그
+                Log.d("SelectActivity", "Dest Text: $destText")
+                hideKeyboard()
+                true
+            } else {
+                false
             }
-            return@setOnEditorActionListener false
         }
 
         //길찾기 버튼
