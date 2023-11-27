@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -144,6 +145,7 @@ public class DetailActivity extends AppCompatActivity {
                                         .addOnSuccessListener(aVoid -> {
                                             // 삭제 성공
                                             Log.d(TAG, "삭제 성공");
+                                            Toast.makeText(DetailActivity.this,"삭제 성공",Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(DetailActivity.this, ListActivity.class);
                                             startActivity(intent);
                                             finish(); // 현재 액티비티 종료
@@ -151,11 +153,14 @@ public class DetailActivity extends AppCompatActivity {
                                         .addOnFailureListener(e -> {
                                             // 삭제 실패
                                             Log.e(TAG, "삭제 실패 " + e.getMessage());
+                                            Toast.makeText(DetailActivity.this,"삭제 실패",Toast.LENGTH_SHORT).show();
                                         });
                             } else {
                                 // 현재 사용자가 게시물 작성자가 아닌 경우
                                 // 권한 없음 메시지 표시 또는 다른 작업 수행
-                                Log.e(TAG, "게시글을 삭제할 수 없습니다");
+                                //Log.e(TAG, "게시글을 삭제할 수 없습니다");
+
+                                Toast.makeText(DetailActivity.this,"다른 사람이 쓴 글은 삭제할 수 없습니다",Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
