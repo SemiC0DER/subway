@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -102,6 +104,8 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+
+        // 삭제 기능
         Button delete_button = findViewById(R.id.delete_button);
         delete_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,21 +116,49 @@ public class DetailActivity extends AppCompatActivity {
                 // DatabaseReference를 가져옴
                 boardsRef = database.getReference(pathToDelete);
 
-                // removeValue 메서드를 호출하여 데이터 삭제
-                boardsRef.removeValue()
-                        .addOnSuccessListener(aVoid -> {
-                            // 삭제 성공
-                            System.out.println("Data deleted successfully!");
-                        })
-                        .addOnFailureListener(e -> {
-                            // 삭제 실패
-                            System.err.println("Error deleting data: " + e.getMessage());
-                        });
+                // 현재 로그인한 사용자 가져오기
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-                Intent intent = new Intent(DetailActivity.this, ListActivity.class);
-                startActivity(intent);
+                Log.v(TAG, String.valueOf(currentUser));
+                // 게시물의 작성자 UID 가져오기
+                boardsRef.child("authorUID").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            String authorUID = dataSnapshot.getValue(String.class);
+
+                            if (currentUser != null && authorUID.equals(currentUser.getUid())) {
+                                // 현재 사용자가 게시물 작성자와 동일한 경우, 삭제 권한 부여
+
+                                // removeValue 메서드를 호출하여 데이터 삭제
+                                boardsRef.removeValue()
+                                        .addOnSuccessListener(aVoid -> {
+                                            // 삭제 성공
+                                            Log.d(TAG, "삭제 성공");
+                                            Intent intent = new Intent(DetailActivity.this, ListActivity.class);
+                                            startActivity(intent);
+                                            finish(); // 현재 액티비티 종료
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            // 삭제 실패
+                                            Log.e(TAG, "삭제 실패 " + e.getMessage());
+                                        });
+                            } else {
+                                // 현재 사용자가 게시물 작성자가 아닌 경우
+                                // 권한 없음 메시지 표시 또는 다른 작업 수행
+                                Log.e(TAG, "게시글을 삭제할 수 없습니다");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.e(TAG, "Error getting author UID: " + databaseError.getMessage());
+                    }
+                });
             }
         });
+
     }
 
     private void saveComment(String userid, String content, String board_seq) {
@@ -191,7 +223,7 @@ public class DetailActivity extends AppCompatActivity {
                             dateTextView.setText(timestamp);
                         }
 
-                        // 여기서부터는 대댓글 관련 처리가 이어지는 부분입니다.
+                        // 대댓글 관련 처리가 이어지는 부분
 
                         // 대댓글 작성 버튼 설정
                         setupReplyButton(commentView, comment.getKey());
