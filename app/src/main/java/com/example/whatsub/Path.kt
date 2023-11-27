@@ -268,7 +268,7 @@ val stationMap = stationNames.split("\n")//역 이름을 인덱스로 매핑
 
 val graph = Array(stationMap.size) { mutableListOf<Edge>() }//역 갯수로 그래프 초기화
 
-fun setGraph(){
+fun setGraph(){//그래프에 모든 간선 정보를 담는 함수
     edgesData.split("\n").forEach { line ->
         val (start, end, time, distance, cost) = line.split(" ").map { it.toInt() }
         stationMap[start.toString()]?.let {
@@ -279,7 +279,7 @@ fun setGraph(){
     }
 }//그래프에 모든 간선 정보를 담는 함수
 
-fun addEdge(graph: Array<MutableList<Edge>>, start: Int, end: Int, time: Int, distance: Int, cost: Int) {
+fun addEdge(graph: Array<MutableList<Edge>>, start: Int, end: Int, time: Int, distance: Int, cost: Int) {//간선 정보 입력 함수
     graph[start].add(Edge(end, time, distance, cost))
     graph[end].add(Edge(start, time, distance, cost))//일방향 그래프로 바꿀시 삭제
     //println("Added edge: $start -> $end (Time: $time, Distance: $distance, Cost: $cost)") //정보가 올바르게 입력되었는지 테스트하는 코드
@@ -290,8 +290,8 @@ fun dijkstra(graph: Array<MutableList<Edge>>, start: Int, end: Int, criteria: St
     val timeDist = IntArray(n) { Int.MAX_VALUE }
     val distanceDist = IntArray(n) { Int.MAX_VALUE }
     val costDist = IntArray(n) { Int.MAX_VALUE }
-    val prev = IntArray(n) { -1 }
-    val visited = BooleanArray(n)
+    val prev = IntArray(n) { -1 }//이전 노드
+    val visited = BooleanArray(n)//방문 여부
 
     val comparator: Comparator<Int> = when (criteria) {//criteria에 따라 기준을 정함
         "time" -> compareBy { timeDist[it] }
@@ -358,9 +358,11 @@ fun printStationNames(path: List<Int>): String { //텍스트 형식으로 역들
             val prevStationName = stationNames.split("\n")[path[i - 1] + 1].substring(8, 11)
             val nextStationName = stationNames.split("\n")[path[i + 1] + 1].substring(8, 11)
             if ((stationName[0] != prevStationName[0] || stationName[0] != nextStationName[0]) && prevStationName[0] != nextStationName[0]) {
-                if (!(stationName[0] != nextStationName[0] && stationName[0] != prevStationName[0] && prevStationName[0] != nextStationName[0]))
-                    if(stationName != "417")//조건을 만족하더라도 이 역에서는 환승이 아님
+                if (stationName[0] != nextStationName[0] && stationName[0] != prevStationName[0] && prevStationName[0] != nextStationName[0])
+                    if (stationName == "417")//예외
                         printstation += "환승"
+                else
+                    printstation += "환승"
             }
         }
         printstation += "역: ${stationName}\n"
