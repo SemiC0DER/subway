@@ -1,3 +1,4 @@
+/*
 package com.example.whatsub
 
 import android.os.Bundle
@@ -79,4 +80,4 @@ class PathActivity : AppCompatActivity(){
                 Toast.makeText(this,"입력한 역 이름이 유효하지 않습니다.",Toast.LENGTH_SHORT).show()
         }
     }
-}
+}*/
