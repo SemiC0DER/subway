@@ -45,7 +45,7 @@
             android:exported="false"
             android:theme="@style/Theme.AppCompat" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".MainActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat" />
         <activity
@@ -54,7 +54,7 @@
             android:theme="@style/Theme.AppCompat" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat">
             <intent-filter>

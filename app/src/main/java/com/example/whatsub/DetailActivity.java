@@ -45,6 +45,7 @@ public class DetailActivity extends AppCompatActivity {
 
     String board_seq = "";
     String userid = "";
+    String replyAuthorId;
 
     private EditText replyEditText; // 대댓글을 입력받을 EditText 변수
 
@@ -123,7 +124,6 @@ public class DetailActivity extends AppCompatActivity {
 
                 // 현재 로그인한 사용자 가져오기
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
                 Log.v(TAG, "로그인한 사람: " + String.valueOf(currentUser));
 
                 // 게시물의 작성자 UID 가져오기
@@ -209,6 +209,8 @@ public class DetailActivity extends AppCompatActivity {
         DatabaseReference commentsRef = database.getReference("boards")
                 .child(board_seq)
                 .child("comments"); // comments 노드에 저장된 댓글과 대댓글 불러오기
+
+
 
         commentsRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -348,22 +350,54 @@ public class DetailActivity extends AppCompatActivity {
                 .child(commentKey)
                 .child("replies"); // 대댓글 노드에 저장된 대댓글 불러오기
 
+        DatabaseReference boardRef = FirebaseDatabase.getInstance().getReference("boards").child(board_seq);
+        boardRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    replyAuthorId = dataSnapshot.child("userid").getValue(String.class);
+                    Log.v(TAG, "대댓글 부부부분작성자: " + String.valueOf(replyAuthorId));
+                } else {
+                    // 해당 게시글이 존재하지 않는 경우 처리할 내용
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // 에러 처리
+            }
+        });
+
+
+
         repliesRef.addValueEventListener(new ValueEventListener() {
             @SuppressLint("MissingInflatedId")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 LinearLayout replyLayout = new LinearLayout(DetailActivity.this);
                 replyLayout.setOrientation(LinearLayout.VERTICAL);
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser(); // 현재 사용자
+                Log.v(TAG, "대댓글쪽 로그인한 사람: " + String.valueOf(currentUser.getEmail()));
 
                 commentLayout.addView(replyLayout); // 새로운 LinearLayout을 댓글 레이아웃에 추가
 
                 for (DataSnapshot replySnapshot : dataSnapshot.getChildren()) {
                     Reply reply = replySnapshot.getValue(Reply.class);
                     if (reply != null) {
+
                         // 대댓글 레이아웃을 인플레이트하여 작성자의 아이디를 설정하는 부분
                         View replyView = getLayoutInflater().inflate(R.layout.reply, null);
-                       // ((TextView) replyView.findViewById(R.id.reply_userid_tv)).setText(reply.getUserid()); // 대댓글 작성자의 아이디 설정
+
+                        if (currentUser != null && replyAuthorId.equals(currentUser.getEmail())) {
+                            ((TextView) replyView.findViewById(R.id.reply_userid_tv)).setText("익명(작성자)"); // 대댓글 작성자의 아이디 설정
+                        } else {
+                            ((TextView) replyView.findViewById(R.id.reply_userid_tv)).setText("익명");
+                        }
+
+                        // 대댓글 내용 설정
                         ((TextView) replyView.findViewById(R.id.reply_content_tv)).setText(reply.getContent());
+
+                        // 대댓글 시간 설정
                         String timestamp = reply.getTimestamp();
                         if (timestamp != null && !timestamp.isEmpty()) {
                             ((TextView) replyView.findViewById(R.id.reply_date_tv)).setText(timestamp);
@@ -382,6 +416,8 @@ public class DetailActivity extends AppCompatActivity {
                 Log.e("DetailActivity", "Error fetching replies", databaseError.toException());
             }
         });
+
+
     }
 
 

@@ -4,6 +4,7 @@ public class Reply {
     private String userid;
     private String content;
     private String timestamp;
+    private String authorUID;
 
     public Reply() {
         // Default constructor required for calls to DataSnapshot.getValue(Reply.class)
@@ -37,6 +38,14 @@ public class Reply {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getAuthorUID() {
+        return authorUID;
+    }
+
+    public void setAuthorUID(String authorUID) {
+        this.authorUID = authorUID;
     }
 }
 
