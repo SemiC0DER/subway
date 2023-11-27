@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- 녹색 막대바 -->
+    <solid android:color="#008000"/> <!-- 여기에 녹색의 색상 코드를 넣어주세요 -->
+
+    <!-- 막대바의 둥근 모서리 설정 -->
+    <corners android:radius="8dp"/> <!-- 원하는 모서리의 반지름 크기를 설정할 수 있습니다. -->
+
+    <!-- 막대바의 두께와 높이 -->
+    <size
+        android:width="10dp"
+        android:height="1dp"/>
+</shape>
