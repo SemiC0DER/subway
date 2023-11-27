@@ -348,21 +348,27 @@ fun dijkstra(graph: Array<MutableList<Edge>>, start: Int, end: Int, criteria: St
 }//우선순위 큐를 사용한 다익스트라 길찾기 함수
 
 fun printStationNames(path: List<Int>): String { //텍스트 형식으로 역들의 목록과 환승지점을 반환하는 함수
-    var printstation = ""
-    printstation += "역 목록:\n"
+    var printstation = "역 목록:\n"
+
     for (i in path.indices) {
         val stationIndex = path[i]
         val stationName = stationNames.split("\n")[stationIndex + 1].substring(8, 11)//stationNames에 공백이 있으므로 +1, 인덱스 8부터 10까지 문자열이 저장되므로 공백 제거
 
-        if (i > 0 && i < path.size - 1) {//환승 조건 구현
+        if (i > 1 && i < path.size - 1) {//환승 조건 구현
             val prevStationName = stationNames.split("\n")[path[i - 1] + 1].substring(8, 11)
             val nextStationName = stationNames.split("\n")[path[i + 1] + 1].substring(8, 11)
-            if ((stationName[0] != prevStationName[0] || stationName[0] != nextStationName[0]) && prevStationName[0] != nextStationName[0]) {
-                if (stationName[0] != nextStationName[0] && stationName[0] != prevStationName[0] && prevStationName[0] != nextStationName[0])
-                    if (stationName == "417")//예외
+            if (prevStationName[0] != nextStationName[0]) {
+                if (stationName[0] == prevStationName[0] || stationName[0] == nextStationName[0])
+                    if (!(stationName == "201" || stationName == "301" || stationName == "304" || stationName == "305" || stationName == "308" ||
+                        stationName == "402" || stationName == "407" || stationName == "408" || stationName == "417" ||
+                        stationName == "501" || stationName == "504" || stationName == "505" || stationName == "506" ||
+                        stationName == "602" || stationName == "603" || stationName == "606" || stationName == "607" || stationName == "609" || stationName == "610" || stationName == "616" || stationName == "617" ||
+                        stationName == "701" || stationName == "706" ||
+                        stationName == "801" || stationName == "803" || stationName == "804" || stationName == "806"))
                         printstation += "환승"
                 else
-                    printstation += "환승"
+                    if (stationName == "417")
+                        printstation += "환승"
             }
         }
         printstation += "역: ${stationName}\n"
@@ -389,4 +395,35 @@ fun printResult(result: DijkstraResult): String { //텍스트 형식으로 총�
 
     printresult += " ${cost}원"
     return printresult
+}
+
+fun main() {
+    setGraph()
+    val startText = "209"
+    val destText = "902"
+
+    val startStation = stationMap[startText] ?: -1
+    val endStation = stationMap[destText] ?: -1
+
+    if (startStation != -1 && endStation != -1) {
+        val timeResult = dijkstra(graph, startStation, endStation, "time")
+        val distResult = dijkstra(graph, startStation, endStation, "distance")
+        val costResult = dijkstra(graph, startStation, endStation, "cost")
+
+        if (timeResult.time != Int.MAX_VALUE && distResult.distance != Int.MAX_VALUE && costResult.cost != Int.MAX_VALUE) {
+            //이 부분 수정 필요 -- 텍스트랑 연결
+            println(printResult(timeResult))
+            println(printStationNames(timeResult.path))
+
+            println(printResult(distResult))
+            println(printStationNames(distResult.path))
+
+            println(printResult(costResult))
+            println(printStationNames(costResult.path))
+        }
+        else
+            println("다익스트라 오류")
+    }
+    else
+        println("입력오류")
 }
