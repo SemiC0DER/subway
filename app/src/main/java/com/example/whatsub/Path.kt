@@ -354,7 +354,7 @@ fun printStationNames(path: List<Int>): String { //텍스트 형식으로 역들
         val stationIndex = path[i]
         val stationName = stationNames.split("\n")[stationIndex + 1].substring(8, 11)//stationNames에 공백이 있으므로 +1, 인덱스 8부터 10까지 문자열이 저장되므로 공백 제거
 
-        if (i > 1 && i < path.size - 1) {//환승 조건 구현
+        if (i > 0 && i < path.size - 1) {//환승 조건 구현
             val prevStationName = stationNames.split("\n")[path[i - 1] + 1].substring(8, 11)
             val nextStationName = stationNames.split("\n")[path[i + 1] + 1].substring(8, 11)
             if (prevStationName[0] != nextStationName[0]) {
@@ -374,6 +374,33 @@ fun printStationNames(path: List<Int>): String { //텍스트 형식으로 역들
         printstation += "역: ${stationName}\n"
     }
     return printstation
+}
+
+fun getTransStations(path: List<Int>): MutableList<String> {
+    val transStations = mutableListOf<String>()
+    for (i in path.indices) {
+        val stationIndex = path[i]
+        val stationName = stationNames.split("\n")[stationIndex + 1].substring(8, 11)//stationNames에 공백이 있으므로 +1, 인덱스 8부터 10까지 문자열이 저장되므로 공백 제거
+
+        if (i > 0 && i < path.size - 1) {//환승 조건 구현
+            val prevStationName = stationNames.split("\n")[path[i - 1] + 1].substring(8, 11)
+            val nextStationName = stationNames.split("\n")[path[i + 1] + 1].substring(8, 11)
+            if (prevStationName[0] != nextStationName[0]) {
+                if (stationName[0] == prevStationName[0] || stationName[0] == nextStationName[0])
+                    if (!(stationName == "201" || stationName == "301" || stationName == "304" || stationName == "305" || stationName == "308" ||
+                                stationName == "402" || stationName == "407" || stationName == "408" || stationName == "417" ||
+                                stationName == "501" || stationName == "504" || stationName == "505" || stationName == "506" ||
+                                stationName == "602" || stationName == "603" || stationName == "606" || stationName == "607" || stationName == "609" || stationName == "610" || stationName == "616" || stationName == "617" ||
+                                stationName == "701" || stationName == "706" ||
+                                stationName == "801" || stationName == "803" || stationName == "804" || stationName == "806"))
+                        transStations.add(stationName)
+                    else
+                        if (stationName == "417")
+                            transStations.add(stationName)
+            }
+        }
+    }
+    return transStations
 }
 
 fun printResult(result: DijkstraResult): String { //텍스트 형식으로 총시간, 총거리, 총비용을 반환하는 함수
@@ -397,10 +424,10 @@ fun printResult(result: DijkstraResult): String { //텍스트 형식으로 총�
     return printresult
 }
 
-fun main() {
+fun main() {//함수들이 잘 작동되는지 테스트하는 코드
     setGraph()
-    val startText = "209"
-    val destText = "902"
+    val startText = "615"
+    val destText = "106"
 
     val startStation = stationMap[startText] ?: -1
     val endStation = stationMap[destText] ?: -1
@@ -411,9 +438,11 @@ fun main() {
         val costResult = dijkstra(graph, startStation, endStation, "cost")
 
         if (timeResult.time != Int.MAX_VALUE && distResult.distance != Int.MAX_VALUE && costResult.cost != Int.MAX_VALUE) {
-            //이 부분 수정 필요 -- 텍스트랑 연결
             println(printResult(timeResult))
             println(printStationNames(timeResult.path))
+            val trans = getTransStations(timeResult.path)
+            for (i in trans.indices)
+                println(trans[i])
 
             println(printResult(distResult))
             println(printStationNames(distResult.path))
