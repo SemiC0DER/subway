@@ -4,27 +4,17 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.whatsub.ui.theme.WhatSubTheme
-import com.google.firebase.Firebase
-import com.google.firebase.database.database
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_WhatSub)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
 
@@ -33,6 +23,8 @@ class MainActivity : AppCompatActivity() {
         val findroad: Button = findViewById(R.id.find_road)
         var startText = ""
         var destText = ""
+
+        var communityBtn: Button = findViewById(R.id.communityBtn)
 
         startstation.inputType = EditorInfo.TYPE_CLASS_TEXT
         deststation.inputType = EditorInfo.TYPE_CLASS_TEXT
@@ -68,5 +60,15 @@ class MainActivity : AppCompatActivity() {
             } else
                 Toast.makeText(this,"입력한 역 이름이 유효하지 않습니다.", Toast.LENGTH_SHORT).show()
         }
+
+
+
+
+
+        // 버튼 이벤트 추가
+        communityBtn.setOnClickListener(View.OnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        })
     }
 }
