@@ -1,6 +1,7 @@
 package com.example.whatsub
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         startstation.inputType = EditorInfo.TYPE_CLASS_TEXT
         deststation.inputType = EditorInfo.TYPE_CLASS_TEXT
 
-        startstation.setOnEditorActionListener { _, actionId, event ->
+        startstation.setOnEditorActionListener { _, actionId, event ->//출발역 입력
             if (actionId == EditorInfo.IME_ACTION_DONE || (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
                 startText = startstation.text.toString()
                 return@setOnEditorActionListener false
@@ -44,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             return@setOnEditorActionListener false
         }
 
-        deststation.setOnEditorActionListener { _, actionId, event ->
+        deststation.setOnEditorActionListener { _, actionId, event ->//도착역 입력
             if (actionId == EditorInfo.IME_ACTION_DONE || (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
                 destText = deststation.text.toString()
 
@@ -60,15 +61,10 @@ class MainActivity : AppCompatActivity() {
             val endStation = stationMap[destText] ?: -1
 
             if (startStation != -1 && endStation != -1) {
-                val timeResult = dijkstra(graph, startStation, endStation, "time")
-                val distResult = dijkstra(graph, startStation, endStation, "distance")
-                val costResult = dijkstra(graph, startStation, endStation, "cost")
-
-                if (timeResult.time != Int.MAX_VALUE && distResult.distance != Int.MAX_VALUE && costResult.cost != Int.MAX_VALUE) {
-
-                }
-                else
-                    Toast.makeText(this,"경로가 존재하지 않습니다.", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, PathActivity::class.java)
+                intent.putExtra("startStation", startStation)
+                intent.putExtra("endStation", endStation)
+                startActivity(intent)
             } else
                 Toast.makeText(this,"입력한 역 이름이 유효하지 않습니다.", Toast.LENGTH_SHORT).show()
         }
