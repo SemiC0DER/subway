@@ -85,7 +85,7 @@
         android:layout_marginTop="650dp"/>
 
     <Button
-        android:id="@+id/cost"
+        android:id="@+id/time"
         android:layout_width="379dp"
         android:layout_height="116dp"
         android:layout_centerInParent="true"
@@ -95,7 +95,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="162dp"
         android:layout_marginStart="16dp"
-        android:contentDescription="최소비용을 찾는 버튼입니다."/>
+        android:contentDescription="최소시간을 찾는 버튼입니다."/>
 
 
 
@@ -104,25 +104,25 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="최소비용"
+        android:text="최단시간"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="175dp"
         android:layout_marginStart="35dp"/>
 
     <TextView
-        android:id="@+id/cost_distance_set"
+        android:id="@+id/time_distance_set"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="이동거리: "
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="200dp"
-        android:layout_marginStart="35dp"/>
+        android:layout_marginStart="265dp"/>
 
 
     <TextView
-        android:id="@+id/cost_cost_set"
+        android:id="@+id/time_cost_set"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="이동비용: "
@@ -132,20 +132,20 @@
         android:layout_marginStart="150dp"/>
 
     <TextView
-        android:id="@+id/cost_time_set"
+        android:id="@+id/time_time_set"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="이동시간: "
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="200dp"
-        android:layout_marginStart="265dp"/>
+        android:layout_marginStart="35dp"/>
 
 
-    
+
 
     <TextView
-        android:id="@+id/cost_distance"
+        android:id="@+id/time_distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -153,10 +153,10 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="230dp"
-        android:layout_marginStart="40dp"/>
+        android:layout_marginStart="280dp"/>
 
     <TextView
-        android:id="@+id/cost_cost"
+        android:id="@+id/time_cost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -166,7 +166,7 @@
         android:layout_marginStart="160dp"/>
 
     <TextView
-        android:id="@+id/cost_time"
+        android:id="@+id/time_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -174,7 +174,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="230dp"
-        android:layout_marginStart="280dp"/>
+        android:layout_marginStart="40dp"/>
 
     <Button
         android:id="@+id/distance"
@@ -207,7 +207,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="358dp"
-        android:layout_marginStart="35dp"/>
+        android:layout_marginStart="265dp"/>
 
 
     <TextView
@@ -228,7 +228,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="358dp"
-        android:layout_marginStart="265dp"/>
+        android:layout_marginStart="35dp"/>
 
     <TextView
         android:id="@+id/distance_distance"
@@ -239,7 +239,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="388dp"
-        android:layout_marginStart="40dp"/>
+        android:layout_marginStart="280dp"/>
 
     <TextView
         android:id="@+id/distance_cost"
@@ -260,11 +260,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="388dp"
-        android:layout_marginStart="280dp"/>
+        android:layout_marginStart="40dp"/>
 
 
     <Button
-        android:id="@+id/time"
+        android:id="@+id/cost"
         android:layout_width="379dp"
         android:layout_height="116dp"
         android:layout_centerInParent="true"
@@ -275,31 +275,31 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="478dp"
         android:layout_marginStart="16dp"
-        android:contentDescription="최단시간를 찾는 버튼입니다."/>
+        android:contentDescription="최소비용을 찾는 버튼입니다."/>
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="최단시간"
+        android:text="최소비용"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="490dp"
         android:layout_marginStart="35dp"/>
 
     <TextView
-        android:id="@+id/time_distance_set"
+        android:id="@+id/cost_distance_set"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="이동거리: "
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="516dp"
-        android:layout_marginStart="35dp"/>
+        android:layout_marginStart="265dp"/>
 
 
     <TextView
-        android:id="@+id/time_cost_set"
+        android:id="@+id/cost_cost_set"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="이동비용: "
@@ -309,7 +309,7 @@
         android:layout_marginStart="150dp"/>
 
     <TextView
-        android:id="@+id/time_time_set"
+        android:id="@+id/cost_time_set"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="이동시간: "
@@ -317,10 +317,10 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="516dp"
-        android:layout_marginStart="265dp"/>
+        android:layout_marginStart="35dp"/>
 
     <TextView
-        android:id="@+id/time_distance"
+        android:id="@+id/cost_distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -328,10 +328,10 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="546dp"
-        android:layout_marginStart="40dp"/>
+        android:layout_marginStart="280dp"/>
 
     <TextView
-        android:id="@+id/time_cost"
+        android:id="@+id/cost_cost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -341,14 +341,14 @@
         android:layout_marginStart="160dp"/>
 
     <TextView
-        android:id="@+id/time_time"
+        android:id="@+id/cost_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="546dp"
-        android:layout_marginStart="280dp"/>
+        android:layout_marginStart="40dp"/>
 
 
 
