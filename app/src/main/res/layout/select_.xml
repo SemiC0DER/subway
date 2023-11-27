@@ -21,6 +21,8 @@
         android:layout_width="320dp"
         android:layout_height="48dp"
         android:hint="   출발역을 입력하세요"
+        android:textColorHint="#000000"
+
         android:background="@drawable/boder_line"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -32,6 +34,7 @@
         android:layout_width="320dp"
         android:layout_height="48dp"
         android:hint="   도착역을 입력하세요"
+        android:textColorHint="#000000"
         android:background="@drawable/boder_line"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

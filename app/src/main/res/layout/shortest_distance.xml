@@ -6,15 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="700dp"
-        android:layout_height="150dp"
-        android:background="@drawable/border_line_deepblue"
-        android:contentDescription="상단 이미지뷰"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+<!--    <ImageView-->
+<!--        android:id="@+id/imageView1"-->
+<!--        android:layout_width="700dp"-->
+<!--        android:layout_height="150dp"-->
+<!--        android:background="@drawable/border_line_deepblue"-->
+<!--        android:contentDescription="상단 이미지뷰"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent" />-->
 
     <EditText
         android:id="@+id/start_station"
@@ -49,12 +49,12 @@
         android:layout_marginStart="350dp"
         android:layout_marginTop="25dp" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="700dp"
-        android:layout_height="105dp"
-        android:background="@drawable/border_line_deepblue"
-        app:layout_constraintBottom_toBottomOf="parent" />
+<!--    <ImageView-->
+<!--        android:id="@+id/imageView2"-->
+<!--        android:layout_width="700dp"-->
+<!--        android:layout_height="105dp"-->
+<!--        android:background="@drawable/border_line_deepblue"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent" />-->
 
     <Button
         android:id="@+id/button4"
