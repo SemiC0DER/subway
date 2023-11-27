@@ -29,6 +29,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -56,6 +58,8 @@ public class DetailActivity extends AppCompatActivity {
         date_tv = findViewById(R.id.date_tv);
         comment_layout = findViewById(R.id.comment_layout);
         comment_et = findViewById(R.id.comment_et);
+        // 삭제 기능
+        Button delete_button = findViewById(R.id.delete_button);
 
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_reply, null);
         replyEditText = dialogView.findViewById(R.id.reply_edit_text); // 대댓글 입력
@@ -107,8 +111,7 @@ public class DetailActivity extends AppCompatActivity {
         });
 
 
-        // 삭제 기능
-        Button delete_button = findViewById(R.id.delete_button);
+
         delete_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,11 +123,6 @@ public class DetailActivity extends AppCompatActivity {
 
                 // 현재 로그인한 사용자 가져오기
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
-                /*FirebaseAuth auth = FirebaseAuth.getInstance();
-                FirebaseUser currentUser = auth.getCurrentUser();
-
-                String userEmail = currentUser.getEmail();*/
 
                 Log.v(TAG, "로그인한 사람: " + String.valueOf(currentUser));
 
@@ -223,12 +221,13 @@ public class DetailActivity extends AppCompatActivity {
                         comment.setKey(commentSnapshot.getKey());
                         View commentView = getLayoutInflater().inflate(R.layout.custom_comment, null);
                         TextView userIdTextView = commentView.findViewById(R.id.cmt_userid_tv);
+                        userIdTextView.setText("익명");
                         TextView contentTextView = commentView.findViewById(R.id.cmt_content_tv);
                         TextView dateTextView = commentView.findViewById(R.id.cmt_date_tv);
 
-                        if (userIdTextView != null) {
+                       /* if (userIdTextView != null) {
                             userIdTextView.setText(comment.getUserid());
-                        }
+                        }*/
                         if (contentTextView != null) {
                             contentTextView.setText(comment.getContent());
                         }
@@ -363,7 +362,7 @@ public class DetailActivity extends AppCompatActivity {
                     if (reply != null) {
                         // 대댓글 레이아웃을 인플레이트하여 작성자의 아이디를 설정하는 부분
                         View replyView = getLayoutInflater().inflate(R.layout.reply, null);
-                        ((TextView) replyView.findViewById(R.id.reply_userid_tv)).setText(reply.getUserid()); // 대댓글 작성자의 아이디 설정
+                       // ((TextView) replyView.findViewById(R.id.reply_userid_tv)).setText(reply.getUserid()); // 대댓글 작성자의 아이디 설정
                         ((TextView) replyView.findViewById(R.id.reply_content_tv)).setText(reply.getContent());
                         String timestamp = reply.getTimestamp();
                         if (timestamp != null && !timestamp.isEmpty()) {
