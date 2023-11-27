@@ -89,8 +89,8 @@
         android:layout_width="match_parent"
         android:layout_height="478dp"
         app:srcCompat="@drawable/no_color_border"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="150dp" />
+        tools:layout_editor_absoluteX="47dp"
+        tools:layout_editor_absoluteY="148dp" />
 
     <TextView
         android:id="@+id/textView5"
@@ -124,15 +124,40 @@
         tools:layout_editor_absoluteX="21dp"
         tools:layout_editor_absoluteY="354dp" />
 
+<!--    <TextView-->
+<!--        android:id="@+id/textView9"-->
+<!--        android:layout_width="355dp"-->
+<!--        android:layout_height="55dp"-->
+<!--        android:text="호선 별 색상 막대바-->
+
+<!--// 환승호선만 스크롤 뷰로 가능하게 할지"-->
+<!--        tools:layout_editor_absoluteX="24dp"-->
+<!--        tools:layout_editor_absoluteY="231dp"-->
+
+<!--        />-->
     <TextView
         android:id="@+id/textView9"
         android:layout_width="355dp"
-        android:layout_height="55dp"
-        android:text="호선 별 색상 막대바
-// 환승호선만 스크롤 뷰로 가능하게 할지"
+        android:layout_height="1dp"
+        android:text="호선 별 색상 막대바"
+        android:background="@drawable/stick"
         tools:layout_editor_absoluteX="24dp"
-        tools:layout_editor_absoluteY="231dp"
+        tools:layout_editor_absoluteY="231dp" />
 
-        />
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="12dp"
+        tools:layout_editor_absoluteY="240dp" />
+
+    <TextView
+        android:id="@+id/textView40"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="332dp"
+        tools:layout_editor_absoluteY="240dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
