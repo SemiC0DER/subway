@@ -43,7 +43,11 @@
         <activity
             android:name=".PathActivity"
             android:theme="@style/Theme.AppCompat"
-            android:exported="true"/>
+            android:exported="false"/>
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.AppCompat"
+            android:exported="false"/>
 <!--        <activity-->
 <!--            android:name=".MainActivity"-->
 <!--            android:exported="false" />-->
