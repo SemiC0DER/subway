@@ -1,40 +1,15 @@
-<!--<?xml version="1.0" encoding="utf-8"?>-->
-<!--<shape xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    android:shape="rectangle">-->
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
 
-<!--    &lt;!&ndash; 녹색 막대바 &ndash;&gt;-->
-<!--    <solid android:color="#000000"/> &lt;!&ndash; 여기에 녹색의 색상 코드를 넣어주세요 &ndash;&gt;-->
+    <!-- 녹색 막대바 -->
+    <solid android:color="#000000"/> <!-- 여기에 녹색의 색상 코드를 넣어주세요 -->
 
-<!--    &lt;!&ndash; 막대바의 둥근 모서리 설정 &ndash;&gt;-->
-<!--&lt;!&ndash;    <corners android:radius="1dp"/> &lt;!&ndash; 원하는 모서리의 반지름 크기를 설정할 수 있습니다. &ndash;&gt;&ndash;&gt;-->
+    <!-- 막대바의 둥근 모서리 설정 -->
+    <corners android:radius="8dp"/> <!-- 원하는 모서리의 반지름 크기를 설정할 수 있습니다. -->
 
-<!--    &lt;!&ndash; 막대바의 두께와 높이 &ndash;&gt;-->
-<!--    <size-->
-<!--        android:width="100dp"-->
-<!--        android:height="1dp"/>-->
-<!--</shape>-->
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <!-- 기존 가로 막대 모양 -->
-    <item>
-        <shape android:shape="rectangle">
-            <solid android:color="#000000"/> <!-- 원하는 색상 코드로 변경 -->
-            <size
-                android:width="100dp"
-                android:height="1dp"/>
-        </shape>
-    </item>
-
-
-
-    <!-- 세로 선 -->
-    <item android:top="0dp" android:bottom="0dp" android:left="49dp" android:right="49dp">
-        <shape android:shape="rectangle">
-            <solid android:color="#FFFFFF"/> <!-- 세로 선의 색상 -->
-            <size
-                android:width="1dp"
-                android:height="25dp"/> <!-- 세로 선의 길이와 높이 -->
-        </shape>
-    </item>
-
-</layer-list>
+    <!-- 막대바의 두께와 높이 -->
+    <size
+        android:width="10dp"
+        android:height="1dp"/>
+</shape>
