@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
             val endStation = stationMap[destText] ?: -1
 
             if (startStation != -1 && endStation != -1) {
-                val intent = Intent(this, PathActivity::class.java)
+                val intent = Intent(this, SelectActivity::class.java)
                 intent.putExtra("startStation", startStation)
                 intent.putExtra("endStation", endStation)
                 startActivity(intent)

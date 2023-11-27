@@ -13,11 +13,11 @@ import android.content.Context
 
 
 
-class PathActivity : AppCompatActivity(){
+class SelectActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_finded_load)
+        setContentView(R.layout.select_)
 
         val startstation: EditText = findViewById(R.id.start_station)
         val deststation: EditText = findViewById(R.id.destination_station)
@@ -63,15 +63,7 @@ class PathActivity : AppCompatActivity(){
                 val costResult = dijkstra(graph, startStation, endStation, "cost")
 
                 if (timeResult.time != Int.MAX_VALUE && distResult.distance != Int.MAX_VALUE && costResult.cost != Int.MAX_VALUE) {
-                    //이 부분 수정 필요 -- 텍스트랑 연결
-                    timeinfo.setText(printResult(timeResult))
-                    timeinfo2.setText(printStationNames(timeResult.path))
 
-                    distinfo.setText(printResult(distResult))
-                    distinfo2.setText(printStationNames(distResult.path))
-
-                    costinfo.setText(printResult(costResult))
-                    costinfo2.setText(printStationNames(costResult.path))
                 }
                 else
                     Toast.makeText(this,"경로가 존재하지 않습니다.",Toast.LENGTH_SHORT).show()
