@@ -40,6 +40,10 @@
          android:name=".LoginActivity"
              android:theme="@style/Theme.AppCompat"
          android:exported="false" />
+        <activity
+            android:name=".PathActivity"
+            android:theme="@style/Theme.AppCompat"
+            android:exported="true"/>
 <!--        <activity-->
 <!--            android:name=".MainActivity"-->
 <!--            android:exported="false" />-->

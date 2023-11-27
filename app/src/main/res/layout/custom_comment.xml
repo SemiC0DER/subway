@@ -30,6 +30,8 @@
             android:text="date"
             android:textColor="#000000"/>
 
+
+
     </LinearLayout>
 
     <TextView
@@ -45,4 +47,8 @@
         android:layout_height="wrap_content"
         android:text="대댓글 쓰기"
         android:layout_gravity="end"/>
+
+
+
+
 </LinearLayout>
