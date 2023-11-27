@@ -403,24 +403,24 @@ fun getTransStations(path: List<Int>): MutableList<String> {
     return transStations
 }
 
-fun printResult(result: DijkstraResult): String { //텍스트 형식으로 총시간, 총거리, 총비용을 반환하는 함수
-    var printresult = ""
+fun printResult(result: DijkstraResult): MutableList<String> { //텍스트 형식으로 총시간, 총거리, 총비용을 반환하는 함수
+    var printresult = mutableListOf<String>()
     val time = result.time
     val dist = result.distance
     val cost = result.cost
 
 
     if (time / 3600 > 0)
-        printresult += "${time / 3600}시간 ${(time % 3600) / 60}분"
+        printresult.add("${time / 3600}시간 ${(time % 3600) / 60}분")
     else
-        printresult += "${(time / 60)}분"
+        printresult.add("${(time / 60)}분")
 
     if (dist / 1000 > 0)
-        printresult += " ${dist / 1000}km ${(dist % 1000)}m"
+        printresult.add("${dist / 1000}km ${(dist % 1000)}m")
     else
-        printresult += " ${dist}m"
+        printresult.add("${dist}m")
 
-    printresult += " ${cost}원"
+    printresult.add("${cost}원")
     return printresult
 }
 
