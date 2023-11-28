@@ -22,6 +22,7 @@
         android:id="@+id/start_station"
         android:layout_width="320dp"
         android:layout_height="48dp"
+
         android:hint="   출발역을 입력하세요"
         android:textColorHint="#000000"
 
@@ -29,7 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="25dp" />
+        android:layout_marginTop="40dp" />
 
     <EditText
         android:id="@+id/destination_station"
@@ -41,18 +42,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="80dp" />
+        android:layout_marginTop="100dp" />
 
     <Button
         android:id="@+id/find_road"
         android:layout_width="48dp"
-        android:layout_height="102dp"
+        android:layout_height="107dp"
         android:background="@drawable/boder_line"
         android:text="길찾기"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="350dp"
-        android:layout_marginTop="25dp" />
+        android:layout_marginTop="40dp" />
 
 
 
@@ -68,7 +69,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="650dp" />
+        android:layout_marginTop="680dp" />
 
     <Button
         android:id="@+id/communityBtn"
@@ -82,12 +83,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="220dp"
-        android:layout_marginTop="650dp"/>
+        android:layout_marginTop="680dp"/>
 
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="480dp"
-        android:layout_marginTop="148dp"
+        android:layout_marginTop="168dp"
         android:contentDescription="지하철 노선도"
         app:layout_constraintTop_toTopOf="parent"
         android:background="#000000">
