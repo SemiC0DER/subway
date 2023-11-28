@@ -182,23 +182,4 @@ public class ListActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void fillter(String searchText) {
-        searchList.clear();
-        if(searchText.length() == 0)
-        {
-            searchList.addAll(titleList);
-        }
-        else
-        {
-            for( String search : titleList)
-            {
-                if(search.contains(searchText))
-                {
-                    searchList.add(search);
-                }
-            }
-        }
-        arrayAdapter.notifyDataSetChanged();
-    }
 }
