@@ -11,30 +11,23 @@
         android:orientation="horizontal"
         android:gravity="end">
 
-        <!--<EditText
-            android:id="@+id/search_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:layout_weight="1"
-            android:background="#eeeeee"
-            android:textColor="#000000" />-->
-
         <androidx.appcompat.widget.SearchView
             android:id="@+id/search_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:layout_weight="1"
-            android:minHeight="@android:dimen/app_icon_size"
+            android:minHeight="@android:dimen/notification_large_icon_width"
             app:queryHint="검색어를 입력하세요" />
 
-        <!--<Button
-            android:id="@+id/search_button"
+        <Button
+            android:id="@+id/search_close_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
             android:padding="16dp"
-            android:text="검색" />-->
+            android:layout_weight="0.5"
+            android:text="취소" />
 
     </LinearLayout>
 

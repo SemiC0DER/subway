@@ -34,6 +34,7 @@ public class ListActivity extends AppCompatActivity {
     // 사용할 컴포넌트 선언
     ListView listView;
     Button reg_button;
+    Button search_close_button;
     String userid = "";
     SearchView search_view;
 
@@ -89,10 +90,7 @@ public class ListActivity extends AppCompatActivity {
             }
         });
 
-        // 어댑터 초기화
-        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, titleList);
-        listView.setAdapter(arrayAdapter);
-
+        // 검색어 입력
         search_view = findViewById(R.id.search_view);
         search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -106,16 +104,29 @@ public class ListActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        search_close_button = findViewById(R.id.search_close_button);
+        search_close_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getBoardData();
+            }
+        });
+
+        // 어댑터 초기화
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, titleList);
+        listView.setAdapter(arrayAdapter);
     }
 
+    // 입력받은 검색어를 지금 있는 제목과 비교해서 일치하는 것만 표시
     private void filter(String searchText) {
         searchList.clear();
 
         if (searchText.length() == 0) {
-            // If the search text is empty, show all titles
+            // 검색어가 없으면 모든 게시물 표시
             searchList.addAll(titleList);
         } else {
-            // If there is a search text, filter the titles that contain the search text
+            // 검색어가 있으면 포함하는 게시물만 표시
             for (int i = 0; i < titleList.size(); i++) {
                 String title = titleList.get(i);
                 if (title.toLowerCase().contains(searchText.toLowerCase())) {
@@ -124,11 +135,12 @@ public class ListActivity extends AppCompatActivity {
             }
         }
 
-        // Update the adapter with the filtered list
+        // 어댑터 업데이트
         arrayAdapter.clear();
         arrayAdapter.addAll(searchList);
         arrayAdapter.notifyDataSetChanged();
     }
+
     @Override
     protected void onResume() {
         super.onResume();
