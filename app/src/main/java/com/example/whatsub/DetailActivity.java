@@ -27,6 +27,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
@@ -47,6 +49,10 @@ public class DetailActivity extends AppCompatActivity {
     String userid = "";
     String replyAuthorId;
 
+    Button likeButton;
+
+    boolean isLiked = false;
+
     private EditText replyEditText; // 대댓글을 입력받을 EditText 변수
 
     @Override
@@ -65,6 +71,10 @@ public class DetailActivity extends AppCompatActivity {
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_reply, null);
         replyEditText = dialogView.findViewById(R.id.reply_edit_text); // 대댓글 입력
 
+        // 좋아요 버튼 가져오기
+        likeButton = findViewById(R.id.like_button);
+        TextView likesCountTextView = findViewById(R.id.like_count);
+
         board_seq = getIntent().getStringExtra("board_seq");
         userid = getIntent().getStringExtra("userid");
 
@@ -74,6 +84,30 @@ public class DetailActivity extends AppCompatActivity {
 
         // 댓글 불러오기
         loadComments(board_seq);
+
+        DatabaseReference likeRef = FirebaseDatabase.getInstance().getReference("boards")
+                .child(board_seq).child("likes");
+
+        likeRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null && dataSnapshot.exists()) {
+                    Long likesCount = dataSnapshot.getValue(Long.class);
+                    if (likesCount != null) {
+                        likesCountTextView.setText(String.valueOf(likesCount));
+                    }
+                } else {
+                    // dataSnapshot이 null이거나 데이터가 없는 경우 처리할 내용 추가
+                    Log.d(TAG, "DataSnapshot is null or does not exist.");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(TAG, "Database error: " + error.getMessage());
+            }
+        });
+
 
         boardsRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -171,7 +205,80 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+
+        likeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*if(!isLiked){
+                    //안눌렀을 때
+                    updateLikes(true, likesCountTextView);
+                } else{
+                    // 이미 눌렀을 때
+                    updateLikes(false, likesCountTextView);
+                }*/
+                likeButton.setEnabled(false); // 버튼 비활성화
+                updateLikes(!isLiked, likesCountTextView);
+            }
+        });
+
     }
+
+    // 좋아요 수 및 사용자의 좋아요 정보 업데이트
+    private void updateLikes(boolean like, TextView likesCountTextView) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference boardLikesRef = database.getReference("boards").child(board_seq).child("likes");
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getEmail();
+
+            boardLikesRef.runTransaction(new Transaction.Handler() {
+                @Override
+                public Transaction.Result doTransaction(MutableData mutableData) {
+                    Long likesCount = mutableData.getValue(Long.class);
+                    if (likesCount == null) {
+                        // 게시글에 좋아요가 아무도 없는 경우
+                        likesCount = 0L;
+                    }
+
+                    if (like) {
+                        // 좋아요 추가
+                        likesCount++;
+                    } else {
+                        // 좋아요 취소
+                        if (likesCount > 0) {
+                            likesCount--;
+                        }
+                    }
+
+                    mutableData.setValue(likesCount);
+                    isLiked = like; // isLiked 상태 업데이트
+
+                    likesCountTextView.setText(String.valueOf(likesCount));
+                    return Transaction.success(mutableData);
+                }
+
+                @Override
+                public void onComplete(DatabaseError databaseError, boolean committed, DataSnapshot dataSnapshot) {
+                    if (databaseError != null) {
+                        Log.e("DetailActivity", "좋아요 업데이트 실패: " + databaseError.getMessage());
+                    } else {
+                        if (committed) {
+                            // 좋아요 업데이트 성공
+                            Log.d("DetailActivity", "좋아요 업데이트 완료: " + isLiked);
+                        }
+                    }
+                    likeButton.setEnabled(true);
+                }
+            });
+        }
+    }
+
+
+
+
+
+
 
     private void saveComment(String userid, String content, String board_seq) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
