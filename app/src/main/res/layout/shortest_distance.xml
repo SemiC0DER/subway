@@ -21,6 +21,7 @@
         android:layout_width="320dp"
         android:layout_height="48dp"
         android:hint="   출발역을 입력하세요"
+        android:textColorHint="#FFFFFF"
         android:background="@drawable/boder_line"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -32,6 +33,7 @@
         android:layout_width="320dp"
         android:layout_height="48dp"
         android:hint="   도착역을 입력하세요"
+        android:textColorHint="#FFFFFF"
         android:background="@drawable/boder_line"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -44,17 +46,11 @@
         android:layout_height="102dp"
         android:background="@drawable/boder_line"
         android:text="길찾기"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="350dp"
         android:layout_marginTop="45dp" />
-
-<!--    <ImageView-->
-<!--        android:id="@+id/imageView2"-->
-<!--        android:layout_width="700dp"-->
-<!--        android:layout_height="105dp"-->
-<!--        android:background="@drawable/border_line_deepblue"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent" />-->
 
     <Button
         android:id="@+id/button4"
@@ -64,6 +60,7 @@
         android:background="@drawable/boder_line"
         android:textStyle="bold"
         android:textSize="28sp"
+        android:textColor="#FFFFFF"
         android:fontFamily="@font/nanumregular"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -78,6 +75,7 @@
         android:background="@drawable/boder_line"
         android:textSize="28sp"
         android:textStyle="bold"
+        android:textColor="#FFFFFF"
         android:fontFamily="@font/nanumregular"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
