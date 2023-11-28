@@ -259,7 +259,7 @@ public class DetailActivity extends AppCompatActivity {
                     Log.d(TAG, "likesCount 체크크 = " + likesCount);
 
                     if (mutableData.child("users").child(userId).child(userId) != null) {
-                        Log.v(TAG,"정상작동");
+                        Log.v(TAG,"정상작동동동동");
                         //wasLiked[0] = mutableData.child("users").child(userId).getValue(Boolean.class);
                     }
 
