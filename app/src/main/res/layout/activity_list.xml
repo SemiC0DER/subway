@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_height="match_parent">
 
@@ -10,22 +11,30 @@
         android:orientation="horizontal"
         android:gravity="end">
 
-        <TextView
-            android:id="@+id/search_tv"
+        <!--<EditText
+            android:id="@+id/search_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:layout_weight="1"
-            android:text="게시물 검색"
-            android:textColor="#000000"
-            android:background="#eeeeee" />
+            android:background="#eeeeee"
+            android:textColor="#000000" />-->
 
-        <Button
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:layout_weight="1"
+            android:minHeight="@android:dimen/app_icon_size"
+            app:queryHint="검색어를 입력하세요" />
+
+        <!--<Button
             android:id="@+id/search_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:text="검색" />
+            android:text="검색" />-->
 
     </LinearLayout>
 
