@@ -10,3 +10,6 @@ plugins {
     id("org.jetbrains.kotlin.android") version "1.8.10" apply false
     id("com.google.gms.google-services") version "4.4.0" apply false
 }
+//dependencies {
+//    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+//}
