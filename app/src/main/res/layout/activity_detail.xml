@@ -17,8 +17,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:textOn="좋아요 취소"
-            android:textOff="좋아요"
+            android:background="@drawable/unlike"
+            android:textOn=""
+            android:textOff=""
             android:checked="false" />
 
 

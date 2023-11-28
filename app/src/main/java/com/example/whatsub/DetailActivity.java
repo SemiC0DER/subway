@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -219,10 +220,14 @@ public class DetailActivity extends AppCompatActivity {
                     // 토글 버튼이 체크된 상태 (좋아요 누름)
                     updateLikes(true, likesCountTextView);
                     isLiked = true;
+                    Drawable likeDrawable = getDrawable(R.drawable.like);
+                    likeToggleButton.setBackground(likeDrawable);
                 } else {
                     // 토글 버튼이 체크 해제된 상태 (좋아요 취소)
                     updateLikes(false, likesCountTextView);
                     isLiked = false;
+                    Drawable unlikeDrawable = getDrawable(R.drawable.unlike);
+                    likeToggleButton.setBackground(unlikeDrawable);
                 }
             }
         });
