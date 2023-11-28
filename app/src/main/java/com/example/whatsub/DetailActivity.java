@@ -13,10 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -53,6 +55,7 @@ public class DetailActivity extends AppCompatActivity {
 
     boolean isLiked = false;
 
+
     final boolean[] wasLiked = {false}; // final로 선언된 배열로 초기화
 
     private EditText replyEditText; // 대댓글을 입력받을 EditText 변수
@@ -74,7 +77,7 @@ public class DetailActivity extends AppCompatActivity {
         replyEditText = dialogView.findViewById(R.id.reply_edit_text); // 대댓글 입력
 
         // 좋아요 버튼 가져오기
-        likeButton = findViewById(R.id.like_button);
+        ToggleButton likeToggleButton = findViewById(R.id.like_toggle_button);
         TextView likesCountTextView = findViewById(R.id.like_count);
 
         board_seq = getIntent().getStringExtra("board_seq");
@@ -209,18 +212,18 @@ public class DetailActivity extends AppCompatActivity {
         });
 
 
-        likeButton.setOnClickListener(new View.OnClickListener() {
+        likeToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                if(!isLiked){
-                    //안눌렀을 때
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // 토글 버튼이 체크된 상태 (좋아요 누름)
                     updateLikes(true, likesCountTextView);
-                } else{
-                    // 이미 눌렀을 때
+                    isLiked = true;
+                } else {
+                    // 토글 버튼이 체크 해제된 상태 (좋아요 취소)
                     updateLikes(false, likesCountTextView);
+                    isLiked = false;
                 }
-                /*likeButton.setEnabled(false); // 버튼 비활성화
-                updateLikes(!isLiked, likesCountTextView);*/
             }
         });
 

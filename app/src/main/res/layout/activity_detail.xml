@@ -12,12 +12,15 @@
         android:orientation="horizontal"
         android:gravity="end">
 
-        <Button
-            android:id="@+id/like_button"
+        <ToggleButton
+            android:id="@+id/like_toggle_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="좋아요" />
+            android:textOn="좋아요 취소"
+            android:textOff="좋아요"
+            android:checked="false" />
+
 
         <TextView
             android:id="@+id/like_count"
