@@ -6,15 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--    <ImageView-->
-    <!--        android:id="@+id/imageView1"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="150dp"-->
-    <!--        android:background="@drawable/border_line_deepblue"-->
-    <!--        android:contentDescription="상단 이미지뷰"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent" />-->
+
+    <TextView
+        android:id="@+id/s"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text=""
+        android:background="@drawable/back_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp" />
 
     <EditText
         android:id="@+id/start_station"
@@ -52,12 +54,7 @@
         android:layout_marginStart="350dp"
         android:layout_marginTop="25dp" />
 
-    <!--    <ImageView-->
-    <!--        android:id="@+id/imageView2"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="105dp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        android:background="@drawable/border_line_deepblue" />-->
+
 
     <Button
         android:id="@+id/button4"
@@ -96,11 +93,15 @@
         android:background="#000000">
 
         <ImageView
-            android:id="@+id/Subway_Image"
+            android:id="@+id/subway_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:src="@drawable/resource__" />
+            android:src="@drawable/img" />
     </HorizontalScrollView>
 
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
