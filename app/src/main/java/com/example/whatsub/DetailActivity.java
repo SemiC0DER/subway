@@ -388,11 +388,7 @@ public class DetailActivity extends AppCompatActivity {
                         // 대댓글 레이아웃을 인플레이트하여 작성자의 아이디를 설정하는 부분
                         View replyView = getLayoutInflater().inflate(R.layout.reply, null);
 
-                        if (currentUser != null && replyAuthorId.equals(currentUser.getEmail())) {
-                            ((TextView) replyView.findViewById(R.id.reply_userid_tv)).setText("익명(작성자)"); // 대댓글 작성자의 아이디 설정
-                        } else {
-                            ((TextView) replyView.findViewById(R.id.reply_userid_tv)).setText("익명");
-                        }
+                        ((TextView) replyView.findViewById(R.id.reply_userid_tv)).setText("익명");
 
                         // 대댓글 내용 설정
                         ((TextView) replyView.findViewById(R.id.reply_content_tv)).setText(reply.getContent());

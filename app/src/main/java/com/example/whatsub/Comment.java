@@ -1,5 +1,7 @@
 package com.example.whatsub;
 
+import androidx.annotation.NonNull;
+
 import java.lang.reflect.Field;
 
 public class Comment {
@@ -66,14 +68,5 @@ public class Comment {
         this.key = key;
     }
 
-    /*public String getKey() {
-        try {
-            Field keyField = getClass().getDeclaredField("key");
-            keyField.setAccessible(true);
-            return (String) keyField.get(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }*/
+    // 이 클래스는 수정하지 않았습니다.
 }
