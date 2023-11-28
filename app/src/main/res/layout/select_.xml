@@ -21,25 +21,26 @@
         android:layout_width="320dp"
         android:layout_height="48dp"
         android:hint="   출발역을 입력하세요"
-        android:textColorHint="#000000"
-
+        android:textColorHint="#FFFFFF"
+        android:textColor="#FFFFFF"
         android:background="@drawable/boder_line"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="25dp" />
+        android:layout_marginTop="45dp" />
 
     <EditText
         android:id="@+id/destination_station"
         android:layout_width="320dp"
         android:layout_height="48dp"
         android:hint="   도착역을 입력하세요"
-        android:textColorHint="#000000"
+        android:textColorHint="#FFFFFF"
+        android:textColor="#FFFFFF"
         android:background="@drawable/boder_line"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="80dp" />
+        android:layout_marginTop="100dp" />
 
     <Button
         android:id="@+id/find_road"
@@ -47,10 +48,11 @@
         android:layout_height="102dp"
         android:background="@drawable/boder_line"
         android:text="길찾기"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="350dp"
-        android:layout_marginTop="25dp" />
+        android:layout_marginTop="45dp" />
 
 <!--    <ImageView-->
 <!--        android:id="@+id/imageView2"-->
@@ -67,17 +69,19 @@
         android:background="@drawable/boder_line"
         android:textStyle="bold"
         android:textSize="28sp"
+        android:textColor="#FFFFFF"
         android:fontFamily="@font/nanumregular"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="650dp" />
+        android:layout_marginTop="680dp" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/communityBtn"
         android:layout_width="170dp"
         android:layout_height="60dp"
         android:text="커뮤니티"
+        android:textColor="#FFFFFF"
         android:background="@drawable/boder_line"
         android:textSize="28sp"
         android:textStyle="bold"
@@ -85,7 +89,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="220dp"
-        android:layout_marginTop="650dp"/>
+        android:layout_marginTop="680dp"/>
 
     <Button
         android:id="@+id/time"
@@ -93,10 +97,10 @@
         android:layout_height="116dp"
         android:layout_centerInParent="true"
         android:onClick="onMoveButtonClick"
-        android:background="@drawable/no_color_border"
+        android:background="@drawable/boder_line_nocolor"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="162dp"
+        android:layout_marginTop="182dp"
         android:layout_marginStart="16dp"
         android:contentDescription="최소시간을 찾는 버튼입니다."/>
 
@@ -110,7 +114,7 @@
         android:text="최단시간"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="175dp"
+        android:layout_marginTop="195dp"
         android:layout_marginStart="35dp"/>
 
     <TextView
@@ -120,7 +124,7 @@
         android:text="이동거리: "
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="220dp"
         android:layout_marginStart="265dp"/>
 
 
@@ -131,7 +135,7 @@
         android:text="이동비용: "
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="220dp"
         android:layout_marginStart="150dp"/>
 
     <TextView
@@ -141,7 +145,7 @@
         android:text="이동시간: "
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="220dp"
         android:layout_marginStart="35dp"/>
 
 
@@ -155,7 +159,7 @@
         android:contentDescription="이동거리를 입력하는 곳입니다."
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="230dp"
+        android:layout_marginTop="250dp"
         android:layout_marginStart="280dp"/>
 
     <TextView
@@ -165,7 +169,7 @@
         android:text=""
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="230dp"
+        android:layout_marginTop="250dp"
         android:layout_marginStart="160dp"/>
 
     <TextView
@@ -176,7 +180,7 @@
         android:contentDescription="이동시간을 입력하는 곳입니다."
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="230dp"
+        android:layout_marginTop="250dp"
         android:layout_marginStart="40dp"/>
 
     <Button
@@ -185,10 +189,10 @@
         android:layout_height="116dp"
         android:layout_centerInParent="true"
         android:onClick="onMoveButtonClick"
-        android:background="@drawable/no_color_border"
+        android:background="@drawable/boder_line_nocolor"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="320dp"
+        android:layout_marginTop="340dp"
         android:layout_marginStart="16dp"
         android:contentDescription="최단거리를 찾는 버튼입니다."/>
 
@@ -199,7 +203,7 @@
         android:text="최단거리"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="332dp"
+        android:layout_marginTop="352dp"
         android:layout_marginStart="35dp"/>
 
     <TextView
@@ -209,7 +213,7 @@
         android:text="이동거리: "
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="358dp"
+        android:layout_marginTop="378dp"
         android:layout_marginStart="265dp"/>
 
 
@@ -220,7 +224,7 @@
         android:text="이동비용: "
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="358dp"
+        android:layout_marginTop="378dp"
         android:layout_marginStart="150dp"/>
 
     <TextView
@@ -230,7 +234,7 @@
         android:text="이동시간: "
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="358dp"
+        android:layout_marginTop="378dp"
         android:layout_marginStart="35dp"/>
 
     <TextView
@@ -241,7 +245,7 @@
         android:contentDescription="이동거리를 입력하는 곳입니다."
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="388dp"
+        android:layout_marginTop="408dp"
         android:layout_marginStart="280dp"/>
 
     <TextView
@@ -251,7 +255,7 @@
         android:text=""
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="388dp"
+        android:layout_marginTop="408dp"
         android:layout_marginStart="160dp"/>
 
     <TextView
@@ -262,7 +266,7 @@
         android:contentDescription="이동시간을 입력하는 곳입니다."
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="388dp"
+        android:layout_marginTop="408dp"
         android:layout_marginStart="40dp"/>
 
 
@@ -273,10 +277,10 @@
         android:layout_centerInParent="true"
         android:onClick="onMoveButtonClick"
 
-        android:background="@drawable/no_color_border"
+        android:background="@drawable/boder_line_nocolor"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="478dp"
+        android:layout_marginTop="498dp"
         android:layout_marginStart="16dp"
         android:contentDescription="최소비용을 찾는 버튼입니다."/>
 
@@ -287,7 +291,7 @@
         android:text="최소비용"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="490dp"
+        android:layout_marginTop="510dp"
         android:layout_marginStart="35dp"/>
 
     <TextView
@@ -297,7 +301,7 @@
         android:text="이동거리: "
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="516dp"
+        android:layout_marginTop="536dp"
         android:layout_marginStart="265dp"/>
 
 
@@ -308,7 +312,7 @@
         android:text="이동비용: "
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="516dp"
+        android:layout_marginTop="536dp"
         android:layout_marginStart="150dp"/>
 
     <TextView
@@ -319,7 +323,7 @@
         android:contentDescription="이동시간을 입력하는 곳입니다."
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="516dp"
+        android:layout_marginTop="536dp"
         android:layout_marginStart="35dp"/>
 
     <TextView
@@ -330,7 +334,7 @@
         android:contentDescription="이동거리를 입력하는 곳입니다."
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="546dp"
+        android:layout_marginTop="566dp"
         android:layout_marginStart="280dp"/>
 
     <TextView
@@ -340,7 +344,7 @@
         android:text=""
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="546dp"
+        android:layout_marginTop="566dp"
         android:layout_marginStart="160dp"/>
 
     <TextView
@@ -350,7 +354,7 @@
         android:text=""
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="546dp"
+        android:layout_marginTop="566dp"
         android:layout_marginStart="40dp"/>
 
 
