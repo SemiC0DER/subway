@@ -49,6 +49,10 @@
             android:exported="false"
             android:theme="@style/Theme.AppCompat" />
         <activity
+            android:name=".ShortestActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat" />
+        <activity
             android:name=".TestMain"
             android:exported="false"
             android:theme="@style/Theme.AppCompat" />

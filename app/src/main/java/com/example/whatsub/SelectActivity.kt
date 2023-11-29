@@ -106,6 +106,7 @@ class SelectActivity : AppCompatActivity(){
             val path = timeResult.path
             val pathArray: IntArray = path.toIntArray()
             val intent = Intent(this, ShortestActivity::class.java)
+            Log.d("SelectActivity", "pathArray[0]: ${pathArray?.get(0)}")
             intent.putExtra("startText", startText)
             intent.putExtra("destText", destText)
             intent.putExtra("pathArray", pathArray)
@@ -117,6 +118,7 @@ class SelectActivity : AppCompatActivity(){
             val path = distResult.path
             val pathArray: IntArray = path.toIntArray()
             val intent = Intent(this, ShortestActivity::class.java)
+            Log.d("SelectActivity", "pathArray[0]: ${pathArray?.get(0)}")
             intent.putExtra("startText", startText)
             intent.putExtra("destText", destText)
             intent.putExtra("pathArray", pathArray)
@@ -128,6 +130,7 @@ class SelectActivity : AppCompatActivity(){
             val path = costResult.path
             val pathArray: IntArray = path.toIntArray()
             val intent = Intent(this, ShortestActivity::class.java)
+            Log.d("SelectActivity", "pathArray[0]: ${pathArray?.get(0)}")
             intent.putExtra("startText", startText)
             intent.putExtra("destText", destText)
             intent.putExtra("pathArray", pathArray)
