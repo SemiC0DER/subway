@@ -7,16 +7,16 @@
     android:layout_height="match_parent">
 
 
-    <TextView
-        android:id="@+id/s"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text=""
-        android:background="@drawable/background_rect_black_grey"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp" />
+<!--    <TextView-->
+<!--        android:id="@+id/s"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:text=""-->
+<!--        android:background="@drawable/background_rect_black_grey"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:layout_marginStart="0dp"-->
+<!--        android:layout_marginTop="0dp" />-->
 
     <EditText
         android:id="@+id/start_station"

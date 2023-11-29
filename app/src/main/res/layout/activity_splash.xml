@@ -7,6 +7,17 @@
     tools:context=".SplashActivity">
 
     <TextView
+        android:id="@+id/textView8"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text=""
+        android:background="@drawable/background_rect_white_white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="0dp" />
+
+    <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,5 +50,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="171dp"
         android:layout_marginStart="0dp" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
