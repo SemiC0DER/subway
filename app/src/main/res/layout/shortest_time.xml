@@ -7,6 +7,17 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/textView8"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text=""
+        android:background="@drawable/background_rect_white_white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="0dp" />
+
+    <TextView
         android:id="@+id/textview"
         android:layout_width="320dp"
         android:layout_height="48dp"
@@ -121,7 +132,7 @@
         android:layout_width="110dp"
         android:layout_height="20dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="160dp"
         android:background="@drawable/border_round_blue"
         android:gravity="center"
         android:text="출발역:"
@@ -142,14 +153,14 @@
         android:background="@drawable/border_round_blue"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="560dp"
+        android:layout_marginTop="648dp"
         android:layout_marginStart="16dp" />
 
     <TextView
         android:id="@+id/cost_trans_staion"
         android:layout_width="74dp"
         android:layout_height="241dp"
-        android:text="101\n\n\n304"
+        android:text=""
         android:gravity="center"
         android:textStyle="bold"
         android:textColor="#000000"
@@ -166,11 +177,11 @@
         android:layout_marginStart="92dp"
         android:layout_marginTop="280dp"
         android:background="@drawable/border_round_blue"
-        android:gravity=""
+        android:gravity="center"
         android:textColor="#000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="101&#10140;"/>
+        android:text=""/>
 </androidx.constraintlayout.widget.ConstraintLayout>
         <!-- 화살표 유니코드 : &#10140;-->
         <!-- 숫자 10개 이상 일 경우 줄 바꿈-->
