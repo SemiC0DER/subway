@@ -8,7 +8,6 @@ class Board {
     private String userid;
     private String title;
     private String content;
-    private String sequence;
 
     private String date;
 
@@ -20,7 +19,6 @@ class Board {
         this.userid = userid;
         this.title = title;
         this.content = content;
-        this.sequence = sequence;
         //this.date = getCurrentDeviceDate(); // 기기의 현재 시간을 가져와 date 필드에 할당
         this.date = getCurrentDate();
     }
@@ -47,10 +45,6 @@ class Board {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getSequence() {
-        return sequence;
     }
 
     /*public String getCurrentDeviceDate() {
