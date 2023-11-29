@@ -129,16 +129,15 @@ class SelectActivity : AppCompatActivity(){
         }
 
         time.setOnClickListener {
-
+            val intent = Intent(this, ShortestActivity::class.java)
         }
 
         distance.setOnClickListener {
-
-
+            val intent = Intent(this, ShortestActivity::class.java)
         }
 
         cost.setOnClickListener {
-
+            val intent = Intent(this, ShortestActivity::class.java)
         }
 
         gotomain.setOnClickListener {
