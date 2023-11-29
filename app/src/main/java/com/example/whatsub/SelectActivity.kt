@@ -110,6 +110,7 @@ class SelectActivity : AppCompatActivity(){
             intent.putExtra("destText", destText)
             intent.putExtra("pathArray", pathArray)
             intent.putExtra("title", "최단 시간")
+            startActivity(intent)
         }
 
         distance.setOnClickListener {
@@ -120,6 +121,7 @@ class SelectActivity : AppCompatActivity(){
             intent.putExtra("destText", destText)
             intent.putExtra("pathArray", pathArray)
             intent.putExtra("title", "최단 거리")
+            startActivity(intent)
         }
 
         cost.setOnClickListener {
@@ -130,6 +132,7 @@ class SelectActivity : AppCompatActivity(){
             intent.putExtra("destText", destText)
             intent.putExtra("pathArray", pathArray)
             intent.putExtra("title", "최소 비용")
+            startActivity(intent)
         }
 
         gotomain.setOnClickListener {
