@@ -37,31 +37,10 @@ class MainActivity : AppCompatActivity() {
         startstation.inputType = EditorInfo.TYPE_CLASS_TEXT
         deststation.inputType = EditorInfo.TYPE_CLASS_TEXT
 
-        startstation.setOnEditorActionListener { _, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_DONE || (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
-                startText = startstation.text.toString()
-                // 확인용 로그
-                Log.d("MainActivity", "Start Text: $startText")
-                true
-            } else {
-                false
-            }
-        }
-
-        deststation.setOnEditorActionListener { _, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_DONE || (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
-                destText = deststation.text.toString()
-                // 확인용 로그
-                Log.d("MainActivity", "Dest Text: $destText")
-                hideKeyboard()
-                true
-            } else {
-                false
-            }
-        }
-
 
         findroad.setOnClickListener {
+            startText = startstation.getText().toString()
+            destText = deststation.getText().toString()
             val startStation = stationMap[startText] ?: -1
             val endStation = stationMap[destText] ?: -1
 
