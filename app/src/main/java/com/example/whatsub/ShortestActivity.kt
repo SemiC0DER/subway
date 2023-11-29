@@ -2,6 +2,7 @@ package com.example.whatsub
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -22,7 +23,8 @@ class ShortestActivity : AppCompatActivity(){
         val transStations: TextView = findViewById(R.id.cost_trans_staion)
         val allStations: TextView = findViewById(R.id.cost_all_station)
 
-        val pathArray: IntArray? = intent.getIntArrayExtra("path_data")
+        val pathArray: IntArray? = intent.getIntArrayExtra("pathArray")
+        Log.d("ShortestActivity", "pathArray[0]: ${pathArray?.get(0)}")
         val path: List<Int>? = pathArray?.toList()
         val title = intent.getStringExtra("title")
         var startText = intent.getStringExtra("startText")
