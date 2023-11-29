@@ -95,6 +95,7 @@ public class ListActivity extends AppCompatActivity {
         search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                getBoardData();
                 return false;
             }
 
