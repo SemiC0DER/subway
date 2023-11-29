@@ -7,16 +7,21 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,6 +32,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
@@ -47,6 +54,13 @@ public class DetailActivity extends AppCompatActivity {
     String userid = "";
     String replyAuthorId;
 
+    Button likeButton;
+
+    boolean isLiked = false;
+
+
+    //final boolean[] wasLiked = {false}; // final로 선언된 배열로 초기화
+
     private EditText replyEditText; // 대댓글을 입력받을 EditText 변수
 
     @Override
@@ -65,6 +79,10 @@ public class DetailActivity extends AppCompatActivity {
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_reply, null);
         replyEditText = dialogView.findViewById(R.id.reply_edit_text); // 대댓글 입력
 
+        // 좋아요 버튼 가져오기
+        ToggleButton likeToggleButton = findViewById(R.id.like_toggle_button);
+        TextView likesCountTextView = findViewById(R.id.like_count);
+
         board_seq = getIntent().getStringExtra("board_seq");
         userid = getIntent().getStringExtra("userid");
 
@@ -74,6 +92,55 @@ public class DetailActivity extends AppCompatActivity {
 
         // 댓글 불러오기
         loadComments(board_seq);
+
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("boards")
+                .child(board_seq)
+                .child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Boolean userLiked = snapshot.getValue(Boolean.class);
+                if (userLiked != null && userLiked) {
+                    Drawable likeDrawable = getDrawable(R.drawable.like);
+                    likeToggleButton.setBackground(likeDrawable);
+                } else {
+                    Drawable unlikeDrawable = getDrawable(R.drawable.unlike);
+                    likeToggleButton.setBackground(unlikeDrawable);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        DatabaseReference likeRef = FirebaseDatabase.getInstance().getReference("boards")
+                .child(board_seq).child("likes");
+
+        likeRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null && dataSnapshot.exists()) {
+                    Long likesCount = dataSnapshot.getValue(Long.class);
+                    if (likesCount != null) {
+                        likesCountTextView.setText(String.valueOf(likesCount));
+                    }
+                } else {
+                    // dataSnapshot이 null이거나 데이터가 없는 경우 처리할 내용 추가
+                    Log.d(TAG, "DataSnapshot is null or does not exist.");
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(TAG, "Database error: " + error.getMessage());
+            }
+        });
+
+
+
 
         boardsRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -171,7 +238,102 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+
+        likeToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // 토글 버튼이 체크된 상태 (좋아요 누름)
+                    updateLikes(true, likesCountTextView);
+                    isLiked = true;
+                    Drawable likeDrawable = getDrawable(R.drawable.like);
+                    likeToggleButton.setBackground(likeDrawable);
+                } else {
+                    // 토글 버튼이 체크 해제된 상태 (좋아요 취소)
+                    updateLikes(false, likesCountTextView);
+                    isLiked = false;
+                    Drawable likeDrawable = getDrawable(R.drawable.unlike);
+                    likeToggleButton.setBackground(likeDrawable);
+                }
+            }
+        });
+
     }
+
+    // 좋아요 수 및 사용자의 좋아요 정보 업데이트
+    private void updateLikes(boolean like, TextView likesCountTextView) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference boardLikesRef = database.getReference("boards")
+                .child(board_seq);
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid(); // Firebase UID 가져오기
+
+            DatabaseReference likesRef = boardLikesRef.child("likes");
+            DatabaseReference usersRef = boardLikesRef.child("users").child(userId);
+
+            boardLikesRef.runTransaction(new Transaction.Handler() {
+                @Override
+                public Transaction.Result doTransaction(MutableData mutableData) {
+                    Long likesCount = mutableData.child("likes").getValue(Long.class);
+                    if (likesCount == null) {
+                        likesCount = 0L;
+                    }
+
+                    Boolean wasLiked = mutableData.child("users").child(userId).getValue(Boolean.class);
+
+                    if (like && (wasLiked == null || !wasLiked)) {
+                        likesCount++;
+                        usersRef.setValue(true);
+                    } else if (!like && wasLiked != null && wasLiked && likesCount > 0) {
+                        likesCount--;
+                        usersRef.setValue(false);
+                    }
+
+                    mutableData.child("likes").setValue(likesCount);
+
+                    return Transaction.success(mutableData);
+                }
+
+                @Override
+                public void onComplete(DatabaseError databaseError, boolean committed, DataSnapshot dataSnapshot) {
+                    if (databaseError != null) {
+                        Log.e("DetailActivity", "좋아요 업데이트 실패: " + databaseError.getMessage());
+                    } else {
+                        if (committed) {
+                            Log.d("DetailActivity", "트랜잭션 완료");
+
+                            Long updatedLikesCount = dataSnapshot.child("likes").getValue(Long.class);
+                            if (updatedLikesCount != null) {
+                                DetailActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        likesCountTextView.setText(String.valueOf(updatedLikesCount));
+                                    }
+                                });
+                            }
+                        } else {
+                            Log.d("DetailActivity", "트랜잭션 취소됨");
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private void saveComment(String userid, String content, String board_seq) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();

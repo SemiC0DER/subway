@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text=""
-        android:background="@drawable/back_image"
+        android:background="@drawable/background_rect_black_grey"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="0dp"
@@ -26,7 +26,7 @@
         android:hint="   출발역을 입력하세요"
         android:textColorHint="#FFFFFF"
         android:textColor="#FFFFFF"
-        android:background="@drawable/boder_line"
+        android:background="@drawable/border_round_blue_grey"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="20dp"
@@ -39,7 +39,7 @@
         android:hint="   도착역을 입력하세요"
         android:textColorHint="#FFFFFF"
         android:textColor="#FFFFFF"
-        android:background="@drawable/boder_line"
+        android:background="@drawable/border_round_blue_grey"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="20dp"
@@ -49,7 +49,7 @@
         android:id="@+id/find_road"
         android:layout_width="48dp"
         android:layout_height="107dp"
-        android:background="@drawable/boder_line"
+        android:background="@drawable/border_round_blue_grey"
         android:text="길찾기"
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,7 +64,7 @@
         android:layout_width="170dp"
         android:layout_height="60dp"
         android:text="길찾기"
-        android:background="@drawable/boder_line"
+        android:background="@drawable/border_round_blue_grey"
         android:textStyle="bold"
         android:textSize="28sp"
         android:textColor="#FFFFFF"
@@ -80,7 +80,7 @@
         android:layout_height="60dp"
         android:text="커뮤니티"
         android:textColor="#FFFFFF"
-        android:background="@drawable/boder_line"
+        android:background="@drawable/border_round_blue_grey"
         android:textSize="28sp"
         android:textStyle="bold"
         android:fontFamily="@font/nanumregular"
@@ -102,7 +102,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:src="@drawable/img" />
+            android:src="@drawable/subway_line_white" />
     </HorizontalScrollView>
 
 

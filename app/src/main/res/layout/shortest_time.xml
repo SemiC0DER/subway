@@ -10,7 +10,7 @@
     <!--        android:id="@+id/imageView1"-->
     <!--        android:layout_width="700dp"-->
     <!--        android:layout_height="150dp"-->
-    <!--        android:background="@drawable/border_line_deepblue"-->
+    <!--        android:background="@drawable/border_rect_black_white"-->
     <!--        android:contentDescription="상단 이미지뷰"-->
     <!--        app:layout_constraintTop_toTopOf="parent"-->
     <!--        app:layout_constraintStart_toStartOf="parent"-->
@@ -23,7 +23,7 @@
         android:hint="   출발역을 입력하세요"
         android:textColorHint="#FFFFFF"
         android:textColor="#FFFFFF"
-        android:background="@drawable/boder_line"
+        android:background="@drawable/border_round_blue_grey"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="20dp"
@@ -36,7 +36,7 @@
         android:hint="   도착역을 입력하세요"
         android:textColorHint="#FFFFFF"
         android:textColor="#FFFFFF"
-        android:background="@drawable/boder_line"
+        android:background="@drawable/border_round_blue_grey"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="20dp"
@@ -46,7 +46,7 @@
         android:id="@+id/find_road"
         android:layout_width="48dp"
         android:layout_height="102dp"
-        android:background="@drawable/boder_line"
+        android:background="@drawable/border_round_blue_grey"
         android:text="길찾기"
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +59,7 @@
         android:layout_width="170dp"
         android:layout_height="60dp"
         android:text="길찾기"
-        android:background="@drawable/boder_line"
+        android:background="@drawable/border_round_blue_grey"
         android:textStyle="bold"
         android:textSize="28sp"
         android:textColor="#FFFFFF"
@@ -74,7 +74,7 @@
         android:layout_width="170dp"
         android:layout_height="60dp"
         android:text="커뮤니티"
-        android:background="@drawable/boder_line"
+        android:background="@drawable/border_round_blue_grey"
         android:textSize="28sp"
         android:textStyle="bold"
         android:textColor="#FFFFFF"
@@ -97,7 +97,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="최단 시간"
+        android:text=""
         android:textSize="60px"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
@@ -107,25 +107,26 @@
 
     <TextView
         android:id="@+id/start_st"
-        android:text="출발역: "
-        android:layout_width="74dp"
+        android:layout_width="110dp"
         android:layout_height="20dp"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:background="@drawable/boder_line_nocolor"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="220dp"
-        android:layout_marginStart="16dp" />
+        android:background="@drawable/border_round_blue"
+        android:gravity="center"
+        android:text="출발역:"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView7"
-        android:layout_width="74dp"
+        android:layout_width="110dp"
         android:layout_height="20dp"
         android:gravity="center"
         android:text="도착역: "
         android:textStyle="bold"
-        android:background="@drawable/boder_line_nocolor"
+        android:background="@drawable/border_round_blue"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="560dp"
@@ -135,10 +136,10 @@
         android:id="@+id/cost_trans_staion"
         android:layout_width="74dp"
         android:layout_height="241dp"
-        android:text=""
+        android:text="101\n\n\n304"
         android:gravity="center"
         android:textStyle="bold"
-        android:background="@drawable/boder_line_nocolor"
+        android:background="@drawable/border_round_blue"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="280dp"
@@ -148,33 +149,37 @@
         android:id="@+id/cost_all_station"
         android:layout_width="304dp"
         android:layout_height="241dp"
-        android:gravity=""
-        android:text=""
-        android:background="@drawable/boder_line_nocolor"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="92dp"
         android:layout_marginTop="280dp"
-        android:layout_marginStart="94dp" />
-
-    <!--환승역 2개-->
-
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/textView20"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="TextView"-->
-    <!--        tools:layout_editor_absoluteX="12dp"-->
-    <!--        tools:layout_editor_absoluteY="240dp" />-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/textView40"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="TextView"-->
-    <!--        tools:layout_editor_absoluteX="332dp"-->
-    <!--        tools:layout_editor_absoluteY="240dp" />-->
-
-    <!--     하단에 위치할 텍스트뷰들을 가로로 그룹화 -->
-
+        android:background="@drawable/border_round_blue"
+        android:gravity=""
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="101&#10140;"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- 화살표 유니코드 : &#10140;-->
+        <!-- 숫자 10개 이상 일 경우 줄 바꿈-->
+
+
+
+
+
+    <!--      <TextView
+             android:id="@+id/textView20"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="TextView"
+             tools:layout_editor_absoluteX="12dp"
+             tools:layout_editor_absoluteY="240dp" />
+
+         <TextView
+             android:id="@+id/textView40"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="TextView"
+             tools:layout_editor_absoluteX="332dp"
+             tools:layout_editor_absoluteY="240dp" />
+
+          하단에 위치할 텍스트뷰들을 가로로 그룹화
+
+ </androidx.constraintlayout.widget.ConstraintLayout> -->

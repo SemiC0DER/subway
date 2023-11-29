@@ -5,13 +5,41 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="end">
 
-        <!-- 수정 버튼 -->
+        <ToggleButton
+            android:id="@+id/like_toggle_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:background="@drawable/unlike"
+            android:textOn=""
+            android:textOff=""
+            android:checked="false" />
+        <!--<Button
+            android:id="@+id/like_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="좋아요" />-->
+
+
+        <TextView
+            android:id="@+id/like_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:gravity="center_vertical" />
+
         <Button
             android:id="@+id/edit_button"
             android:layout_width="wrap_content"
@@ -19,6 +47,7 @@
             android:padding="8dp"
             android:text="수정"/>
 
+        <!-- 삭제 버튼 -->
         <Button
             android:id="@+id/delete_button"
             android:layout_width="wrap_content"
@@ -32,8 +61,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:scrollbars="none"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,19 +79,19 @@
                     android:layout_height="wrap_content"
                     android:padding="16dp"
 
-                    android:text="제목"/>
+                    android:text="제목" />
 
                 <TextView
                     android:id="@+id/title_tv"
-                    android:padding="16dp"
-                    android:background="#eeeeee"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="#eeeeee"
+                    android:padding="16dp"
                     android:text="제목입니다."
-                    android:textColor="#000000"
-                    />
+                    android:textColor="#000000" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,62 +102,61 @@
                     android:layout_height="wrap_content"
                     android:padding="16dp"
 
-                    android:text="작성일"/>
+                    android:text="작성일" />
 
                 <TextView
                     android:id="@+id/date_tv"
-                    android:padding="16dp"
-                    android:background="#eeeeee"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="#eeeeee"
+                    android:padding="16dp"
                     android:text="작성일입니다."
-                    android:textColor="#000000"
-                    />
+                    android:textColor="#000000" />
             </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                android:text="내용"/>
+                android:text="내용" />
 
             <TextView
                 android:id="@+id/content_tv"
-                android:padding="16dp"
-                android:background="#eeeeee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#eeeeee"
+                android:padding="16dp"
                 android:text="내용입니다."
-                android:textColor="#000000"
-                />
+                android:textColor="#000000" />
 
             <TextView
-                android:padding="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="댓글"
-                />
+                android:padding="16dp"
+                android:text="댓글" />
 
             <LinearLayout
                 android:id="@+id/comment_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:orientation="vertical"/>
+                android:orientation="vertical"
+                android:padding="8dp" />
 
             <LinearLayout
                 android:id="@+id/reply_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:orientation="vertical"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:paddingBottom="8dp"
-                android:visibility="visible"
-                android:layout_marginTop="8dp"/>
+                android:visibility="visible" />
 
         </LinearLayout>
     </ScrollView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
