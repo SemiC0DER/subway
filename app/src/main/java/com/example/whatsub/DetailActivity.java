@@ -7,7 +7,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -57,7 +59,7 @@ public class DetailActivity extends AppCompatActivity {
     boolean isLiked = false;
 
 
-    final boolean[] wasLiked = {false}; // final로 선언된 배열로 초기화
+    //final boolean[] wasLiked = {false}; // final로 선언된 배열로 초기화
 
     private EditText replyEditText; // 대댓글을 입력받을 EditText 변수
 
@@ -107,12 +109,12 @@ public class DetailActivity extends AppCompatActivity {
                     Log.d(TAG, "DataSnapshot is null or does not exist.");
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.e(TAG, "Database error: " + error.getMessage());
             }
         });
+
 
 
 
@@ -226,8 +228,8 @@ public class DetailActivity extends AppCompatActivity {
                     // 토글 버튼이 체크 해제된 상태 (좋아요 취소)
                     updateLikes(false, likesCountTextView);
                     isLiked = false;
-                    Drawable unlikeDrawable = getDrawable(R.drawable.unlike);
-                    likeToggleButton.setBackground(unlikeDrawable);
+                    Drawable likeDrawable = getDrawable(R.drawable.unlike);
+                    likeToggleButton.setBackground(likeDrawable);
                 }
             }
         });
@@ -238,53 +240,34 @@ public class DetailActivity extends AppCompatActivity {
     private void updateLikes(boolean like, TextView likesCountTextView) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference boardLikesRef = database.getReference("boards")
-                .child(board_seq)
-                .child("likes");
-
-
+                .child(board_seq);
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String userId = currentUser.getUid(); // Firebase UID 가져오기
 
-
-            //boolean wasLiked = false;
+            DatabaseReference likesRef = boardLikesRef.child("likes");
+            DatabaseReference usersRef = boardLikesRef.child("users").child(userId);
 
             boardLikesRef.runTransaction(new Transaction.Handler() {
                 @Override
                 public Transaction.Result doTransaction(MutableData mutableData) {
-                    Long likesCount = mutableData.getValue(Long.class);
+                    Long likesCount = mutableData.child("likes").getValue(Long.class);
                     if (likesCount == null) {
                         likesCount = 0L;
                     }
 
-                    Log.d(TAG,"userIDDDDDDD" + userId);
-                    Log.v(TAG,"테에ㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔ스트");
-                    Log.v(TAG,"1차 테스트 "+mutableData.child("users").child(userId));
+                    Boolean wasLiked = mutableData.child("users").child(userId).getValue(Boolean.class);
 
-                    Log.d(TAG,"like 체크크크 = " + like);
-                    Log.d(TAG, "wasLiked 체크크 = " + wasLiked[0]);
-                    Log.d(TAG, "likesCount 체크크 = " + likesCount);
-
-                    if (mutableData.child("users").child(userId).child(userId) != null) {
-                        Log.v(TAG,"정상작동동동동");
-                        //wasLiked[0] = mutableData.child("users").child(userId).getValue(Boolean.class);
-                    }
-
-                    if (like && !wasLiked[0]) {
+                    if (like && (wasLiked == null || !wasLiked)) {
                         likesCount++;
-                        //mutableData.child("users").child(userId).setValue(true);
-                        wasLiked[0] = true;
-                        Log.d(TAG, "증가 wasLiked = " + wasLiked[0]);
-                    } else if (!like && wasLiked[0] && likesCount > 0) {
+                        usersRef.setValue(true);
+                    } else if (!like && wasLiked != null && wasLiked && likesCount > 0) {
                         likesCount--;
-                        //mutableData.child("users").child(userId).setValue(false);
-                        wasLiked[0] = false;
-                        Log.d(TAG, "감소 wasLiked = " + wasLiked[0]);
+                        usersRef.setValue(false);
                     }
 
-                    mutableData.setValue(likesCount);
-                    isLiked = like;
+                    mutableData.child("likes").setValue(likesCount);
 
                     return Transaction.success(mutableData);
                 }
@@ -297,10 +280,7 @@ public class DetailActivity extends AppCompatActivity {
                         if (committed) {
                             Log.d("DetailActivity", "트랜잭션 완료");
 
-                            // 해당 위치에서 wasLiked 변수 값 확인
-                            Log.d("DetailActivity", "최종 wasLiked: " + wasLiked[0]);
-
-                            Long updatedLikesCount = dataSnapshot.getValue(Long.class);
+                            Long updatedLikesCount = dataSnapshot.child("likes").getValue(Long.class);
                             if (updatedLikesCount != null) {
                                 DetailActivity.this.runOnUiThread(new Runnable() {
                                     @Override
@@ -316,8 +296,9 @@ public class DetailActivity extends AppCompatActivity {
                 }
             });
         }
-
     }
+
+
 
 
 
