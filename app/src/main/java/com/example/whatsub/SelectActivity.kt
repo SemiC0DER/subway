@@ -18,10 +18,6 @@ import com.google.android.material.internal.ViewUtils.hideKeyboard
 //결과를 대략적으로 표시하는 창이다.
 class SelectActivity : AppCompatActivity(){
 
-    private fun hideKeyboard() {
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -107,15 +103,33 @@ class SelectActivity : AppCompatActivity(){
         }
 
         time.setOnClickListener {
+            val path = timeResult.path
+            val pathArray: IntArray = path.toIntArray()
             val intent = Intent(this, ShortestActivity::class.java)
+            intent.putExtra("startText", startText)
+            intent.putExtra("destText", destText)
+            intent.putExtra("pathArray", pathArray)
+            intent.putExtra("title", "최단 시간")
         }
 
         distance.setOnClickListener {
+            val path = distResult.path
+            val pathArray: IntArray = path.toIntArray()
             val intent = Intent(this, ShortestActivity::class.java)
+            intent.putExtra("startText", startText)
+            intent.putExtra("destText", destText)
+            intent.putExtra("pathArray", pathArray)
+            intent.putExtra("title", "최단 거리")
         }
 
         cost.setOnClickListener {
+            val path = costResult.path
+            val pathArray: IntArray = path.toIntArray()
             val intent = Intent(this, ShortestActivity::class.java)
+            intent.putExtra("startText", startText)
+            intent.putExtra("destText", destText)
+            intent.putExtra("pathArray", pathArray)
+            intent.putExtra("title", "최소 비용")
         }
 
         gotomain.setOnClickListener {

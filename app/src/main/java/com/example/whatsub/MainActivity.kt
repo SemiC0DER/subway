@@ -16,10 +16,7 @@ import androidx.compose.ui.platform.textInputServiceFactory
 import com.google.android.material.internal.ViewUtils.hideKeyboard
 
 class MainActivity : AppCompatActivity() {
-    private fun hideKeyboard() {
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
-    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_WhatSub)
