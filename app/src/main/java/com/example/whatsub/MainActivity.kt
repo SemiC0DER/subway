@@ -34,8 +34,6 @@ class MainActivity : AppCompatActivity() {
 
         var communityBtn: Button = findViewById(R.id.communityBtn)
 
-        startstation.inputType = EditorInfo.TYPE_CLASS_TEXT
-        deststation.inputType = EditorInfo.TYPE_CLASS_TEXT
 
 
         findroad.setOnClickListener {
