@@ -24,87 +24,99 @@
         android:layout_height="48dp"
 
         android:hint="   출발역을 입력하세요"
-        android:textColorHint="#FFFFFF"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/border_round_blue_grey"
+        android:textColorHint="#000000"
+        android:textColor="#000000"
+        android:background="@drawable/border_round_blue_white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp" />
+        android:layout_marginTop="20dp" />
 
     <EditText
         android:id="@+id/destination_station"
         android:layout_width="320dp"
         android:layout_height="48dp"
         android:hint="   도착역을 입력하세요"
-        android:textColorHint="#FFFFFF"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/border_round_blue_grey"
+        android:textColorHint="#000000"
+        android:textColor="#000000"
+        android:background="@drawable/border_round_blue_white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="100dp" />
+        android:layout_marginTop="75dp" />
 
     <Button
         android:id="@+id/find_road"
         android:layout_width="48dp"
         android:layout_height="107dp"
-        android:background="@drawable/border_round_blue_grey"
+        android:background="@drawable/border_round_blue_white"
         android:text="길찾기"
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="350dp"
-        android:layout_marginTop="40dp" />
-
+        android:layout_marginTop="20dp" />
 
 
     <Button
         android:id="@+id/button4"
         android:layout_width="170dp"
-        android:layout_height="60dp"
-        android:text="길찾기"
-        android:background="@drawable/border_round_blue_grey"
-        android:textStyle="bold"
-        android:textSize="28sp"
-        android:textColor="#FFFFFF"
-        android:fontFamily="@font/nanumregular"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="50dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="680dp" />
+        android:layout_marginTop="705dp"
+        android:background="@drawable/border_round_blue_white"
+        android:fontFamily="@font/nanumregular"
+        android:text="길찾기"
+        android:textColor="#000000"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/communityBtn"
         android:layout_width="170dp"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:text="커뮤니티"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/border_round_blue_grey"
+        android:textColor="#000000"
+        android:background="@drawable/border_round_blue_white"
         android:textSize="28sp"
         android:textStyle="bold"
         android:fontFamily="@font/nanumregular"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="220dp"
-        android:layout_marginTop="680dp"/>
+        android:layout_marginTop="705dp"/>
 
     <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="480dp"
+        android:layout_height="482dp"
         android:layout_marginTop="168dp"
         android:contentDescription="지하철 노선도"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="#000000">
+        android:background="@drawable/border_round_blue_white">
 
         <ImageView
             android:id="@+id/subway_image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="480dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="1dp"
             android:scaleType="fitXY"
             android:src="@drawable/subway_line_white" />
     </HorizontalScrollView>
 
+<!--    <TextView-->
+<!--        android:id="@+id/textView9"-->
+<!--        android:layout_width="390dp"-->
+<!--        android:layout_height="60dp"-->
+<!--        android:text="TextView"-->
+<!--        android:background="@drawable/border_round_blue_grey"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:layout_marginStart="10dp"-->
+<!--        android:layout_marginTop="700dp"/>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
