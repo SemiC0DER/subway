@@ -397,13 +397,15 @@ fun getStationsRoute(path: List<Int>): MutableList<String> {
                                 stationName == "602" || stationName == "603" || stationName == "606" || stationName == "607" || stationName == "609" || stationName == "610" || stationName == "616" || stationName == "617" ||
                                 stationName == "701" || stationName == "706" ||
                                 stationName == "801" || stationName == "803" || stationName == "804" || stationName == "806")) {
-                        StationRoute[0] += "${stationName}\n"
+                        StationRoute[0] += "${stationName}\n\n"
                         StationRoute[1] += "\n"
+                        j = 0
                     }
                     else
                         if (stationName == "417") {
-                            StationRoute[0] += "${stationName}\n"
-                            StationRoute[1] += "\n"
+                            StationRoute[0] += "${stationName}\n\n"
+                            StationRoute[1] += "\n\n"
+                            j = 0
                         }
             }
         }
