@@ -22,7 +22,7 @@ class ShortestActivity : AppCompatActivity(){
         val transStations: TextView = findViewById(R.id.cost_trans_staion)
         val allStations: TextView = findViewById(R.id.cost_all_station)
 
-        val pathArray: IntArray? = intent.getIntArrayExtra("path_data")
+        val pathArray: IntArray? = intent.getIntArrayExtra("pathArray")
         val path: List<Int>? = pathArray?.toList()
         val title = intent.getStringExtra("title")
         var startText = intent.getStringExtra("startText")
