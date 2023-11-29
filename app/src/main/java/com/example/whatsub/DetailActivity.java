@@ -93,6 +93,30 @@ public class DetailActivity extends AppCompatActivity {
         // 댓글 불러오기
         loadComments(board_seq);
 
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("boards")
+                .child(board_seq)
+                .child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Boolean userLiked = snapshot.getValue(Boolean.class);
+                if (userLiked != null && userLiked) {
+                    Drawable likeDrawable = getDrawable(R.drawable.like);
+                    likeToggleButton.setBackground(likeDrawable);
+                } else {
+                    Drawable unlikeDrawable = getDrawable(R.drawable.unlike);
+                    likeToggleButton.setBackground(unlikeDrawable);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         DatabaseReference likeRef = FirebaseDatabase.getInstance().getReference("boards")
                 .child(board_seq).child("likes");
 
