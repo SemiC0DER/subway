@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 class ShortestActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.shortest_distance)
+        setContentView(R.layout.activity_subway_detail)
 
         val startstation: EditText = findViewById(R.id.start_station)
         val deststation: EditText = findViewById(R.id.destination_station)
