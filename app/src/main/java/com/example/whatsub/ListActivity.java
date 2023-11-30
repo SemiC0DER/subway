@@ -63,18 +63,21 @@ public class ListActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // 어떤 값을 선택했는지 토스트를 뿌려줌
-                Toast.makeText(ListActivity.this, adapterView.getItemAtPosition(i) + " 클릭", Toast.LENGTH_SHORT).show();
+                if (i >= 0 && i < seqList.size()) { // Check if the index is within bounds
+                    String selectedSeq = seqList.get(i);
 
-                // 게시물의 번호와 userid를 가지고 DetailActivity 로 이동
-                Intent intent = new Intent(ListActivity.this, DetailActivity.class);
-                intent.putExtra("board_seq", seqList.get(i));
-                intent.putExtra("userid", userid);
-                Log.v(TAG, "seqList contents: " + seqList.toString());
+                    // Toast for debugging
+                    Toast.makeText(ListActivity.this, adapterView.getItemAtPosition(i) + " 클릭", Toast.LENGTH_SHORT).show();
 
-                startActivity(intent);
+                    // Start DetailActivity with the selected board sequence
+                    Intent intent = new Intent(ListActivity.this, DetailActivity.class);
+                    intent.putExtra("board_seq", selectedSeq);
+                    intent.putExtra("userid", userid);
+                    startActivity(intent);
+                }
             }
         });
+
 
         // 버튼 컴포넌트 초기화
         reg_button = findViewById(R.id.reg_button);
