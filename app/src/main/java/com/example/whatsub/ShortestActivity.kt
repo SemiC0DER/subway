@@ -33,8 +33,14 @@ class ShortestActivity : AppCompatActivity(){
         Log.d("ShortestActivity", "pathArray[0]: ${pathArray?.get(0)}")
         val path: List<Int>? = pathArray?.toList()
         val title = intent.getStringExtra("title")
+
         var startText = intent.getStringExtra("startText")
         var destText = intent.getStringExtra("destText")
+        Log.d("SelectActivity", "startText: $startText")
+        Log.d("SelectActivity", "destText: $destText")
+
+        startstation.setText(startText)
+        deststation.setText(destText)
 
         criteria.setText(title)
         start_st.setText(startText)

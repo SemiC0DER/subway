@@ -38,11 +38,14 @@ class SelectActivity : AppCompatActivity(){
         val time_cost: TextView = findViewById(R.id.time_cost)
         val time_time: TextView = findViewById(R.id.time_time)
 
+
         var startText = intent.getStringExtra("startText")
         var destText = intent.getStringExtra("destText")
         Log.d("SelectActivity", "startText: $startText")
         Log.d("SelectActivity", "destText: $destText")
 
+        startstation.setText(startText)
+        deststation.setText(destText)
         //받은 값을 토대로 초기화
         setGraph()
         var startStation = stationMap[startText] ?: -1

@@ -347,6 +347,8 @@ fun dijkstra(graph: Array<MutableList<Edge>>, start: Int, end: Int, criteria: St
     return DijkstraResult(timeDist[end], distanceDist[end], costDist[end], path)
 }//우선순위 큐를 사용한 다익스트라 길찾기 함수
 
+
+/*
 fun printStationNames(path: List<Int>): String { //텍스트 형식으로 역들의 목록과 환승지점을 반환하는 함수
     var printstation = "역 목록:\n"
 
@@ -375,6 +377,7 @@ fun printStationNames(path: List<Int>): String { //텍스트 형식으로 역들
     }
     return printstation
 }
+ */
 
 fun getStationsRoute(path: List<Int>): MutableList<String> {
     val StationRoute = mutableListOf<String>()
@@ -382,8 +385,10 @@ fun getStationsRoute(path: List<Int>): MutableList<String> {
     StationRoute.add("")
     var j = 0
     for (i in path.indices) {
+
         val stationIndex = path[i]
         val stationName = stationNames.split("\n")[stationIndex + 1].substring(8, 11)//stationNames에 공백이 있으므로 +1, 인덱스 8부터 10까지 문자열이 저장되므로 공백 제거
+
         if (i == 0)
             StationRoute[0] += "${stationName}\n"
         else if (i > 0 && i < path.size - 1) {//환승 조건 구현
@@ -409,6 +414,7 @@ fun getStationsRoute(path: List<Int>): MutableList<String> {
                         }
             }
         }
+        //경로 표시
         if (i < path.size -1) {
             if (i == 0) {
                 StationRoute[1] += "${stationName}(승차) ->"
@@ -420,7 +426,7 @@ fun getStationsRoute(path: List<Int>): MutableList<String> {
         if (i == path.size -1)
             StationRoute[1] += "${stationName}(하차)\n"
 
-        if (j > 5) {
+        if (j > 5) {//역 수가 너무 많으면 줄바꿈
             StationRoute[1] += "\n"
             StationRoute[0] += "\n"
             j=0
@@ -450,6 +456,7 @@ fun printResult(result: DijkstraResult): MutableList<String> { //텍스트 형�
     return printresult
 }
 
+/*
 fun main() {//함수들이 잘 작동되는지 테스트하는 코드
     setGraph()
     val startText = "615"
@@ -479,3 +486,4 @@ fun main() {//함수들이 잘 작동되는지 테스트하는 코드
     else
         println("입력오류")
 }
+ */
