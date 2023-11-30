@@ -92,11 +92,10 @@ class SelectActivity : AppCompatActivity(){
                     cost_time.setText(newcostResultData[0])
                     cost_distance.setText(newcostResultData[1])
                     cost_cost.setText(newcostResultData[2])
-                }
-                else
-                    Toast.makeText(this,"경로가 존재하지 않습니다.",Toast.LENGTH_SHORT).show()
+                } else
+                    Toast.makeText(this, "경로가 존재하지 않습니다.", Toast.LENGTH_SHORT).show()
             } else
-                Toast.makeText(this,"입력한 역 이름이 유효하지 않습니다.",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "입력한 역 이름이 유효하지 않습니다.", Toast.LENGTH_SHORT).show()
         }
 
         time.setOnClickListener {
@@ -135,26 +134,35 @@ class SelectActivity : AppCompatActivity(){
             startActivity(intent)
         }
 
-
-        //엔터 또는 다른 작업 시 키보드 숨기기
-        startstation.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
+        //엔터키 키보드 숨김
+        startstation.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 hideKeyboard()
+                return@setOnEditorActionListener true
             }
             false
         }
 
-        //엔터 또는 다른 작업 시 키보드 숨기기
-        deststation.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
+        //엔터키 키보드 숨김
+        deststation.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 hideKeyboard()
+                return@setOnEditorActionListener true
             }
             false
         }
+
     }
-    private fun hideKeyboard() {//키보드 숨겨주는 코드
+
+    //터치 키보드 숨김
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+        return true
+    }
+    //키보드 숨김
+    private fun hideKeyboard() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
     }
-
 }
