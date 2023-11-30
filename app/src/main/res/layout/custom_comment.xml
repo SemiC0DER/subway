@@ -45,7 +45,9 @@
         android:id="@+id/reply_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/border_round_blue_white"
         android:text="대댓글 쓰기"
+        android:textColor="#000000"
         android:layout_gravity="end"/>
 
 
