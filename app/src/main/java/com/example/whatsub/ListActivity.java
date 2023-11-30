@@ -66,10 +66,10 @@ public class ListActivity extends AppCompatActivity {
                 if (i >= 0 && i < seqList.size()) { // Check if the index is within bounds
                     String selectedSeq = seqList.get(i);
 
-                    // Toast for debugging
+                    // 어떤 값을 선택했는지 토스트를 뿌려줌
                     Toast.makeText(ListActivity.this, adapterView.getItemAtPosition(i) + " 클릭", Toast.LENGTH_SHORT).show();
 
-                    // Start DetailActivity with the selected board sequence
+                    // 게시물의 번호와 userid를 가지고 DetailActivity 로 이동
                     Intent intent = new Intent(ListActivity.this, DetailActivity.class);
                     intent.putExtra("board_seq", selectedSeq);
                     intent.putExtra("userid", userid);
