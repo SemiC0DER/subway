@@ -1,7 +1,10 @@
 package com.example.whatsub
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.view.KeyEvent
+import android.util.Log
+import android.view.MotionEvent
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -9,11 +12,6 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import android.content.Context
-import android.content.Intent
-import android.util.Log
-import android.view.inputmethod.TextAppearanceInfo
-import com.google.android.material.internal.ViewUtils.hideKeyboard
 
 //결과를 대략적으로 표시하는 창이다.
 class SelectActivity : AppCompatActivity(){
@@ -44,7 +42,6 @@ class SelectActivity : AppCompatActivity(){
         var destText = intent.getStringExtra("destText")
         Log.d("SelectActivity", "startText: $startText")
         Log.d("SelectActivity", "destText: $destText")
-        val gotomain: Button = findViewById(R.id.button4)
 
         //받은 값을 토대로 초기화
         setGraph()
@@ -138,9 +135,26 @@ class SelectActivity : AppCompatActivity(){
             startActivity(intent)
         }
 
-        gotomain.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+
+        //엔터 또는 다른 작업 시 키보드 숨기기
+        startstation.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                hideKeyboard()
+            }
+            false
+        }
+
+        //엔터 또는 다른 작업 시 키보드 숨기기
+        deststation.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                hideKeyboard()
+            }
+            false
         }
     }
+    private fun hideKeyboard() {//키보드 숨겨주는 코드
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+    }
+
 }

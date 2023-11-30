@@ -42,7 +42,7 @@
         android:layout_width="270dp"
         android:layout_height="36dp"
         android:hint="출발역을 입력하세요."
-
+        android:singleLine="true"
         android:textColor="#000000"
         android:text=""
         android:background="@color/white"
@@ -68,7 +68,7 @@
         android:layout_width="270dp"
         android:layout_height="36dp"
         android:hint="도착역을 입력하세요."
-
+        android:singleLine="true"
         android:textColor="#000000"
         android:text=""
         android:background="@color/white"

@@ -3,17 +3,13 @@ package com.example.whatsub
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.KeyEvent
+import android.view.MotionEvent
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.platform.textInputServiceFactory
-import com.google.android.material.internal.ViewUtils.hideKeyboard
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         var communityBtn: Button = findViewById(R.id.communityBtn)
 
 
-
+        //길찾기 버튼
         findroad.setOnClickListener {
             startText = startstation.getText().toString()
             destText = deststation.getText().toString()
@@ -48,14 +44,29 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this,"입력한 역 이름이 유효하지 않습니다.", Toast.LENGTH_SHORT).show()
         }
 
-
-
-
-
-        // 버튼 이벤트 추가
+        // 커뮤니티 버튼
         communityBtn.setOnClickListener(View.OnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         })
+        //엔터 또는 다른 작업 시 키보드 숨기기
+        startstation.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                hideKeyboard()
+            }
+            false
+        }
+
+        //엔터 또는 다른 작업 시 키보드 숨기기
+        deststation.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                hideKeyboard()
+            }
+            false
+        }
+    }
+    private fun hideKeyboard() {//키보드 숨겨주는 코드
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
     }
 }

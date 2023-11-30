@@ -384,9 +384,9 @@ fun getStationsRoute(path: List<Int>): MutableList<String> {
     for (i in path.indices) {
         val stationIndex = path[i]
         val stationName = stationNames.split("\n")[stationIndex + 1].substring(8, 11)//stationNames에 공백이 있으므로 +1, 인덱스 8부터 10까지 문자열이 저장되므로 공백 제거
-        if (i == 0 || i == path.size)
+        if (i == 0)
             StationRoute[0] += "${stationName}\n"
-        if (i > 0 && i < path.size - 1) {//환승 조건 구현
+        else if (i > 0 && i < path.size - 1) {//환승 조건 구현
             val prevStationName = stationNames.split("\n")[path[i - 1] + 1].substring(8, 11)
             val nextStationName = stationNames.split("\n")[path[i + 1] + 1].substring(8, 11)
             if (prevStationName[0] != nextStationName[0]) {
@@ -397,23 +397,31 @@ fun getStationsRoute(path: List<Int>): MutableList<String> {
                                 stationName == "602" || stationName == "603" || stationName == "606" || stationName == "607" || stationName == "609" || stationName == "610" || stationName == "616" || stationName == "617" ||
                                 stationName == "701" || stationName == "706" ||
                                 stationName == "801" || stationName == "803" || stationName == "804" || stationName == "806")) {
-                        StationRoute[0] += "${stationName}\n\n"
-                        StationRoute[1] += "\n"
+                        StationRoute[0] += "${stationName}\n"
+                        StationRoute[1] += "${stationName}(환승)\n"
                         j = 0
                     }
                     else
                         if (stationName == "417") {
-                            StationRoute[0] += "${stationName}\n\n"
-                            StationRoute[1] += "\n\n"
+                            StationRoute[0] += "${stationName}\n"
+                            StationRoute[1] += "${stationName}(환승)\n"
                             j = 0
                         }
             }
         }
-        StationRoute[1] += "${stationName} ->"
-        j+=1
-        if (j > 9) {
+        if (i < path.size -1) {
+            if (i == 0)
+                StationRoute[1] += "${stationName}(승차) ->"
+            StationRoute[1] += "${stationName} ->"
+        }
+        if (i == path.size -1)
+            StationRoute[1] += "${stationName}(하차)\n"
+
+        j++
+        if (j > 5) {
             StationRoute[1] += "\n"
             StationRoute[0] += "\n"
+            j=0
         }
     }
     return StationRoute
