@@ -98,39 +98,6 @@ public class JoinActivity extends AppCompatActivity {
         });
     }
 
-    /*private void joinUser(String userId, String password) {
-        // Firebase Realtime Database에 사용 가능한 형태로 이메일 주소 변환
-        String firebaseUserId = encodeEmail(userId);
-
-        // Firebase 데이터베이스에 회원 정보 추가
-        mDatabase.child("users").child(firebaseUserId).setValue(password)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        // 회원가입 성공 처리
-                        Toast.makeText(getApplicationContext(), "성공적으로 회원가입 되었습니다.", Toast.LENGTH_SHORT).show();
-                        // 회원가입 성공 후 로그인 페이지로 이동
-                        Intent intent = new Intent(JoinActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // 회원가입 실패 처리
-                        Toast.makeText(getApplicationContext(), "회원가입에 실패했습니다.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-
-
-    private String encodeEmail(String userEmail) {
-        // 이메일 주소에서 '@' 이전 부분을 가져와 사용
-        String emailPrefix = userEmail.substring(0, userEmail.indexOf("@"));
-        // 이메일 주소에서 특수 문자 제거 및 인코딩
-        return emailPrefix.replace(".", "_dot_"); // 또는 다른 방법으로 인코딩
-    }*/
 }
 
 

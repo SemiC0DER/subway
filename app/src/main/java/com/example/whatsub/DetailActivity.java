@@ -54,12 +54,7 @@ public class DetailActivity extends AppCompatActivity {
     String userid = "";
     String replyAuthorId;
 
-    Button likeButton;
-
     boolean isLiked = false;
-
-
-    //final boolean[] wasLiked = {false}; // final로 선언된 배열로 초기화
 
     private EditText replyEditText; // 대댓글을 입력받을 EditText 변수
 
@@ -322,19 +317,6 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     private void saveComment(String userid, String content, String board_seq) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference commentsRef = database.getReference("boards")
@@ -365,14 +347,11 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
-
     private void loadComments(String board_seq) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference commentsRef = database.getReference("boards")
                 .child(board_seq)
                 .child("comments"); // comments 노드에 저장된 댓글과 대댓글 불러오기
-
-
 
         commentsRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -466,9 +445,6 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
-
-
-
     // 대댓글을 Firebase에 저장하는 함수
     private void saveReply(String commentKey, String replyContent, AlertDialog dialog) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -529,8 +505,6 @@ public class DetailActivity extends AppCompatActivity {
                 // 에러 처리
             }
         });
-
-
 
         repliesRef.addValueEventListener(new ValueEventListener() {
             @SuppressLint("MissingInflatedId")
