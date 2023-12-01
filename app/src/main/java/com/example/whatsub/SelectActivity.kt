@@ -14,7 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
-//결과를 대략적으로 표시하는 창이다.
+//결과를 대략적으로 표시하는 창
 class SelectActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
