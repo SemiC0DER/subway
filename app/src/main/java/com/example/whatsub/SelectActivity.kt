@@ -62,12 +62,12 @@ class SelectActivity : AppCompatActivity(){
         setGraph()
         var startStation = stationMap[startText] ?: -1
         var endStation = stationMap[destText] ?: -1
-        val timeResult = dijkstra(graph, startStation, endStation, "time")
-        val distResult = dijkstra(graph, startStation, endStation, "distance")
-        val costResult = dijkstra(graph, startStation, endStation, "cost")
-        val timeResultData = printResult(timeResult)
-        val distResultData = printResult(distResult)
-        val costResultData = printResult(costResult)
+        var timeResult = dijkstra(graph, startStation, endStation, "time")
+        var distResult = dijkstra(graph, startStation, endStation, "distance")
+        var costResult = dijkstra(graph, startStation, endStation, "cost")
+        var timeResultData = printResult(timeResult)
+        var distResultData = printResult(distResult)
+        var costResultData = printResult(costResult)
 
         //최단 시간, 최단 거리, 최소 비용 정보 초기화
         time_time.setText(timeResultData[0])
@@ -89,24 +89,24 @@ class SelectActivity : AppCompatActivity(){
             endStation = stationMap[destText] ?: -1
 
             if (startStation != -1 && endStation != -1) {
-                val newtimeResult = dijkstra(graph, startStation, endStation, "time")
-                val newdistResult = dijkstra(graph, startStation, endStation, "distance")
-                val newcostResult = dijkstra(graph, startStation, endStation, "cost")
+                timeResult = dijkstra(graph, startStation, endStation, "time")
+                distResult = dijkstra(graph, startStation, endStation, "distance")
+                costResult = dijkstra(graph, startStation, endStation, "cost")
 
                 if (timeResult.time != Int.MAX_VALUE && distResult.distance != Int.MAX_VALUE && costResult.cost != Int.MAX_VALUE) {
                     //입력값에 따라 새로 결과값을 표시
-                    val newtimeResultData = printResult(newtimeResult)
-                    val newdistResultData = printResult(newdistResult)
-                    val newcostResultData = printResult(newcostResult)
-                    time_time.setText(newtimeResultData[0])
-                    time_distance.setText(newtimeResultData[1])
-                    time_cost.setText(newtimeResultData[2])
-                    distance_time.setText(newdistResultData[0])
-                    distance_distance.setText(newdistResultData[1])
-                    distance_cost.setText(newdistResultData[2])
-                    cost_time.setText(newcostResultData[0])
-                    cost_distance.setText(newcostResultData[1])
-                    cost_cost.setText(newcostResultData[2])
+                    timeResultData = printResult(timeResult)
+                    distResultData = printResult(distResult)
+                    costResultData = printResult(costResult)
+                    time_time.setText(timeResultData[0])
+                    time_distance.setText(timeResultData[1])
+                    time_cost.setText(timeResultData[2])
+                    distance_time.setText(distResultData[0])
+                    distance_distance.setText(distResultData[1])
+                    distance_cost.setText(distResultData[2])
+                    cost_time.setText(costResultData[0])
+                    cost_distance.setText(costResultData[1])
+                    cost_cost.setText(costResultData[2])
                 } else
                     Toast.makeText(this, "경로가 존재하지 않습니다.", Toast.LENGTH_SHORT).show()
             } else
