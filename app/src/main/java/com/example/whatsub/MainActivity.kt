@@ -21,14 +21,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
 
+        //컴포넌트 초기화
         val startstation: EditText = findViewById(R.id.start_station)
         val deststation: EditText = findViewById(R.id.destination_station)
         val findroad: Button = findViewById(R.id.find_road)
+        val communityBtn: Button = findViewById(R.id.communityBtn)
+
+        //입력값을 저장할 변수
         var startText = ""
         var destText = ""
-
-        var communityBtn: Button = findViewById(R.id.communityBtn)
-
 
         //길찾기 버튼
         findroad.setOnClickListener {
@@ -78,6 +79,7 @@ class MainActivity : AppCompatActivity() {
         imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
         return true
     }
+
     //키보드 숨김
     private fun hideKeyboard() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

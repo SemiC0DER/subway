@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:padding="16dp"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#FFFFFF">
 
 
     <LinearLayout
@@ -21,12 +22,7 @@
             android:textOn=""
             android:textOff=""
             android:checked="false" />
-        <!--<Button
-            android:id="@+id/like_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="좋아요" />-->
+
 
 
         <TextView
@@ -36,16 +32,11 @@
             android:text="0"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
-            android:textColor="@color/white"
+            android:textColor="#000000"
             android:textSize="16sp"
             android:gravity="center_vertical" />
 
-        <Button
-            android:id="@+id/edit_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="수정"/>
+
 
         <!-- 삭제 버튼 -->
         <Button
@@ -53,6 +44,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:background="@drawable/border_round_blue_white"
+            android:textColor="#000000"
             android:text="삭제"/>
 
     </LinearLayout>
@@ -78,7 +71,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
-
+                    android:textColor="#000000"
                     android:text="제목" />
 
                 <TextView
@@ -101,7 +94,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
-
+                    android:textColor="#000000"
                     android:text="작성일" />
 
                 <TextView
@@ -119,6 +112,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
+                android:textColor="#000000"
                 android:text="내용" />
 
             <TextView
@@ -134,6 +128,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
+                android:textColor="#000000"
                 android:text="댓글" />
 
             <LinearLayout
@@ -177,6 +172,9 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:padding="8dp"
+            android:background="@drawable/border_round_blue_white"
+            android:textColor="#000000"
+            android:textSize="15dp"
             android:text="등록하기"/>
     </LinearLayout>
 </LinearLayout>

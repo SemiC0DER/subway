@@ -45,7 +45,7 @@
         android:id="@+id/imageView3"
         android:layout_width="410dp"
         android:layout_height="444dp"
-        app:srcCompat="@drawable/_1zon_cropped"
+        app:srcCompat="@drawable/logo_whatsub"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="171dp"
