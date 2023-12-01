@@ -57,11 +57,8 @@ public class ListActivity extends AppCompatActivity {
         // 컴포넌트 초기화
         listView = findViewById(R.id.listView);
 
-
         // LoginActivity 에서 넘긴 userid 값 받기
         userid = getIntent().getStringExtra("userid");
-
-
 
         // ListView 클릭 이벤트 처리
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -175,11 +172,9 @@ public class ListActivity extends AppCompatActivity {
                         seqList.add(0, seq != null ? seq : "");
                     }
                 }
-
                 // 데이터가 변경되었음을 어댑터에 알림
                 arrayAdapter.notifyDataSetChanged();
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // 필요 시 오류 처리
