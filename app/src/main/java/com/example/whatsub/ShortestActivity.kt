@@ -28,7 +28,7 @@ class ShortestActivity : AppCompatActivity(){
         val dest_st: TextView = findViewById(R.id.textView7)
         val transStations: TextView = findViewById(R.id.cost_trans_staion)
         val allStations: TextView = findViewById(R.id.cost_all_station)
-        val gotomain: Button = findViewById(R.id.button4)
+        val gotomain: Button = findViewById(R.id.subwayBtn)
         val communityBtn: Button = findViewById(R.id.communityBtn)
 
         //이전 화면의 정보들을 넘겨받아 저장
@@ -42,13 +42,17 @@ class ShortestActivity : AppCompatActivity(){
         Log.d("SelectActivity", "destText: $destText")
 
         //검색창에 입력했던 정보들을 남김
-        startstation.setText(startText)
-        deststation.setText(destText)
+//        startstation.setText(startText)
+        startstation.setText("출발역: $startText")
+//        deststation.setText(destText)
+        deststation.setText("도착역: $destText")
 
         //역 탐색 조건, 시작역, 도착역 출력
         criteria.setText(title)
-        start_st.setText(startText)
-        dest_st.setText(destText)
+//        start_st.setText(startText)z
+        start_st.setText("출발역: $startText")
+//        dest_st.setText(destText)
+        dest_st.setText("도착역: $destText")
 
         //길찾기 결과
         val route = path?.let { getStationsRoute(it) }

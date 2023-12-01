@@ -49,7 +49,7 @@ class SelectActivity : AppCompatActivity(){
 
 
         //하단의 메인 화면으로 가는 버튼
-        val gotomain: Button = findViewById(R.id.button4)
+        val gotomain: Button = findViewById(R.id.subwayBtn)
         val communityBtn: Button = findViewById(R.id.communityBtn)
 
         //이전 화면의 정보를 넘겨 받음
@@ -59,8 +59,10 @@ class SelectActivity : AppCompatActivity(){
         Log.d("SelectActivity", "destText: $destText")
 
         //검색창에 입력했던 정보들을 남김
-        startstation.setText(startText)
-        deststation.setText(destText)
+        //        startstation.setText(startText)
+        startstation.setText("출발역: $startText")
+//        deststation.setText(destText)
+        deststation.setText("도착역: $destText")
 
         //받은 값을 토대로 다익스트라 계산
         setGraph()
