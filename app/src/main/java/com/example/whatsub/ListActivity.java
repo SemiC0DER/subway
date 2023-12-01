@@ -34,7 +34,7 @@ public class ListActivity extends AppCompatActivity {
     // 사용할 컴포넌트 선언
     ListView listView;
     Button reg_button;
-    Button search_close_button;
+    Button subway_back_button;
     String userid = "";
     SearchView search_view;
 
@@ -101,6 +101,16 @@ public class ListActivity extends AppCompatActivity {
                 // userid 를 가지고 RegisterActivity 로 이동
                 Intent intent = new Intent(ListActivity.this, RegisterActivity.class);
                 intent.putExtra("userid", userid);
+                startActivity(intent);
+            }
+        });
+
+        // 길찾기로 되돌아가는 버튼 추가
+        subway_back_button = findViewById(R.id.subway_back_button);
+        subway_back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ListActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
