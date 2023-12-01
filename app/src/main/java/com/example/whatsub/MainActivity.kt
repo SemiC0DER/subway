@@ -39,10 +39,15 @@ class MainActivity : AppCompatActivity() {
             val endStation = stationMap[destText] ?: -1
 
             if (startStation != -1 && endStation != -1) {
-                val intent = Intent(this, SelectActivity::class.java)
-                intent.putExtra("startText", startText)
-                intent.putExtra("destText", destText)
-                startActivity(intent)
+                val timeResult = dijkstra(graph, startStation, endStation, "time")
+
+                if (timeResult.time != Int.MAX_VALUE) {
+                    val intent = Intent(this, SelectActivity::class.java)
+                    intent.putExtra("startText", startText)
+                    intent.putExtra("destText", destText)
+                    startActivity(intent)
+                } else
+                    Toast.makeText(this, "경로가 존재하지 않습니다.", Toast.LENGTH_SHORT).show()
             } else
                 Toast.makeText(this, "입력한 역 이름이 유효하지 않습니다.", Toast.LENGTH_SHORT).show()
         }
