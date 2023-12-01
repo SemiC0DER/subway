@@ -14,12 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WhatSub"
         tools:targetApi="31">
-        <activity
-            android:name=".correctionActivity"
-            android:exported="false" />
-        <!-- <activity -->
-        <!-- android:name=".TestMain" -->
-        <!-- android:exported="false" /> -->
+
         <activity
             android:name=".DetailActivity"
             android:exported="false"
@@ -52,10 +47,7 @@
             android:name=".ShortestActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat" />
-        <activity
-            android:name=".TestMain"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat" />
+
 
         <activity
             android:name=".SplashActivity"

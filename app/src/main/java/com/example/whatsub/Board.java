@@ -19,8 +19,7 @@ class Board {
         this.userid = userid;
         this.title = title;
         this.content = content;
-        //this.date = getCurrentDeviceDate(); // 기기의 현재 시간을 가져와 date 필드에 할당
-        this.date = getCurrentDate();
+        this.date = getCurrentDate(); // 기기의 현재 시간을 가져와 date 필드에 할당
     }
     // Getter 및 Setter 메서드 추가
     public String getUserid() {
@@ -46,12 +45,6 @@ class Board {
     public void setContent(String content) {
         this.content = content;
     }
-
-    /*public String getCurrentDeviceDate() {
-        // 기기의 현재 시간을 가져와서 반환
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        return sdf.format(new Date()); // 기기의 현재 시간을 반환
-    }*/
 
     public String getCurrentDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());

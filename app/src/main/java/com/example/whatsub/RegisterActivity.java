@@ -60,7 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 // 리스트 액티비티로 이동하는 Intent 생성
                 Intent intent = new Intent(RegisterActivity.this, ListActivity.class);
-                intent.putExtra("userid", userid); // 필요한 경우 userid를 리스트 액티비티로 전달
+                intent.putExtra("userid", userid); // userid를 리스트 액티비티로 전달
                 startActivity(intent);
             }
         });
@@ -87,8 +87,6 @@ public class RegisterActivity extends AppCompatActivity {
 
             return null;
         }
-
-        // 나머지 코드는 필요에 따라 수정하여 사용
     }
 }
 

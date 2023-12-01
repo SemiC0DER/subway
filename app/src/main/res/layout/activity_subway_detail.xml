@@ -191,6 +191,22 @@
          />
 
     <TextView
+        android:id="@+id/trans_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="287dp"
+        android:layout_marginStart="37dp"
+
+        android:gravity="center"
+        android:text="환승역"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
         android:id="@+id/back_2"
         android:layout_width="304dp"
         android:layout_height="240dp"
@@ -211,11 +227,10 @@
 
         android:gravity="center_vertical|left"
         android:textColor="#000000"
-        android:textSize="9sp"
+        android:textSize="11sp"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

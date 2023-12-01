@@ -55,10 +55,8 @@ class SelectActivity : AppCompatActivity(){
         Log.d("SelectActivity", "destText: $destText")
 
         //검색창에 입력했던 정보들을 남김
-        //        startstation.setText(startText)
-        startstation.setText("출발역: $startText")
-//        deststation.setText(destText)
-        deststation.setText("도착역: $destText")
+        startstation.setText(startText)
+        deststation.setText(destText)
 
         //받은 값을 토대로 다익스트라 계산
         setGraph()
