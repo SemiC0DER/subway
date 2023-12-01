@@ -38,6 +38,7 @@ public class ListActivity extends AppCompatActivity {
     String userid = "";
     SearchView search_view;
 
+
     // 리스트뷰에 사용할 제목 배열
     ArrayList<String> titleList = new ArrayList<>();
 
@@ -53,11 +54,14 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
+        // 컴포넌트 초기화
+        listView = findViewById(R.id.listView);
+
+
         // LoginActivity 에서 넘긴 userid 값 받기
         userid = getIntent().getStringExtra("userid");
 
-        // 컴포넌트 초기화
-        listView = findViewById(R.id.listView);
+
 
         // ListView 클릭 이벤트 처리
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -115,7 +119,7 @@ public class ListActivity extends AppCompatActivity {
         });
 
         // 어댑터 초기화
-        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, titleList);
+        arrayAdapter = new ArrayAdapter<>(this, R.layout.list_item, titleList);
         listView.setAdapter(arrayAdapter);
     }
 
