@@ -39,6 +39,7 @@ public class ListActivity extends AppCompatActivity {
     SearchView search_view;
 
 
+    // 검색을 했는지 확인하는 변수 -> 검색한 게시물을 클릭할 때 사용
     Boolean search = false;
 
 
@@ -49,6 +50,7 @@ public class ListActivity extends AppCompatActivity {
     ArrayList<String> seqList = new ArrayList<>();
     // 검색어가 포함된 리스트를 보여주기 위한 배열
     ArrayList<String> searchList = new ArrayList<>();
+    // 검색한 게시물을 클릭했을 때 그 제목에 맞는 값을 주기 위한 배열
     ArrayList<String> searchSeqList = new ArrayList<>();
 
     ArrayAdapter<String> arrayAdapter;
@@ -71,6 +73,7 @@ public class ListActivity extends AppCompatActivity {
                 if (i >= 0 && i < seqList.size()) {
                     Log.d(TAG, "search" + search);
                     String selectedSeq = seqList.get(i);
+                    // 만약에 검색을 했다면 selectedSeq값을 검색에 맞춰 변경
                     if (search) {
                         selectedSeq = searchSeqList.get(i);
                     }
@@ -87,7 +90,6 @@ public class ListActivity extends AppCompatActivity {
                 }
             }
         });
-
 
         // 버튼 컴포넌트 초기화
         reg_button = findViewById(R.id.reg_button);
@@ -113,6 +115,7 @@ public class ListActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                // 검색창에 글자를 입력할 때마다 결과를 변경
                 filter(newText);
                 return false;
             }
@@ -145,7 +148,7 @@ public class ListActivity extends AppCompatActivity {
             // 검색이 발생했는지 여부를 search 변수에 설정
             search = !searchList.isEmpty();
 
-            // Create a new adapter for search
+            // 검색한 결과로 어댑터를 업데이트
             arrayAdapter = new ArrayAdapter<>(this, R.layout.list_item, searchList);
             listView.setAdapter(arrayAdapter);
         }
