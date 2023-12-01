@@ -26,22 +26,18 @@ class SelectActivity : AppCompatActivity(){
         val startstation: EditText = findViewById(R.id.start_station)//검색창
         val deststation: EditText = findViewById(R.id.destination_station)//검색창
         val findroad: Button = findViewById(R.id.find_road)//검색버튼
-
         //역 정보 상세 버튼
         val time: Button = findViewById(R.id.time)
         val distance: Button = findViewById(R.id.distance)
         val cost: Button = findViewById(R.id.cost)
-
         //최단 시간 정보
         val time_distance: TextView = findViewById(R.id.time_distance)
         val time_cost: TextView = findViewById(R.id.time_cost)
         val time_time: TextView = findViewById(R.id.time_time)
-
         //최단 거리 정보
         val distance_distance: TextView = findViewById(R.id.distance_distance)
         val distance_cost: TextView = findViewById(R.id.distance_cost)
         val distance_time: TextView = findViewById(R.id.distance_time)
-
         //최소 비용 정보
         val cost_distance: TextView = findViewById(R.id.cost_distance)
         val cost_cost: TextView = findViewById(R.id.cost_cost)
