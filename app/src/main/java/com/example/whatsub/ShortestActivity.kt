@@ -42,16 +42,12 @@ class ShortestActivity : AppCompatActivity(){
         Log.d("SelectActivity", "destText: $destText")
 
         //검색창에 입력했던 정보들을 남김
-//        startstation.setText(startText)
         startstation.setText("출발역: $startText")
-//        deststation.setText(destText)
         deststation.setText("도착역: $destText")
 
         //역 탐색 조건, 시작역, 도착역 출력
         criteria.setText(title)
-//        start_st.setText(startText)z
         start_st.setText("출발역: $startText")
-//        dest_st.setText(destText)
         dest_st.setText("도착역: $destText")
 
         //길찾기 결과

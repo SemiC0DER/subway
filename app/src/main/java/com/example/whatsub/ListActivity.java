@@ -39,6 +39,9 @@ public class ListActivity extends AppCompatActivity {
     SearchView search_view;
 
 
+    Boolean search = false;
+
+
     // 리스트뷰에 사용할 제목 배열
     ArrayList<String> titleList = new ArrayList<>();
 
@@ -46,6 +49,7 @@ public class ListActivity extends AppCompatActivity {
     ArrayList<String> seqList = new ArrayList<>();
     // 검색어가 포함된 리스트를 보여주기 위한 배열
     ArrayList<String> searchList = new ArrayList<>();
+    ArrayList<String> searchSeqList = new ArrayList<>();
 
     ArrayAdapter<String> arrayAdapter;
 
@@ -64,18 +68,26 @@ public class ListActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // 어떤 값을 선택했는지 토스트를 뿌려줌
-                Toast.makeText(ListActivity.this, adapterView.getItemAtPosition(i) + " 클릭", Toast.LENGTH_SHORT).show();
+                if (i >= 0 && i < seqList.size()) {
+                    Log.d(TAG, "search" + search);
+                    String selectedSeq = seqList.get(i);
+                    if (search) {
+                        selectedSeq = searchSeqList.get(i);
+                    }
+                    Log.d(TAG, "selectedSeq: " + selectedSeq);
 
-                // 게시물의 번호와 userid를 가지고 DetailActivity 로 이동
-                Intent intent = new Intent(ListActivity.this, DetailActivity.class);
-                intent.putExtra("board_seq", seqList.get(i));
-                intent.putExtra("userid", userid);
-                Log.v(TAG, "seqList contents: " + seqList.toString());
+                    // 어떤 값을 선택했는지 토스트를 뿌려줌
+                    Toast.makeText(ListActivity.this, adapterView.getItemAtPosition(i) + " 클릭", Toast.LENGTH_SHORT).show();
 
-                startActivity(intent);
+                    // 게시물의 번호와 userid를 가지고 DetailActivity 로 이동
+                    Intent intent = new Intent(ListActivity.this, DetailActivity.class);
+                    intent.putExtra("board_seq", selectedSeq);
+                    intent.putExtra("userid", userid);
+                    startActivity(intent);
+                }
             }
         });
+
 
         // 버튼 컴포넌트 초기화
         reg_button = findViewById(R.id.reg_button);
@@ -96,7 +108,6 @@ public class ListActivity extends AppCompatActivity {
         search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                getBoardData();
                 return false;
             }
 
@@ -104,14 +115,6 @@ public class ListActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 filter(newText);
                 return false;
-            }
-        });
-
-        search_close_button = findViewById(R.id.search_close_button);
-        search_close_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getBoardData();
             }
         });
 
@@ -123,25 +126,34 @@ public class ListActivity extends AppCompatActivity {
     // 입력받은 검색어를 지금 있는 제목과 비교해서 일치하는 것만 표시
     private void filter(String searchText) {
         searchList.clear();
+        searchSeqList.clear();
 
         if (searchText.length() == 0) {
             // 검색어가 없으면 모든 게시물 표시
             searchList.addAll(titleList);
+            searchSeqList.addAll(seqList);
         } else {
             // 검색어가 있으면 포함하는 게시물만 표시
             for (int i = 0; i < titleList.size(); i++) {
                 String title = titleList.get(i);
                 if (title.toLowerCase().contains(searchText.toLowerCase())) {
                     searchList.add(title);
+                    searchSeqList.add(seqList.get(i));
                 }
             }
+
+            // 검색이 발생했는지 여부를 search 변수에 설정
+            search = !searchList.isEmpty();
+
+            // Create a new adapter for search
+            arrayAdapter = new ArrayAdapter<>(this, R.layout.list_item, searchList);
+            listView.setAdapter(arrayAdapter);
         }
 
         // 어댑터 업데이트
-        arrayAdapter.clear();
-        arrayAdapter.addAll(searchList);
         arrayAdapter.notifyDataSetChanged();
     }
+
 
     @Override
     protected void onResume() {
@@ -155,6 +167,8 @@ public class ListActivity extends AppCompatActivity {
     private void getBoardData() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference boardRef = database.getReference("boards");
+
+        search = false;
 
         boardRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

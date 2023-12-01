@@ -21,13 +21,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
 
+        //컴포넌트 초기화
         val startstation: EditText = findViewById(R.id.start_station)
         val deststation: EditText = findViewById(R.id.destination_station)
         val findroad: Button = findViewById(R.id.find_road)
-        var startText = ""
-        var destText = ""
         val communityBtn: Button = findViewById(R.id.communityBtn)
 
+        //입력값을 저장할 변수
+        var startText = ""
+        var destText = ""
 
         //길찾기 버튼
         findroad.setOnClickListener {

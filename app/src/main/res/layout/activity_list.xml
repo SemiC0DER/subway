@@ -16,23 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:layout_weight="1"
-            android:minHeight="@android:dimen/notification_large_icon_width"
-            app:queryHint="검색어를 입력하세요"
-            app:searchIcon="@drawable/ic_search_black"/>
-
-        <Button
-            android:id="@+id/search_close_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="8dp"
-            android:layout_weight="0.5"
-            android:background="@drawable/border_round_blue_white"
-            android:textColor="#000000"
-            android:padding="16dp"
-            android:text="취소"
-             />
+            app:searchIcon="@drawable/ic_search_black"
+            app:closeIcon="@drawable/ic_close_black" />
 
 
     </LinearLayout>
