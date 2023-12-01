@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -22,31 +23,46 @@ class SelectActivity : AppCompatActivity(){
         setContentView(R.layout.select_)
 
         //컴포넌트 초기화
-        val startstation: EditText = findViewById(R.id.start_station)
-        val deststation: EditText = findViewById(R.id.destination_station)
-        val findroad: Button = findViewById(R.id.find_road)
-        val cost: Button = findViewById(R.id.cost)
-        val distance: Button = findViewById(R.id.distance)
+        val startstation: EditText = findViewById(R.id.start_station)//검색창
+        val deststation: EditText = findViewById(R.id.destination_station)//검색창
+        val findroad: Button = findViewById(R.id.find_road)//검색버튼
+
+        //역 정보 상세 버튼
         val time: Button = findViewById(R.id.time)
-        val cost_distance: TextView = findViewById(R.id.cost_distance)
-        val cost_cost: TextView = findViewById(R.id.cost_cost)
-        val cost_time: TextView = findViewById(R.id.cost_time)
-        val distance_distance: TextView = findViewById(R.id.distance_distance)
-        val distance_cost: TextView = findViewById(R.id.distance_cost)
-        val distance_time: TextView = findViewById(R.id.distance_time)
+        val distance: Button = findViewById(R.id.distance)
+        val cost: Button = findViewById(R.id.cost)
+
+        //최단 시간 정보
         val time_distance: TextView = findViewById(R.id.time_distance)
         val time_cost: TextView = findViewById(R.id.time_cost)
         val time_time: TextView = findViewById(R.id.time_time)
 
+        //최단 거리 정보
+        val distance_distance: TextView = findViewById(R.id.distance_distance)
+        val distance_cost: TextView = findViewById(R.id.distance_cost)
+        val distance_time: TextView = findViewById(R.id.distance_time)
 
+        //최소 비용 정보
+        val cost_distance: TextView = findViewById(R.id.cost_distance)
+        val cost_cost: TextView = findViewById(R.id.cost_cost)
+        val cost_time: TextView = findViewById(R.id.cost_time)
+
+
+        //하단의 메인 화면으로 가는 버튼
+        val gotomain: Button = findViewById(R.id.button4)
+        val communityBtn: Button = findViewById(R.id.communityBtn)
+
+        //이전 화면의 정보를 넘겨 받음
         var startText = intent.getStringExtra("startText")
         var destText = intent.getStringExtra("destText")
         Log.d("SelectActivity", "startText: $startText")
         Log.d("SelectActivity", "destText: $destText")
 
+        //검색창에 입력했던 정보들을 남김
         startstation.setText(startText)
         deststation.setText(destText)
-        //받은 값을 토대로 초기화
+
+        //받은 값을 토대로 다익스트라 계산
         setGraph()
         var startStation = stationMap[startText] ?: -1
         var endStation = stationMap[destText] ?: -1
@@ -56,6 +72,8 @@ class SelectActivity : AppCompatActivity(){
         val timeResultData = printResult(timeResult)
         val distResultData = printResult(distResult)
         val costResultData = printResult(costResult)
+
+        //최단 시간, 최단 거리, 최소 비용 정보 초기화
         time_time.setText(timeResultData[0])
         time_distance.setText(timeResultData[1])
         time_cost.setText(timeResultData[2])
@@ -66,8 +84,6 @@ class SelectActivity : AppCompatActivity(){
         cost_distance.setText(costResultData[1])
         cost_cost.setText(costResultData[2])
 
-        startstation.inputType = EditorInfo.TYPE_CLASS_TEXT
-        deststation.inputType = EditorInfo.TYPE_CLASS_TEXT
 
         //길찾기 버튼
         findroad.setOnClickListener {
@@ -136,6 +152,18 @@ class SelectActivity : AppCompatActivity(){
             intent.putExtra("title", "최소 비용")
             startActivity(intent)
         }
+
+        // 길찾기 메인 화면 버튼
+        gotomain.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        // 커뮤니티 메인 화면 버튼
+        communityBtn.setOnClickListener(View.OnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        })
 
         //엔터키 키보드 숨김
         startstation.setOnEditorActionListener { _, actionId, _ ->

@@ -26,8 +26,7 @@ class MainActivity : AppCompatActivity() {
         val findroad: Button = findViewById(R.id.find_road)
         var startText = ""
         var destText = ""
-
-        var communityBtn: Button = findViewById(R.id.communityBtn)
+        val communityBtn: Button = findViewById(R.id.communityBtn)
 
 
         //길찾기 버튼
@@ -78,6 +77,7 @@ class MainActivity : AppCompatActivity() {
         imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
         return true
     }
+
     //키보드 숨김
     private fun hideKeyboard() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
