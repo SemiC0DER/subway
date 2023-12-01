@@ -37,6 +37,8 @@ public class ListActivity extends AppCompatActivity {
     Button search_close_button;
     String userid = "";
     SearchView search_view;
+
+
     Boolean search = false;
 
 
@@ -116,14 +118,6 @@ public class ListActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 filter(newText);
                 return false;
-            }
-        });
-
-        search_close_button = findViewById(R.id.search_close_button);
-        search_close_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getBoardData();
             }
         });
 
