@@ -181,8 +181,8 @@
         android:layout_marginStart="16dp"
 
         android:background="@drawable/border_round_blue"
+        android:fontFamily="@font/nanumregular"
         android:gravity="center"
-        android:textStyle="bold"
         android:textColor="#000000"
 
 
@@ -225,9 +225,10 @@
         android:layout_marginStart="99dp"
         android:layout_marginTop="280dp"
 
+        android:fontFamily="@font/nanumregular"
         android:gravity="center_vertical|left"
         android:textColor="#000000"
-        android:textSize="11sp"
+        android:textSize="14sp"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
