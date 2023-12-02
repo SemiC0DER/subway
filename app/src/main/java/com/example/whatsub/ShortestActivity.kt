@@ -18,6 +18,7 @@ class ShortestActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_subway_detail)
+        setGraph()
 
         //컴포넌트 초기화
         val startstation: EditText = findViewById(R.id.start_station)

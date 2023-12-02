@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         setTheme(R.style.Theme_WhatSub)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
+        setGraph()
 
         //컴포넌트 초기화
         val startstation: EditText = findViewById(R.id.start_station)
