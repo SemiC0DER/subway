@@ -401,7 +401,7 @@ fun getStationsRoute(path: List<Int>): MutableList<String> {
 
         if (j > 4) {//역 수가 너무 많으면 줄바꿈
             StationRoute[1] += "\n"
-            StationRoute[0] += "↓\n"
+            StationRoute[0] += "\n"
             j=0
         }
     }
