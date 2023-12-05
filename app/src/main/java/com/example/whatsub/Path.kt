@@ -393,8 +393,9 @@ fun getStationsRoute(path: List<Int>): MutableList<String> {
                 StationRoute[1] += "${stationName}(승차) → "
                 j++
             }
-            StationRoute[1] += "${stationName} → "
-            j++
+            else
+                StationRoute[1] += "${stationName} → "
+                j++
         }
         if (i == path.size -1)
             StationRoute[1] += "${stationName}(하차)\n"
