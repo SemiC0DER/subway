@@ -390,18 +390,18 @@ fun getStationsRoute(path: List<Int>): MutableList<String> {
         //경로 표시
         if (i < path.size -1) {
             if (i == 0) {
-                StationRoute[1] += "${stationName}(승차) ->"
+                StationRoute[1] += "${stationName}(승차) → "
                 j++
             }
-            StationRoute[1] += "${stationName} ->"
+            StationRoute[1] += "${stationName} → "
             j++
         }
         if (i == path.size -1)
             StationRoute[1] += "${stationName}(하차)\n"
 
-        if (j > 5) {//역 수가 너무 많으면 줄바꿈
+        if (j > 4) {//역 수가 너무 많으면 줄바꿈
             StationRoute[1] += "\n"
-            StationRoute[0] += "\n"
+            StationRoute[0] += "↓\n"
             j=0
         }
     }
