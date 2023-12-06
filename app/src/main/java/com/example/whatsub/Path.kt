@@ -380,7 +380,7 @@ fun getStationsRoute(path: List<Int>): MutableList<String> {
                         j = 0
                     }
                     else
-                        if (stationName == "417") {
+                        if (stationName == "417" && (nextStationName != "416" && prevStationName != "416")) {
                             StationRoute[0] += "${stationName}\n"
                             StationRoute[1] += "${stationName}(환승)\n"
                             j = 0
